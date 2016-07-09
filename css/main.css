@@ -1,0 +1,48 @@
+/* 
+    Document   : main
+    Created on : Jul 5, 2016, 10:34:05 PM
+    Author     : WalknetFunctions
+    Description:
+        Purpose of the stylesheet follows.
+*/
+/* 
+   TODO customize this sample style
+   whole application.
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+root { 
+    display: block;
+}
+body{
+    margin: 0;
+    padding: 0;
+    color: darkslateblue;
+    font-size: 12px;
+    width: 100%;
+    width: auto;
+}
+.body_container{
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+    height: auto;
+    position: absolute;
+}
+.footer{
+    padding: 5px;
+    text-align: center;
+}
+.heading{
+    
+    border-bottom: 2px solid;
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+    padding: 10px;
+}
+.content{
+    color: darkslateblue;
+    margin: 0;
+    padding: 0;
+}

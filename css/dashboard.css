@@ -1,0 +1,28 @@
+.row-fluid{
+    margin: auto;
+    border: 1px;
+}
+.dash-item{
+    padding: 10px;
+    margin-top: 15px;
+    text-align: center;
+}
+.dash-item .panel-default{
+    margin: 0;
+    padding: 0;
+}
+.dash-item .panel-heading{
+    background: darkslateblue;
+    color: white;
+    border-radius: 0 0 5px 5px;
+}
+.dash-head{
+    border-bottom: 1px solid lightgrey;
+    margin-top: 15px;
+    font-size: 14px;
+    text-align: center;
+}
+.dash-head .dash-head-item{
+    border-left: 1px solid lightgrey;
+    margin-bottom: 10px;
+}
