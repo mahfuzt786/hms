@@ -8,6 +8,14 @@ include 'includes/checkInvalidUser.php';
         <title >HMS : Home</title>
         <?php require_once 'includes/html_main.php'; ?>
         <link href="css/profile.css" rel="stylesheet"/>
+        <link href="css/jquery.dataTables.min.css" rel="stylesheet"/>
+        <script src="js/jquery.dataTables.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                $('#myTable').dataTable();
+            });
+        </script>
+        <link href="css/setting.css" rel="stylesheet"/>
     </head>
     <body>
 
@@ -31,26 +39,65 @@ include 'includes/checkInvalidUser.php';
 
                                 <div class="tab-content">
                                     <div id="home" class="tab-pane fade in active">
-                                        <h3><?php echo $_SESSION[SESS_LOGIN_NAME]; ?></h3>
-                                        <?PHP
-                                        include_once 'includes/database-config.php';
-                                        $id=$_SESSION[SESS_LOGIN_ID];
-                                        $sql = "SELECT user.*
-					FROM wtfindin_hms.user
-                                        WHERE userId='$id'";
-                                        $arRes = $mysqli->query($sql);
-                                        if (!$arRes) {
-                                            throw new Exception($mysqli->error);
-                                        }else{
-                                            $row = $arRes->fetch_object();
-                                            $username=$row->loginId;
-                                        }
-                                        ?>
-                                        <p><b>Username:</b> <?php echo $username; ?></p>
+                                        <div class="col-md-6 table-log-details">
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading"><i class="fa fa-user"></i> Admin</div>
+                                                <div class="panel-body">
+                                                    <h3><?php echo $_SESSION[SESS_LOGIN_NAME]; ?></h3>
+                                                    <?PHP
+                                                    include_once 'includes/database-config.php';
+                                                    $id = $_SESSION[SESS_LOGIN_ID];
+                                                    $sql = "SELECT user.*
+                                            FROM wtfindin_hms.user
+                                            WHERE userId='$id'";
+                                                    $arRes = $mysqli->query($sql);
+                                                    if (!$arRes) {
+                                                        throw new Exception($mysqli->error);
+                                                    } else {
+                                                        $row = $arRes->fetch_object();
+                                                        $username = $row->loginId;
+                                                    }
+                                                    ?>
+                                                    <p><b>Username:</b> <?php echo $username; ?></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 table-log-details text-center">
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading"><i class="fa fa-calendar-times-o"></i> Log Details</div>
+                                                <div class="panel-body">
+                                                    <table id="myTable" style="border: 1px solid" class="table table-striped text-center" >  
+                                                        <thead>  
+                                                            <tr>  
+                                                                <th>Date & Time (Y-m-d & H:M:S)</th>   
+                                                            </tr>  
+                                                        </thead>
+                                                        <?php
+                                                        for ($x = 0; $x <= 10; $x++) {
+                                                            echo "<tbody>";
+                                                            echo "<tr>";
+                                                            echo"<td>001</td>";
+                                                            echo"</tr>";
+                                                            echo"</tbody>";
+                                                        }?>
+                                                    </table> 
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div id="menu1" class="tab-pane fade">
-                                        <h3>Menu 1</h3>
-                                        <p>Some content in menu 1.</p>
+                                        <table id="myTable" class="table table-striped" >  
+                                            <thead>  
+                                                <tr>  
+                                                    <th>Date & Time (Y-m-d & H:M:S)</th>   
+                                                </tr>  
+                                            </thead>  
+                                            <tbody>  
+                                                <tr>  
+                                                    <td>001</td>   
+                                                </tr>   
+                                            </tbody>  
+                                        </table>  
                                     </div>
                                 </div>
                             </div>
