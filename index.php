@@ -18,16 +18,6 @@
                 <div class="panel-heading">
                     <i class="fa fa-2x fa-sign-in"> Login</i>
                 </div>
-                <div id="alert">
-                    <?php
-                    //session_start();
-
-                    if (isset($_SESSION[SESS_LOGIN_MSG])) {
-                        echo $_SESSION[SESS_LOGIN_MSG];
-                        $_SESSION[SESS_LOGIN_MSG] = '';
-                    }
-                    ?>
-                </div>
                 <div class="panel-body">
                     <form action="" id="frm-login">
                         <div class="form-group input-group">
