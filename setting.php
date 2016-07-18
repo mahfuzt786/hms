@@ -9,6 +9,7 @@ include 'includes/checkInvalidUser.php';
         <?php require_once 'includes/html_main.php'; ?>
         <?php require_once 'includes/admin_init.php'; ?>
         <link href="css/setting.css" rel="stylesheet"/>
+        <link href="css/list.css" rel="stylesheet"/>
         <script src="js/setting.js"></script>
         <script>
             $(document).ready(function() {

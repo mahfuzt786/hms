@@ -21,8 +21,17 @@
         <li>
             <a href="#"> <span class="fa-stack fa-lg pull-left"><i class="fa fa-vine fa-stack-1x "></i></span>Vaccination</a>
         </li>
-        <li class="listDrugs">
-            <a href="drugs.php"> <span class="fa-stack fa-lg pull-left"><i class="fa fa-medkit fa-stack-1x "></i></span>Drugs</a>
+        <li>
+            <a> 
+                <span class="fa-stack fa-lg pull-left"><i class="fa fa-medkit fa-stack-1x "></i></span>
+                Drugs
+                <span class="fa-stack fa-lg pull-right" id="carat-down" style="display: none;"><i class="fa fa-caret-down fa-stack-1x "></i></span>
+                <span class="fa-stack fa-lg pull-right" id="carat-up" style="display: none;"><i class="fa fa-caret-up fa-stack-1x "></i></span>
+            </a>
+            <ul class="nav-pills nav-stacked" id="submenu" style="list-style-type: none; display: none;">
+                <li class="listDrugs"><a  href="drugs.php"><span class="fa-stack fa-lg pull-left"><i class="fa fa-plus-circle fa-stack-1x "></i></span>Drugs Category</a></li>
+                <li><a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-plus-square fa-stack-1x "></i></span>Manage Drugs</a></li>
+            </ul>
         </li>
         <li>
             <a href="#"> <span class="fa-stack fa-lg pull-left"><i class="fa fa-battery-0 fa-stack-1x "></i></span>Sick allowance</a>

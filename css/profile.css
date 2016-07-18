@@ -31,7 +31,7 @@
 .popover{
     color: darkslateblue;
 }
- #wrapper {
+#wrapper {
     padding-left: 0;
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
@@ -78,7 +78,7 @@
     margin-right: 0px; 
 }
 .fixed-brand{
-width: auto;
+    width: auto;
 }
 /* Sidebar Styles */
 
@@ -185,4 +185,3 @@ width: auto;
 
     }
 }
-

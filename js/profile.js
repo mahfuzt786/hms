@@ -9,6 +9,7 @@ $("#menu-toggle-2").click(function(e) {
 });
 
 function initMenu() {
+    $('#carat-down').show();
     $('#menu ul').hide();
     $('#menu ul').children('.current').parent().show();
     //$('#menu ul:first').show();
@@ -16,9 +17,14 @@ function initMenu() {
         function() {
             var checkElement = $(this).next();
             if((checkElement.is('ul')) && (checkElement.is(':visible'))) {
+                $('#carat-down').show();
+                $('#carat-up').hide();
+                checkElement.slideUp('normal');
                 return false;
             }
             if((checkElement.is('ul')) && (!checkElement.is(':visible'))) {
+                $('#carat-up').show();
+                $('#carat-down').hide();
                 $('#menu ul:visible').slideUp('normal');
                 checkElement.slideDown('normal');
                 return false;
@@ -64,6 +70,9 @@ $(document).ready(function() {
     }
     function drugsHigh()
     {
+        $('#carat-up').show();
+        $('#carat-down').hide();
+        $('#menu ul').show();
         $('#sidebar-wrapper ul li.listDashboard').removeClass('active');
         $('#sidebar-wrapper ul li.listDrugs').addClass('active');
         $('#sidebar-wrapper ul li.listSetting').removeClass('active');

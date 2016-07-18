@@ -16,10 +16,72 @@ if ($action == "confirmLogin") {
     changePassword($mysqli);
 } else if ($action == "oldPassCheck") {
     oldPassCheck($mysqli);
+} else if ($action == "addCategory") {
+    addCategory($mysqli);
+} else if ($action == "cat") {
+    cat($mysqli);
+} else if ($action == "catdesc") {
+    catdesc($mysqli);
+} else if ($action == "editCategory") {
+    editCategory($mysqli);
 } else {
     throw new Exception("Unknown Action: " + $action);
 }
+
 //if (isset($_POST['frmLogin']))
+function catdesc($mysqli) {
+    $error = 'false';
+    $id = getRequestPostDefault('id', 'null');
+    $sql = "SELECT drugscategory.*
+            FROM wtfindin_hms.drugscategory
+            WHERE drugs_cat_id='$id'";
+    $arRes = $mysqli->query($sql);
+    $row = $arRes->fetch_object();
+    $catdes = $row->drugs_cat_desc;
+
+    echo $catdes;
+    return true;
+}
+
+function cat($mysqli) {
+    $error = 'false';
+    $id = getRequestPostDefault('id', 'null');
+    $sql = "SELECT drugscategory.*
+            FROM wtfindin_hms.drugscategory
+            WHERE drugs_cat_id='$id'";
+    $arRes = $mysqli->query($sql);
+    $row = $arRes->fetch_object();
+    $cat = $row->drugs_cat;
+
+    echo $cat;
+    return true;
+}
+
+function addCategory($mysqli) {
+    $error = 'false';
+    $cat = getRequestPostDefault('cat', 'null');
+    $cat_desc = getRequestPostDefault('cat_desc', 'null');
+
+    if (add_cat($cat, $cat_desc, $mysqli)) {
+        echo 'done';
+    } else {
+        echo 'Error in Adding Category !!';
+    }
+}
+
+function editCategory($mysqli) {
+    $error = 'false';
+    $eid = getRequestPostDefault('eid', 'null');
+    $ecat = getRequestPostDefault('ecat', 'null');
+    $ecat_desc = getRequestPostDefault('ecat_desc', 'null');
+
+    if (edit_cat($eid, $ecat, $ecat_desc, $mysqli)) {
+        echo 'done';
+    } else {
+        echo 'Error in Updating Category !!';
+    }
+}
+
 function confirmLogin($mysqli) {
     $error = 'false';
     $erroremail = '';
@@ -135,8 +197,9 @@ function updatePassword($id, $username, $oldPass, $newPass, $mysqli) {
         return true;
     }
 }
+
 function oldPassCheck($mysqli) {
-    $id= getRequestPostDefault('id', 'null');
+    $id = getRequestPostDefault('id', 'null');
     $sql = "SELECT user.*
             FROM wtfindin_hms.user
             WHERE userId='$id'";
@@ -150,11 +213,44 @@ function oldPassCheck($mysqli) {
     } else {
         $row = $arRes->fetch_object();
         $pass = $row->password;
-        
+
         echo $pass;
         return true;
     }
 }
 
+function add_cat($cat, $cat_desc, $mysqli) {
+
+    $sql = "INSERT  INTO wtfindin_hms.drugscategory (drugs_cat,drugs_cat_desc)
+            VALUE ('$cat', '$cat_desc')";
+    $arRes = $mysqli->query($sql);
+    if (!$arRes) {
+        throw new Exception($mysqli->error);
+    }
+    return true;
+}
+
+function edit_cat($eid, $ecat, $ecat_desc, $mysqli) {
+    $sql = "SELECT drugscategory.*
+            FROM wtfindin_hms.drugscategory
+            WHERE drugs_cat_id='$eid'";
+    $arRes = $mysqli->query($sql);
+    if (!$arRes) {
+        throw new Exception($mysqli->error);
+    }
+
+    if (mysqli_num_rows($arRes) == 0) {
+        return false;
+    } else {
+        $sql = "UPDATE wtfindin_hms.drugscategory 
+                SET drugs_cat='$ecat', drugs_cat_desc='$ecat_desc'
+                WHERE drugs_cat_id='$eid'";
+        $arRes = $mysqli->query($sql);
+        if (!$arRes) {
+            throw new Exception($mysqli->error);
+        }
+        return true;
+    }
+}
 
 ?>
