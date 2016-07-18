@@ -24,6 +24,8 @@ if ($action == "confirmLogin") {
     catdesc($mysqli);
 } else if ($action == "editCategory") {
     editCategory($mysqli);
+} else if ($action == "delete_cat") {
+    deleteCategory($mysqli);
 } else {
     throw new Exception("Unknown Action: " + $action);
 }
@@ -56,7 +58,16 @@ function cat($mysqli) {
     echo $cat;
     return true;
 }
+function deleteCategory($mysqli) {
+    $error = 'false';
+    $id = getRequestPostDefault('id', 'null');
 
+    if (delete_cat($id, $mysqli)) {
+        echo 'done';
+    } else {
+        echo 'Error in Deleting Category !!';
+    }
+}
 function addCategory($mysqli) {
     $error = 'false';
     $cat = getRequestPostDefault('cat', 'null');
@@ -245,6 +256,26 @@ function edit_cat($eid, $ecat, $ecat_desc, $mysqli) {
         $sql = "UPDATE wtfindin_hms.drugscategory 
                 SET drugs_cat='$ecat', drugs_cat_desc='$ecat_desc'
                 WHERE drugs_cat_id='$eid'";
+        $arRes = $mysqli->query($sql);
+        if (!$arRes) {
+            throw new Exception($mysqli->error);
+        }
+        return true;
+    }
+}
+function delete_cat($id, $mysqli) {
+    $sql = "SELECT drugscategory.*
+            FROM wtfindin_hms.drugscategory
+            WHERE drugs_cat_id='$id'";
+    $arRes = $mysqli->query($sql);
+    if (!$arRes) {
+        throw new Exception($mysqli->error);
+    }
+
+    if (mysqli_num_rows($arRes) == 0) {
+        return false;
+    } else {
+        $sql = "DELETE FROM wtfindin_hms.drugscategory WHERE drugs_cat_id='$id'";
         $arRes = $mysqli->query($sql);
         if (!$arRes) {
             throw new Exception($mysqli->error);

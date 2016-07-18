@@ -38,6 +38,46 @@ include 'includes/checkInvalidUser.php';
                     }
                 });
             }
+            function delete_cat(id){
+                Lobibox.confirm({
+                    msg: "Are you sure you want to delete this Category?",
+                    callback: function ($this, type, ev) {
+                        //Your code goes here
+                        if(type=='yes'){
+                            $.ajax({
+                                url: "includes/login-check.php",
+                                type: "POST",
+                                data: {
+                                    action: 'delete_cat',
+                                    id: id
+                                },
+                                success: function(result){
+                                    if(result=='done') {
+                                        Lobibox.alert("success",
+                                        {
+                                            msg: 'Drugs Category Successfully Deleted ',
+                                            callback: function ($this, type, ev) {
+                                                if(type=='ok'){
+                                                    location.replace('drugs.php');}
+                                            }
+                                        });
+                                        if($('.lobibox'))
+                                        {
+                                            $('.lobibox .lobibox-btn').focus();
+                                        }
+                                    }
+                                    else {
+                                        Lobibox.alert("error",
+                                        {
+                                            msg: result
+                                        });
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+            }
             $(document).ready(function() {
                 var options = {
                     valueNames: [ 'sno', 'category', 'category_desc', 'options' ],
@@ -72,7 +112,7 @@ include 'includes/checkInvalidUser.php';
                             <div class="panel-heading heading">
                                 <i class="fa fa-medkit"> Drugs</i>
                             </div>
-                            <div class="mapping">Drugs >> Drugs Category</div>
+                            <div class="mapping">Drugs :: <a href="drugs.php">Drugs Category</a> :: <a href="manage-drugs.php">Manage Drugs</a></div>
                             <div class="panel-body">
                                 <div class="panel panel-default">
                                     <div class="panel-heading heading"><i class="fa fa-plus-circle"> Drugs Category</i></div>
@@ -112,7 +152,7 @@ include 'includes/checkInvalidUser.php';
                                                         echo"<td class='text-center'>
                                                         <button id=\"btn-edit-category\" data-toggle=\"modal\" data-target=\"#edit-category\" onclick=\"edit_cat('" . $rows['drugs_cat_id'] . "')\"><i style='color:darkgreen;' data-toggle='tooltip' data-placement='auto' title='Edit' class='fa fa-wrench'></i></button>
                                                         &nbsp;&nbsp;
-                                                        <button><i style='color:red;' data-toggle='tooltip' data-placement='auto' title='Delete' class='fa fa-trash'></i></button>
+                                                        <button id=\"btn-delete-category\" onclick=\"delete_cat('" . $rows['drugs_cat_id'] . "')\"><i style='color:red;' data-toggle='tooltip' data-placement='auto' title='Delete' class='fa fa-trash'></i></button>
                                                         </td>";
                                                         echo"</tr>";
                                                         $sno = $sno + 1;

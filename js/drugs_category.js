@@ -54,14 +54,18 @@ $(document).ready(function(){
                     if(result=='done') {
                         Lobibox.alert("success",
                         {
-                            msg: 'Drugs Category Successfully Updated '
+                            msg: 'Drugs Category Successfully Updated ',
+                            callback: function ($this, type, ev) {
+                                if(type=='ok'){
+                                    location.replace('drugs.php');
+                                }
+                            }
                         });
                         
                         if($('.lobibox'))
                         {
                             $('.lobibox .lobibox-btn').focus();
                         }
-                        location.replace('drugs.php');
                     }
                     else {
                         Lobibox.alert("error",
@@ -90,9 +94,13 @@ $(document).ready(function(){
                     if(result=='done') {
                         Lobibox.alert("success",
                         {
-                            msg: 'Drugs Category Successfully Added '
+                            msg: 'Drugs Category Successfully Added ',
+                            callback: function ($this, type, ev) {
+                                if(type=='ok'){
+                                    location.replace('drugs.php');
+                                }
+                            }
                         });
-                        location.replace('drugs.php');
                     }
                     else {
                         Lobibox.alert("error",
