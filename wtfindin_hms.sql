@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 08, 2016 at 05:24 PM
+-- Generation Time: Jul 18, 2016 at 08:41 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -17,8 +17,32 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `wtfind_hms`
+-- Database: `wtfindin_hms`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `drugscategory`
+--
+
+CREATE TABLE IF NOT EXISTS `drugscategory` (
+`drugs_cat_id` int(100) NOT NULL,
+  `drugs_cat` varchar(100) NOT NULL,
+  `drugs_cat_desc` varchar(100) NOT NULL,
+  `drugs_cat_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `drugscategory`
+--
+
+INSERT INTO `drugscategory` (`drugs_cat_id`, `drugs_cat`, `drugs_cat_desc`, `drugs_cat_date`) VALUES
+(1, 'Vitamin Tabs', 'Vitamin Tablets', '2016-07-17 17:26:46'),
+(2, 'Allergy', 'Allergy Tablets', '2016-07-17 19:14:07'),
+(3, 'Anta-Acid', 'Anta-Acid syrup and Tablets', '2016-07-17 19:40:13'),
+(4, 'Paracetamol', 'Paracetamol tablets and syprup', '2016-07-17 19:41:16'),
+(5, 'Pain Killers', 'Pain Killers tablets and injection\n', '2016-07-17 20:07:45');
 
 -- --------------------------------------------------------
 
@@ -39,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 INSERT INTO `user` (`userId`, `loginId`, `first_name`, `last_name`, `password`) VALUES
-(1, 'admin@wtf.ind.in', 'Rajiv', 'Saikia', 'admin');
+(1, 'admin@wtf.ind.in', 'Achinta', 'Bhattacharjee', 'admin');
 
 -- --------------------------------------------------------
 
@@ -52,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `userlogin` (
   `loginDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `userId` int(11) NOT NULL,
   `remote_addr` varchar(45) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `userlogin`
@@ -90,11 +114,61 @@ INSERT INTO `userlogin` (`userLoginId`, `loginDate`, `userId`, `remote_addr`) VA
 (29, '2016-07-08 14:41:07', 1, '127.0.0.1'),
 (30, '2016-07-08 14:42:17', 1, '127.0.0.1'),
 (31, '2016-07-08 14:46:31', 1, '127.0.0.1'),
-(32, '2016-07-08 14:49:09', 1, '127.0.0.1');
+(32, '2016-07-08 14:49:09', 1, '127.0.0.1'),
+(33, '2016-07-08 15:28:23', 1, '127.0.0.1'),
+(34, '2016-07-08 18:12:22', 1, '127.0.0.1'),
+(35, '2016-07-08 18:12:29', 1, '127.0.0.1'),
+(36, '2016-07-08 18:12:29', 1, '127.0.0.1'),
+(37, '2016-07-08 18:12:30', 1, '127.0.0.1'),
+(38, '2016-07-08 18:44:34', 1, '127.0.0.1'),
+(39, '2016-07-08 19:13:08', 1, '127.0.0.1'),
+(40, '2016-07-08 19:20:23', 1, '127.0.0.1'),
+(41, '2016-07-10 16:16:09', 1, '127.0.0.1'),
+(42, '2016-07-10 16:54:18', 1, '127.0.0.1'),
+(43, '2016-07-10 19:19:26', 1, '127.0.0.1'),
+(44, '2016-07-14 14:40:59', 1, '127.0.0.1'),
+(45, '2016-07-14 14:46:22', 1, '127.0.0.1'),
+(46, '2016-07-14 20:20:26', 1, '127.0.0.1'),
+(47, '2016-07-14 20:20:29', 1, '127.0.0.1'),
+(48, '2016-07-14 20:20:29', 1, '127.0.0.1'),
+(49, '2016-07-14 20:20:30', 1, '127.0.0.1'),
+(50, '2016-07-14 20:20:32', 1, '127.0.0.1'),
+(51, '2016-07-14 20:22:30', 1, '127.0.0.1'),
+(52, '2016-07-14 20:22:34', 1, '127.0.0.1'),
+(53, '2016-07-14 20:22:36', 1, '127.0.0.1'),
+(54, '2016-07-14 20:22:39', 1, '127.0.0.1'),
+(55, '2016-07-14 20:22:41', 1, '127.0.0.1'),
+(56, '2016-07-14 20:22:44', 1, '127.0.0.1'),
+(57, '2016-07-15 09:12:32', 1, '127.0.0.1'),
+(58, '2016-07-15 09:12:32', 1, '127.0.0.1'),
+(59, '2016-07-15 09:16:08', 1, '127.0.0.1'),
+(60, '2016-07-15 09:59:44', 1, '127.0.0.1'),
+(61, '2016-07-15 16:26:14', 1, '127.0.0.1'),
+(62, '2016-07-15 16:38:35', 1, '127.0.0.1'),
+(63, '2016-07-16 16:27:08', 1, '127.0.0.1'),
+(64, '2016-07-16 16:27:26', 1, '127.0.0.1'),
+(65, '2016-07-17 05:31:45', 1, '127.0.0.1'),
+(66, '2016-07-17 06:52:12', 1, '127.0.0.1'),
+(67, '2016-07-17 06:55:24', 1, '127.0.0.1'),
+(68, '2016-07-17 06:55:53', 1, '127.0.0.1'),
+(69, '2016-07-17 06:56:25', 1, '127.0.0.1'),
+(70, '2016-07-17 10:50:46', 1, '127.0.0.1'),
+(71, '2016-07-17 13:45:15', 1, '127.0.0.1'),
+(72, '2016-07-17 13:45:56', 1, '127.0.0.1'),
+(73, '2016-07-17 16:32:41', 1, '127.0.0.1'),
+(74, '2016-07-17 16:34:44', 1, '127.0.0.1'),
+(75, '2016-07-17 19:55:07', 1, '127.0.0.1'),
+(76, '2016-07-18 05:35:33', 1, '127.0.0.1');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `drugscategory`
+--
+ALTER TABLE `drugscategory`
+ ADD PRIMARY KEY (`drugs_cat_id`);
 
 --
 -- Indexes for table `user`
@@ -113,6 +187,11 @@ ALTER TABLE `userlogin`
 --
 
 --
+-- AUTO_INCREMENT for table `drugscategory`
+--
+ALTER TABLE `drugscategory`
+MODIFY `drugs_cat_id` int(100) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+--
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
@@ -121,7 +200,7 @@ MODIFY `userId` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 -- AUTO_INCREMENT for table `userlogin`
 --
 ALTER TABLE `userlogin`
-MODIFY `userLoginId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=33;
+MODIFY `userLoginId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=77;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
