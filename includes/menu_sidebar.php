@@ -30,7 +30,7 @@
             </a>
             <ul class="nav-pills nav-stacked" id="submenu" style="list-style-type: none; display: none;">
                 <li class="listDrugs"><a  href="drugs.php"><span class="fa-stack fa-lg pull-left"><i class="fa fa-plus-circle fa-stack-1x "></i></span>Drugs Category</a></li>
-                <li><a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-plus-square fa-stack-1x "></i></span>Manage Drugs</a></li>
+                <li class="listManageDrugs"><a href="manage-drugs.php"><span class="fa-stack fa-lg pull-left"><i class="fa fa-plus-square fa-stack-1x "></i></span>Manage Drugs</a></li>
             </ul>
         </li>
         <li>

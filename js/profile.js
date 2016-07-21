@@ -55,6 +55,10 @@ $(document).ready(function() {
     {
         drugsHigh();
     }
+    if (pathname.toLowerCase().indexOf("manage-drugs") >= 0)
+    {
+        ManagedrugsHigh();
+    }
         
     function dashboardHigh()
     {
@@ -65,6 +69,7 @@ $(document).ready(function() {
     function settingHigh()
     {
         $('#sidebar-wrapper ul li.listDashboard').removeClass('active');
+        $('#sidebar-wrapper ul li.listManageDrugs').removeClass('active');
         $('#sidebar-wrapper ul li.listDrugs').removeClass('active');
         $('#sidebar-wrapper ul li.listSetting').addClass('active');
     }
@@ -74,7 +79,18 @@ $(document).ready(function() {
         $('#carat-down').hide();
         $('#menu ul').show();
         $('#sidebar-wrapper ul li.listDashboard').removeClass('active');
+        $('#sidebar-wrapper ul li.listManageDrugs').removeClass('active');
         $('#sidebar-wrapper ul li.listDrugs').addClass('active');
+        $('#sidebar-wrapper ul li.listSetting').removeClass('active');
+    }
+    function ManagedrugsHigh()
+    {
+        $('#carat-up').show();
+        $('#carat-down').hide();
+        $('#menu ul').show();
+        $('#sidebar-wrapper ul li.listDashboard').removeClass('active');
+        $('#sidebar-wrapper ul li.listManageDrugs').addClass('active');
+        $('#sidebar-wrapper ul li.listDrugs').removeClass('active');
         $('#sidebar-wrapper ul li.listSetting').removeClass('active');
     }
 

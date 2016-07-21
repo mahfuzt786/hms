@@ -1,0 +1,43 @@
+.mapping{
+    font-size: 11px;
+    padding: 5px 5px 5px 17px;
+    text-decoration: none;
+}
+.table-drugs{
+    padding: 5px;
+}
+.head_drugs{
+    margin: 0;
+    padding: 0;
+}
+.head_drugs_2{
+    margin: 0;
+    padding: 0;
+}
+.tab-content{
+    padding: 5px;
+}
+.tab-drugs{
+    border-bottom: 1px solid lightgrey;
+    border-left: 1px solid lightgrey;
+    border-right: 1px solid lightgrey;
+}
+.drugsname{
+   cursor: pointer;
+   color: darkmagenta;
+   font-weight: bold;
+}
+.druginfo .col-md-4{
+    padding: 5px;
+    color: black;
+}
+.druginfo .col-md-8{
+    padding: 5px;
+}
+.druginfo label{
+    font-weight: normal;
+}
+#eventForm .form-control-feedback {
+    top: 0;
+    right: -15px;
+}

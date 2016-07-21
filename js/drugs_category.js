@@ -1,5 +1,4 @@
 $(document).ready(function(){
-    $('#drugs-category').focus();
     $('#btn-add-category-values').on('click',function(e) {
         e.preventDefault();
         check();    
@@ -111,5 +110,11 @@ $(document).ready(function(){
                 }
             });
         }
-    }    
+    }
+    $('#add-category').on('shown.bs.modal', function () { 
+        $('input#drugs-category').focus(); 
+    }); 
+    $('#edit-category').on('shown.bs.modal', function () { 
+        $('input#edit-drugs-category').focus(); 
+    });   
 });

@@ -26,11 +26,85 @@ if ($action == "confirmLogin") {
     editCategory($mysqli);
 } else if ($action == "delete_cat") {
     deleteCategory($mysqli);
+} else if ($action == "show_drug") {
+    show_drug($mysqli);
+} else if ($action == "addDrug") {
+    add_drug($mysqli);
 } else {
     throw new Exception("Unknown Action: " + $action);
 }
 
 //if (isset($_POST['frmLogin']))
+
+function add_drug($mysqli) {
+    $error = 'false';
+    $cat = getRequestPostDefault('cat', 'null');
+    $name = getRequestPostDefault('name', 'null');
+    $desc = getRequestPostDefault('desc', 'null');
+    $price = getRequestPostDefault('price', 'null');
+    $company = getRequestPostDefault('company', 'null');
+    $man_d = getRequestPostDefault('man_d', 'null');
+    $exp_d = getRequestPostDefault('exp_d', 'null');
+    $quantity = getRequestPostDefault('quantity', 'null');
+
+    if (add_addDrug($cat, $name, $desc, $price, $company, $man_d, $exp_d, $quantity, $mysqli)) {
+        echo 'done';
+    } else {
+        echo 'Error in Adding Drug detail !!';
+    }
+}
+
+function add_addDrug($cat, $name, $desc, $price, $company, $man_d, $exp_d, $quantity, $mysqli) {
+    $sql = "INSERT  INTO wtfindin_hms.drugs (drugs_cat_id,drugs_name,drugs_description,drugs_price,drugs_company,drugs_quantity,drugs_manufacturing_date,drugs_expiry_date,drugs_status)
+            VALUE ('$cat', '$name', '$desc', '$price', '$company', '$quantity', '$man_d', '$exp_d', 'a')";
+    $arRes = $mysqli->query($sql);
+    if (!$arRes) {
+        throw new Exception($mysqli->error);
+    }
+    return true;
+}
+
+function show_drug($mysqli) {
+    $error = 'false';
+    $id = getRequestPostDefault('id', 'null');
+    $sql = "SELECT drugs.*
+            FROM wtfindin_hms.drugs
+            WHERE drugs_id='$id'";
+    $arRes = $mysqli->query($sql);
+    $row = $arRes->fetch_object();
+    $detail = array();
+    $catid = $row->drugs_cat_id;
+
+    $sql1 = "SELECT drugscategory.*
+            FROM wtfindin_hms.drugscategory
+            WHERE drugs_cat_id='$catid'";
+    $arRes1 = $mysqli->query($sql1);
+    $row1 = $arRes1->fetch_object();
+    $catname = $row1->drugs_cat;
+
+    $name = $row->drugs_name;
+    $desc = $row->drugs_description;
+    $price = $row->drugs_price;
+    $company = $row->drugs_company;
+    $quantity = $row->drugs_quantity;
+    $man_d = $row->drugs_manufacturing_date;
+    $exp_d = $row->drugs_expiry_date;
+
+    $detail = array(
+        0 => $catname,
+        1 => $name,
+        2 => $desc,
+        3 => $price,
+        4 => $company,
+        5 => $quantity,
+        6 => $man_d,
+        7 => $exp_d,
+    );
+
+    echo json_encode($detail);
+    return true;
+}
+
 function catdesc($mysqli) {
     $error = 'false';
     $id = getRequestPostDefault('id', 'null');
@@ -58,6 +132,7 @@ function cat($mysqli) {
     echo $cat;
     return true;
 }
+
 function deleteCategory($mysqli) {
     $error = 'false';
     $id = getRequestPostDefault('id', 'null');
@@ -68,6 +143,7 @@ function deleteCategory($mysqli) {
         echo 'Error in Deleting Category !!';
     }
 }
+
 function addCategory($mysqli) {
     $error = 'false';
     $cat = getRequestPostDefault('cat', 'null');
@@ -263,6 +339,7 @@ function edit_cat($eid, $ecat, $ecat_desc, $mysqli) {
         return true;
     }
 }
+
 function delete_cat($id, $mysqli) {
     $sql = "SELECT drugscategory.*
             FROM wtfindin_hms.drugscategory
