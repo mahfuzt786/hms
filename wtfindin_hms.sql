@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 18, 2016 at 08:41 AM
+-- Generation Time: Jul 21, 2016 at 03:00 PM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -23,6 +23,39 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `drugs`
+--
+
+CREATE TABLE IF NOT EXISTS `drugs` (
+`drugs_id` int(100) NOT NULL,
+  `drugs_cat_id` int(100) NOT NULL,
+  `drugs_name` varchar(100) NOT NULL,
+  `drugs_description` varchar(200) NOT NULL,
+  `drugs_price` int(30) NOT NULL,
+  `drugs_company` varchar(100) NOT NULL,
+  `drugs_quantity` int(100) NOT NULL,
+  `drugs_manufacturing_date` varchar(50) NOT NULL,
+  `drugs_expiry_date` varchar(50) NOT NULL,
+  `drugs_entry_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `drugs_status` varchar(2) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `drugs`
+--
+
+INSERT INTO `drugs` (`drugs_id`, `drugs_cat_id`, `drugs_name`, `drugs_description`, `drugs_price`, `drugs_company`, `drugs_quantity`, `drugs_manufacturing_date`, `drugs_expiry_date`, `drugs_entry_date`, `drugs_status`) VALUES
+(1, 1, 'Some Vitamin', 'Vitamin C', 250, 'WalknetFunctions', 100, '12/3/13', '18/9/18', '2016-07-18 17:57:47', 'a'),
+(2, 4, 'Nicip Plus', 'Paracetamol Tablet for Fever', 10, 'ITC', 300, '20/1/12', '16/2/16', '2016-07-19 15:21:37', 'e'),
+(3, 0, 'nice', 'nice tablets for fever and cold', 12, 'r and d company ltd.', 14, '13/04/2018', '100', '2016-07-21 09:42:27', 'a'),
+(4, 7, 'livsav plus', 'liver tonic', 130, 'Gayetri company', 15, '24/10/2018', '200', '2016-07-21 09:48:38', 'a'),
+(5, 8, 'citricoto', 'alergy lotion', 140, 'citric acid ltd', 100, '07/09/2015', '20/07/2017', '2016-07-21 09:52:37', 'a'),
+(6, 6, 'blueberry', 'antacid for accidity', 140, 'ss company', 100, '16/06/2015', '21/09/2017', '2016-07-21 10:03:09', 'a'),
+(7, 4, 'sss', 'sssss', 0, 'sss', 12, '06/07/2016', '27/07/2016', '2016-07-21 10:03:55', 'a');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `drugscategory`
 --
 
@@ -31,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `drugscategory` (
   `drugs_cat` varchar(100) NOT NULL,
   `drugs_cat_desc` varchar(100) NOT NULL,
   `drugs_cat_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `drugscategory`
@@ -39,10 +72,11 @@ CREATE TABLE IF NOT EXISTS `drugscategory` (
 
 INSERT INTO `drugscategory` (`drugs_cat_id`, `drugs_cat`, `drugs_cat_desc`, `drugs_cat_date`) VALUES
 (1, 'Vitamin Tabs', 'Vitamin Tablets', '2016-07-17 17:26:46'),
-(2, 'Allergy', 'Allergy Tablets', '2016-07-17 19:14:07'),
-(3, 'Anta-Acid', 'Anta-Acid syrup and Tablets', '2016-07-17 19:40:13'),
 (4, 'Paracetamol', 'Paracetamol tablets and syprup', '2016-07-17 19:41:16'),
-(5, 'Pain Killers', 'Pain Killers tablets and injection\n', '2016-07-17 20:07:45');
+(5, 'Pain Killers', 'Pain Killers tablets and injection\n', '2016-07-17 20:07:45'),
+(6, 'Anta Acid', 'Anta Acidic Syprup for acidity\n', '2016-07-18 17:08:20'),
+(7, 'Liver Syrup', 'Liver Syrup and Tablets', '2016-07-18 17:10:23'),
+(8, 'Allergy', 'Allergic Tabs', '2016-07-18 17:12:00');
 
 -- --------------------------------------------------------
 
@@ -76,7 +110,7 @@ CREATE TABLE IF NOT EXISTS `userlogin` (
   `loginDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `userId` int(11) NOT NULL,
   `remote_addr` varchar(45) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `userlogin`
@@ -158,11 +192,27 @@ INSERT INTO `userlogin` (`userLoginId`, `loginDate`, `userId`, `remote_addr`) VA
 (73, '2016-07-17 16:32:41', 1, '127.0.0.1'),
 (74, '2016-07-17 16:34:44', 1, '127.0.0.1'),
 (75, '2016-07-17 19:55:07', 1, '127.0.0.1'),
-(76, '2016-07-18 05:35:33', 1, '127.0.0.1');
+(76, '2016-07-18 05:35:33', 1, '127.0.0.1'),
+(77, '2016-07-18 06:45:45', 1, '127.0.0.1'),
+(78, '2016-07-18 13:57:36', 1, '127.0.0.1'),
+(79, '2016-07-19 11:09:27', 1, '127.0.0.1'),
+(80, '2016-07-19 12:54:54', 1, '127.0.0.1'),
+(81, '2016-07-20 13:42:46', 1, '127.0.0.1'),
+(82, '2016-07-20 17:10:27', 1, '127.0.0.1'),
+(83, '2016-07-20 17:54:38', 1, '127.0.0.1'),
+(84, '2016-07-20 18:06:29', 1, '127.0.0.1'),
+(85, '2016-07-21 07:10:27', 1, '127.0.0.1'),
+(86, '2016-07-21 09:41:29', 1, '127.0.0.1');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `drugs`
+--
+ALTER TABLE `drugs`
+ ADD PRIMARY KEY (`drugs_id`);
 
 --
 -- Indexes for table `drugscategory`
@@ -187,10 +237,15 @@ ALTER TABLE `userlogin`
 --
 
 --
+-- AUTO_INCREMENT for table `drugs`
+--
+ALTER TABLE `drugs`
+MODIFY `drugs_id` int(100) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+--
 -- AUTO_INCREMENT for table `drugscategory`
 --
 ALTER TABLE `drugscategory`
-MODIFY `drugs_cat_id` int(100) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+MODIFY `drugs_cat_id` int(100) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `user`
 --
@@ -200,7 +255,7 @@ MODIFY `userId` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 -- AUTO_INCREMENT for table `userlogin`
 --
 ALTER TABLE `userlogin`
-MODIFY `userLoginId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=77;
+MODIFY `userLoginId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=87;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
