@@ -108,7 +108,14 @@ $(document).ready(function(){
                 msg: 'New Password Mismatch !!!'
             });
         }else{
-            change_password();
+			Lobibox.confirm({
+				msg: "Click Yes to confirm change?",
+				callback: function ($this, type, ev) {
+					if (type == 'yes') {
+						change_password();
+					}
+				}
+			});
         }
     }
     function change_password()
@@ -130,9 +137,11 @@ $(document).ready(function(){
                     if(result=='done') {
                         Lobibox.alert("success",
                         {
-                            msg: 'Password successfully updated !!'
+                            msg: 'Password successfully updated !!',
+							callback: function ($this, type, ev) {
+								location.replace('includes/logout.php');
+							}
                         });
-                        location.replace('includes/logout.php');
                     }
                     else {
                         Lobibox.alert("error",

@@ -43,8 +43,10 @@ include 'includes/checkInvalidUser.php';
                                 <div class="row-fluid">
                                     <div class="col-md-2 dash-item">
                                         <div class="panel panel-default">
-                                            <div class="panel-body"><i class="fa fa-4x fa-users"></i></div>
-                                            <div class="panel-heading">Outpatients</div>
+                                            <a href="inpatients.php">
+                                                <div class="panel-body"><i class="fa fa-4x fa-users"></i></div>
+                                                <div class="panel-heading">In-patients</div>
+                                            </a>
                                         </div>
                                     </div>
                                     <div class="col-md-2 dash-item">

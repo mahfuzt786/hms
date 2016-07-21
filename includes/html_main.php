@@ -6,7 +6,7 @@
 <link href="css/lobibox.css" rel="stylesheet">
 <link href="css/main.css" rel="stylesheet">
 <link rel="stylesheet" href="lib/font-awesome-4.6.3/css/font-awesome.css" />
-<link rel="stylesheet" href="libn/font-awesome-4.6.3/css/font-awesome.min.css" />
+<link rel="stylesheet" href="lib/font-awesome-4.6.3/css/font-awesome.min.css" />
 <script src="js/jquery.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/lobibox.min.js"></script>
