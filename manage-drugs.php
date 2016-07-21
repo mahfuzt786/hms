@@ -389,7 +389,7 @@ include 'includes/checkInvalidUser.php';
                         <div class="modal-body">
                             <div>
                                 <form action="" id="frm-add-drugs">
-                                    <!--<input type="hidden" id="id" value="<?php echo $id; ?>"/>-->
+                                    <!--<input type="hidden" id="id" value="<?//php echo $id; ?>"/>-->
                                     <div class="form-group ">
                                         <select class="form-control option-control" id="drugs-category" name='drugs-category'>
                                             <option value="select">Select Category</option>
@@ -455,7 +455,7 @@ include 'includes/checkInvalidUser.php';
                         <div class="modal-body">
                             <div>
                                 <form action="" id="frm-edit-drugs">
-                                    <input type="text" id="did" value=""/>
+                                    <input type="hidden" id="did" value=""/>
                                     <input type="hidden" id="catid" value=""/>
                                     <div class="form-group ">
                                         <select class="form-control option-control" id="drugs-category-edit" name='drugs-category-edit'>
