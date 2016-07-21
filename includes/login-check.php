@@ -30,11 +30,47 @@ if ($action == "confirmLogin") {
     show_drug($mysqli);
 } else if ($action == "addDrug") {
     add_drug($mysqli);
+} else if ($action == "retrieve_drug_detail") {
+    retrieve_drug_detail($mysqli);
+} else if ($action == "retrieve_drug_category") {
+    retrieve_drug_category($mysqli);
+} else if ($action == "editDrug") {
+    editDrug($mysqli);
+} else if ($action == "delete_drug") {
+    delete_drug($mysqli);
 } else {
     throw new Exception("Unknown Action: " + $action);
 }
 
 //if (isset($_POST['frmLogin']))
+function delete_drug($mysqli) {
+    $error = 'false';
+    $id = getRequestPostDefault('id', 'null');
+
+    if (delete_drug_detail($id, $mysqli)) {
+        echo 'done';
+    } else {
+        echo 'Error in Deleting Drug !!';
+    }
+}
+function editDrug($mysqli) {
+    $error = 'false';
+    $did = getRequestPostDefault('did', 'null');
+    $cat = getRequestPostDefault('cat', 'null');
+    $name = getRequestPostDefault('name', 'null');
+    $desc = getRequestPostDefault('desc', 'null');
+    $price = getRequestPostDefault('price', 'null');
+    $company = getRequestPostDefault('company', 'null');
+    $man_d = getRequestPostDefault('man_d', 'null');
+    $exp_d = getRequestPostDefault('exp_d', 'null');
+    $quantity = getRequestPostDefault('quantity', 'null');
+
+    if (edit_editDrug($did, $cat, $name, $desc, $price, $company, $man_d, $exp_d, $quantity, $mysqli)) {
+        echo 'done';
+    } else {
+        echo 'Error in Adding Drug detail !!';
+    }
+}
 
 function add_drug($mysqli) {
     $error = 'false';
@@ -52,6 +88,19 @@ function add_drug($mysqli) {
     } else {
         echo 'Error in Adding Drug detail !!';
     }
+}
+function edit_editDrug($did, $cat, $name, $desc, $price, $company, $man_d, $exp_d, $quantity, $mysqli) {
+    $sql = "UPDATE wtfindin_hms.drugs 
+                SET drugs_cat_id='$cat', drugs_name='$name',
+                drugs_description='$desc', drugs_price='$price',
+                drugs_company='$company', drugs_manufacturing_date='$man_d',
+                drugs_expiry_date='$exp_d', drugs_quantity='$quantity'
+                WHERE drugs_id='$did'";
+    $arRes = $mysqli->query($sql);
+    if (!$arRes) {
+        throw new Exception($mysqli->error);
+    }
+    return true;
 }
 
 function add_addDrug($cat, $name, $desc, $price, $company, $man_d, $exp_d, $quantity, $mysqli) {
@@ -99,6 +148,56 @@ function show_drug($mysqli) {
         5 => $quantity,
         6 => $man_d,
         7 => $exp_d,
+    );
+
+    echo json_encode($detail);
+    return true;
+}
+
+function retrieve_drug_category($mysqli) {
+    $error = 'false';
+    $sql = "SELECT drugscategory.*
+            FROM wtfindin_hms.drugscategory";
+    $arRes = $mysqli->query($sql);
+
+    $detail = array();
+    while ($row = $arRes->fetch_assoc()) {
+        $k=$row['drugs_cat_id'];
+        $v=$row['drugs_cat'];
+
+        $detail["$k"]= "$v";
+    }
+
+    echo json_encode($detail);
+    return true;
+}
+
+function retrieve_drug_detail($mysqli) {
+    $error = 'false';
+    $id = getRequestPostDefault('id', 'null');
+    $sql = "SELECT drugs.*
+            FROM wtfindin_hms.drugs
+            WHERE drugs_id='$id'";
+    $arRes = $mysqli->query($sql);
+    $row = $arRes->fetch_object();
+    $detail = array();
+    $catid = $row->drugs_cat_id;
+    $name = $row->drugs_name;
+    $desc = $row->drugs_description;
+    $price = $row->drugs_price;
+    $company = $row->drugs_company;
+    $man_d = $row->drugs_manufacturing_date;
+    $exp_d = $row->drugs_expiry_date;
+    $quantity = $row->drugs_quantity;
+    $detail = array(
+        0 => $catid,
+        1 => $name,
+        2 => $desc,
+        3 => $price,
+        4 => $company,
+        5 => $man_d,
+        6 => $exp_d,
+        7 => $quantity,
     );
 
     echo json_encode($detail);
@@ -353,6 +452,26 @@ function delete_cat($id, $mysqli) {
         return false;
     } else {
         $sql = "DELETE FROM wtfindin_hms.drugscategory WHERE drugs_cat_id='$id'";
+        $arRes = $mysqli->query($sql);
+        if (!$arRes) {
+            throw new Exception($mysqli->error);
+        }
+        return true;
+    }
+}
+function delete_drug_detail($id, $mysqli) {
+    $sql = "SELECT drugs.*
+            FROM wtfindin_hms.drugs
+            WHERE drugs_id='$id'";
+    $arRes = $mysqli->query($sql);
+    if (!$arRes) {
+        throw new Exception($mysqli->error);
+    }
+
+    if (mysqli_num_rows($arRes) == 0) {
+        return false;
+    } else {
+        $sql = "DELETE FROM wtfindin_hms.drugs WHERE drugs_id='$id'";
         $arRes = $mysqli->query($sql);
         if (!$arRes) {
             throw new Exception($mysqli->error);

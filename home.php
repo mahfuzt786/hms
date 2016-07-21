@@ -63,7 +63,7 @@ include 'includes/checkInvalidUser.php';
                                     </div>
                                     <div class="col-md-2 dash-item">
                                         <div class="panel panel-default">
-                                            <a href="drugs.php"> 
+                                            <a href="manage-drugs.php"> 
                                                 <div class="panel-body"><i class="fa fa-4x fa-medkit"></i></div>
                                                 <div class="panel-heading">Drugs</div>
                                             </a>

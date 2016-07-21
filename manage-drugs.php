@@ -26,8 +26,9 @@ include 'includes/checkInvalidUser.php';
                             //display the key and value pair
                             alert(k + ' is ' + v);
                         });*/
-                        $('label#d_name').text(': '+ arr[1]);
+        
                         $('label#d_cat').text(': '+ arr[0]);
+                        $('label#d_name').text(': '+ arr[1]);
                         $('label#d_desc').text(': '+ arr[2]);
                         $('label#d_company').text(': '+ arr[4]);
                         $('label#d_price').text(': '+ arr[3]);
@@ -39,34 +40,61 @@ include 'includes/checkInvalidUser.php';
                     }
                 });
             }
-            function edit_cat(id) {
-                $('#catid').val(id);
+            function edit_drug(id) {
+                $('#did').val(id);
                 $.ajax({
                     url: "includes/login-check.php",
                     type: "POST",
                     data: {
-                        action: 'cat',
+                        action: 'retrieve_drug_detail',
                         id: id
                     },
                     success: function(result){
-                        $('#edit-drugs-category').val(result);
+                        var arr = $.parseJSON(result);
+                        /*$.each(arr, function(k, v) {
+                            //display the key and value pair
+                            alert(k + ' is ' + v);
+                        });*/
+                        $('input#catid').val(arr[0]);
+                        var cid= $('input#catid').val(); 
+                        //alert (cid);
+                        $.ajax({
+                            url: "includes/login-check.php",
+                            type: "POST",
+                            data: {
+                                action: 'retrieve_drug_category'
+                            },
+                            success: function(result){
+                                content='';
+                                var arr = $.parseJSON(result);
+                                content+='<option value="select">Select Category</option>';
+                                $.each(arr, function(k, v) {
+                                    if(cid==k){
+                                        content+='<option value="' + k +'" selected>' + v + '</option>';
+                                    }else{
+                                        content+='<option value="' + k +'">' + v + '</option>';
+                                    }
+                                });
+                                $('#drugs-category-edit').html(content); 
+                            }
+                                                    
+                        });
+                        $('input#drugs-name-edit').val(arr[1]);
+                        $('textarea#drugs-description-edit').text(arr[2]);
+                        $('input#drugs-price-edit').val(arr[3]);
+                        $('input#drugs-company-edit').val(arr[4]);
+                        $('input#drugs-manu-date-edit').val(arr[5]);
+                        $('input#drugs-exp-date-edit').val(arr[6]);
+                        $('input#drugs-quantity-edit').val(arr[7]);
+                        
+
                     }
                 });
-                $.ajax({
-                    url: "includes/login-check.php",
-                    type: "POST",
-                    data: {
-                        action: 'catdesc',
-                        id: id
-                    },
-                    success: function(result){
-                        $('#edit-drugs-category-description').val(result);
-                    }
-                });
+                
             }
-            function delete_cat(id){
+            function delete_drug(id){
                 Lobibox.confirm({
-                    msg: "Are you sure you want to delete this Category?",
+                    msg: "Are you sure you want to delete this Drug?",
                     callback: function ($this, type, ev) {
                         //Your code goes here
                         if(type=='yes'){
@@ -74,17 +102,17 @@ include 'includes/checkInvalidUser.php';
                                 url: "includes/login-check.php",
                                 type: "POST",
                                 data: {
-                                    action: 'delete_cat',
+                                    action: 'delete_drug',
                                     id: id
                                 },
                                 success: function(result){
                                     if(result=='done') {
                                         Lobibox.alert("success",
                                         {
-                                            msg: 'Drugs Category Successfully Deleted ',
+                                            msg: 'Drug Successfully Deleted ',
                                             callback: function ($this, type, ev) {
                                                 if(type=='ok'){
-                                                    location.replace('drugs.php');}
+                                                    location.replace('manage-drugs.php');}
                                             }
                                         });
                                         if($('.lobibox'))
@@ -213,9 +241,9 @@ include 'includes/checkInvalidUser.php';
                                                             echo"<td class='exp_date text-center'>" . $rows['drugs_expiry_date'] . "</td>";
                                                             echo"<td class='quantity text-center'>" . $rows['drugs_quantity'] . "</td>";
                                                             echo"<td class='text-center'>
-                                                        <button id=\"btn-edit-category\" data-toggle=\"modal\" data-target=\"#edit-category\" onclick=\"edit_cat('" . $rows['drugs_cat_id'] . "')\"><i style='color:darkgreen;' data-toggle='tooltip' data-placement='auto' title='Edit' class='fa fa-wrench'></i></button>
+                                                        <button id=\"btn-edit-drug\" data-toggle=\"modal\" data-target=\"#edit-drug\" onclick=\"edit_drug('" . $rows['drugs_id'] . "')\"><i style='color:darkgreen;' data-toggle='tooltip' data-placement='auto' title='Edit' class='fa fa-wrench'></i></button>
                                                         &nbsp;&nbsp;
-                                                        <button id=\"btn-delete-category\" onclick=\"delete_cat('" . $rows['drugs_cat_id'] . "')\"><i style='color:red;' data-toggle='tooltip' data-placement='auto' title='Delete' class='fa fa-trash'></i></button>
+                                                        <button id=\"btn-delete-drug\" onclick=\"delete_drug('" . $rows['drugs_id'] . "')\"><i style='color:red;' data-toggle='tooltip' data-placement='auto' title='Delete' class='fa fa-trash'></i></button>
                                                         </td>";
                                                             echo"</tr>";
                                                             $sno = $sno + 1;
@@ -376,7 +404,6 @@ include 'includes/checkInvalidUser.php';
                                             }
                                             ?>
                                         </select>
-                                        <?php echo $rows->drugs_cat; ?>
                                     </div>
                                     <div class="form-group ">
                                         <input class="form-control" type="text" id="drugs-name" name='drugs-name' autocomplete="off" placeholder="Drug Name"/>  
@@ -416,30 +443,48 @@ include 'includes/checkInvalidUser.php';
             <!--end of add drugs modal-->
 
             <!--edit Category Modal -->
-            <div class="modal fade" id="edit-category" role="dialog">
+            <div class="modal fade" id="edit-drug" role="dialog">
                 <div class="modal-dialog">
 
                     <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title"><span class="fa fa-pencil"></span> Edit Drugs Category</h4>
+                            <h4 class="modal-title"><span class="fa fa-pencil"></span> Edit Drug Details</h4>
                         </div>
                         <div class="modal-body">
                             <div>
-                                <form action="" id="frm-edit-category">
+                                <form action="" id="frm-edit-drugs">
+                                    <input type="text" id="did" value=""/>
                                     <input type="hidden" id="catid" value=""/>
-                                    <div class="form-group input-group">
-                                        <span class="input-group-addon"><i class="fa fa-plus"></i></span>
-                                        <input class="form-control" type="text" id="edit-drugs-category" name='edit-drugs-category' autocomplete="off" placeholder="Drugs Category"/>  
+                                    <div class="form-group ">
+                                        <select class="form-control option-control" id="drugs-category-edit" name='drugs-category-edit'>
+                                        </select>
                                     </div>
-                                    <div class="form-group input-group">
-                                        <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
-                                        <textarea class="form-control" type="text" id="edit-drugs-category-description" name='edit-drugs-category-description' placeholder="Drugs Category Description"></textarea>
+                                    <div class="form-group ">
+                                        <input class="form-control" type="text" id="drugs-name-edit" name='drugs-name-edit' autocomplete="off" placeholder="Drug Name"/>  
+                                    </div>
+                                    <div class="form-group">
+                                        <textarea class="form-control" type="text" id="drugs-description-edit" name='drugs-description-edit' placeholder="Drug Description"></textarea>
+                                    </div>
+                                    <div class="form-group ">
+                                        <input class="form-control" type="text" id="drugs-price-edit" pattern="\d+(\.\d{2})?" name='drugs-price-edit' autocomplete="off" placeholder="Drug Price"/>  
+                                    </div>
+                                    <div class="form-group ">
+                                        <input class="form-control" type="text" id="drugs-company-edit" name='drugs-company-edit' autocomplete="off" placeholder="Drug Company"/>  
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" type="text" value="" readonly id="drugs-manu-date-edit" name='drugs-manu_date-edit' autocomplete="off" placeholder="Drug Manufacturing Date"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" type="text" value="" readonly id="drugs-exp-date-edit" name='drugs-exp-date-edit' autocomplete="off" placeholder="Drug Expiry Date"/>  
+                                    </div>
+                                    <div class="form-group ">
+                                        <input class="form-control" type="text" id="drugs-quantity-edit" name='drugs-quantity-edit' autocomplete="off" placeholder="Drug Quantity"/>  
                                     </div>
                                     <div class="form-group input-group col-md-12">
-                                        <button type="button" class="btn btn-block btn-success" name="btn-add-category-values" id="btn-edit-category-values">
-                                            <span class="fa fa-pencil"></span> Edit Category</button>       
+                                        <button type="button" class="btn btn-block btn-success" name="btn-edit-drugs-values" id="btn-edit-drugs-values">
+                                            <span class="fa fa-pencil"></span> Edit Drug</button>       
                                     </div>
                                 </form>
                             </div>
