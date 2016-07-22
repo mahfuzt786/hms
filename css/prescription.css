@@ -56,3 +56,18 @@
 }
 .btn-list{padding: 5px;
 }
+.prescribed_head{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.slno{
+    margin-top: 5px;
+}
+.col-mod{
+    padding: 0;
+    padding: 3px;
+}
+.row-item{
+    padding-left: 10px;
+    padding-right: 10px;
+}

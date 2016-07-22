@@ -12,7 +12,7 @@ include 'includes/checkInvalidUser.php';
         <link href="css/prescription.css" rel="stylesheet"/>
         <script src="js/prescription.js"></script>
         <script>
-            function listbox_item_move(source,destination){
+            /* function listbox_item_move(source,destination){
                 var src = document.getElementById(source);
                 var dest = document.getElementById(destination);
 
@@ -37,7 +37,7 @@ include 'includes/checkInvalidUser.php';
                     }
 
                 }
-            }
+            }*/
             $(document).ready(function() {
                 var options = {
                     valueNames: ['option','drugname' ]
@@ -103,12 +103,12 @@ include 'includes/checkInvalidUser.php';
                                                         <div class="col-md-2 detail">Patient Type</div>
                                                         <div class="col-md-1 detail">
                                                             <label class="radio-inline">
-                                                                <input type="radio" name="patientType" >InPatient
+                                                                <input type="radio" value="1" id="patientType1" name="patientType" >InPatient
                                                             </label>
                                                         </div>
                                                         <div class="col-md-1 detail">
                                                             <label class="radio-inline">
-                                                                <input type="radio" name="patientType">OutPatient
+                                                                <input type="radio" value="2" id="patientType2" name="patientType">OutPatient
                                                             </label>
                                                         </div>
                                                     </div>
@@ -118,8 +118,15 @@ include 'includes/checkInvalidUser.php';
                                                             <input class="form-control input-group" type="text" id="emp-id" name='emp-id' autocomplete="off"/>
                                                         </div>
                                                         <div class="col-md-5 detail" id="show-detail">
-                                                            <i class="glyphicon glyphicon-ok" id="found"> Name: <label id="employee-name"></label> </i>
+                                                            <i class="glyphicon glyphicon-ok" id="found"></i>
                                                             <i class="glyphicon glyphicon-remove" id="notfound"></i>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-2 detail">Employee Name</div>
+                                                        <div class="col-md-3">
+                                                            <input class="form-control input-group" type="text" id="emp-name" name='emp-name' autocomplete="off"/>
                                                         </div>
                                                     </div>
 
@@ -129,80 +136,91 @@ include 'includes/checkInvalidUser.php';
                                                             <input class="form-control input-group" readonly type="text" id="date" name='date' value="<?php echo date('d/m/Y'); ?>" autocomplete="off"/>
                                                         </div>
                                                     </div>
+                                                    <!--MEDICINE LIST-->
+                                                    
                                                     <div class="row">
-                                                        <table>
-                                                            <tr>
-                                                                <td>
-                                                                    <div class="col-md-12">
-                                                                        <input type="text" id="searchMed" name="searchMed" placeholder="search" class="col-md-12"/>
-                                                                        <select style="width: 100%" name="medicine-list[]" id="medicine-list" size="10" multiple="true">
-
-                                                                        </select>
-                                                                    </div>
-                                                                </td>
-
-                                                                <td width="10%">
-                                                                    <div class="col-md-12">
-                                                                        <div class="btn-list"><input class="btn btn-default col-md-12" type="button" id="addtolist" onclick="listbox_item_move('medicine-list', 'medicine-selected')" value=">>"/></div>
-                                                                    </div>
-                                                                    <div class="col-md-12">
-                                                                        <div class="btn-list"><input class="btn btn-default col-md-12" type="button" id="removefromlist" onclick="listbox_item_move('medicine-selected', 'medicine-list')" value="<<"/></div>
-                                                                    </div>
-                                                                </td>
-
-                                                                <td width="45%">
-                                                                    <div style="margin:5px;">Prescribed Medicine</div>
-                                                                    <select style="width: 100%" name="medicine-selected[]" id="medicine-selected" size="11" multiple="true">
-
-                                                                    </select>
-                                                                </td>
-                                                            </tr>
-                                                        </table>
+                                                        <div class="col-md-2 prescribed_head">
+                                                            <b><i class="fa fa-file-text"></i> Prescribed Medicines</b>
+                                                        </div>
                                                     </div>
-                                            </div>
-                                            <div class="row textArea-content">
-                                                <div class="col-md-6 textArea">
-                                                    <div class="col-md-12">
-                                                        <div>Remark</div>
-                                                        <textarea class="form-control" type="text" id="date" name='date' autocomplete="off"></textarea>
+                                                    <div class="row row-item">
+                                                        <div class="col-md-1 col-mod">Sl. Number</div>
+                                                        <div class="col-md-4 col-mod">Name</div>
+                                                        <div class="col-md-2 col-mod">Quantity</div>
+                                                        <div class="col-md-2 col-mod">Price</div>
+                                                        <div class="col-md-2 col-mod">Total</div>
+                                                        <div class="col-md-1 col-mod text-center">#</div>
                                                     </div>
-                                                </div>
-                                                <div class="col-md-6 textArea">
-                                                    <div class="col-md-12">
-                                                        <div>Note</div>
-                                                        <textarea class="form-control" type="text" id="date" name='date' autocomplete="off"></textarea>
+                                                    <div class="row row-item">
+                                                        <div class="col-md-1 text-center slno col-mod">(1)</div>
+                                                        <div class="col-md-4 col-mod"><input placeholder="Name" class="form-control input-group" type="text"/></div>
+                                                        <div class="col-md-2 col-mod"><input placeholder="Quantity" class="form-control input-group" type="text"/></div>
+                                                        <div class="col-md-2 col-mod"><input placeholder="Price" readonly class="form-control input-group" type="text"/></div>
+                                                        <div class="col-md-2 col-mod"><input placeholder="Total" class="form-control input-group" type="text"/></div>
+                                                        <div class="col-md-1 col-mod">
+                                                            <button type="button" class="btn btn-block btn-primary">
+                                                                <span class="fa fa-plus"></span> Go</button>  
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                    
+                                                    <div class="row row-item">
+                                                        <div class="col-md-1 text-center slno col-mod">(2)</div>
+                                                        <div class="col-md-4 col-mod"><input placeholder="Name" class="form-control input-group" type="text"/></div>
+                                                        <div class="col-md-2 col-mod"><input placeholder="Quantity" class="form-control input-group" type="text"/></div>
+                                                        <div class="col-md-2 col-mod"><input placeholder="Price" readonly class="form-control input-group" type="text"/></div>
+                                                        <div class="col-md-2 col-mod"><input placeholder="Total" class="form-control input-group" type="text"/></div>
+                                                        <div class="col-md-1 col-mod">
+                                                            <button type="button" class="btn btn-block btn-primary">
+                                                                <span class="fa fa-plus"></span> Go</button>  
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    
+                                                    <!--END OF MEDICINE LIST-->
+                                                    <div class="row textArea-content">
+                                                        <div class="col-md-6 textArea">
+                                                            <div class="col-md-12">
+                                                                <div>Remark</div>
+                                                                <textarea class="form-control" type="text" id="date" name='date' autocomplete="off"></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 textArea">
+                                                            <div class="col-md-12">
+                                                                <div>Note</div>
+                                                                <textarea class="form-control" type="text" id="date" name='date' autocomplete="off"></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row btnPres">
+                                                        <div class="col-md-2">
+                                                            <button type="button" class="btn btn-block btn-primary" name="btn-add-prescription-values" id="btn-add-prescription-values">
+                                                                <span class="fa fa-plus"></span> Add Prescription</button>       
+                                                        </div>
+                                                    </div>
+                                                </form>
                                             </div>
-                                            <div class="row btnPres">
-                                                <div class="col-md-2">
-                                                    <button type="button" class="btn btn-block btn-primary" name="btn-add-prescription-values" id="btn-add-prescription-values">
-                                                        <span class="fa fa-plus"></span> Add Prescription</button>       
-                                                </div>
-                                            </div>
-                                            </form>
+
+                                        </div> 
+
+
+                                        <!--second tab-->
+                                        <div id="prescriptionlist" class="tab-pane fade">
                                         </div>
-
-                                    </div> 
-
-
-                                    <!--second tab-->
-                                    <div id="prescriptionlist" class="tab-pane fade">
+                                        <!--second tab-->
                                     </div>
                                 </div>
+
                             </div>
 
                         </div>
-
                     </div>
                 </div>
+                <!-- /#page-content-wrapper -->
             </div>
-            <!-- /#page-content-wrapper -->
-        </div>
-        <!-- /#wrapper -->
-        <script src="js/profile.js"></script>
+            <!-- /#wrapper -->
+            <script src="js/profile.js"></script>
 
-        <!--body div-->
+            <!--body div-->
 
     </body>
 </html>

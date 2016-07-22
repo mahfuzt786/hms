@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    document.getElementById("date").disabled=true;
     $('#show-detail').hide();
     $('#found').hide();
     $('#notfound').hide();
@@ -7,41 +8,34 @@ $(document).ready(function(){
     $(".nav-tabs a").click(function(){
         $(this).tab('show');
     });
-    
-   $.ajax({
-        url: "includes/login-check.php",
-        type: "POST",
-        data: {
-            action: 'medicine_listbox_main'
-        },
-        success: function(result){
-            content='';
-            var arr = $.parseJSON(result);
-            $.each(arr, function(k, v) {
-                content+='<option value="' + k +'" selected>' + v + '</option>';
-            });
-            $('#medicine-list').html(content);
+    document.getElementById("emp-name").disabled=true;
+    document.getElementById("emp-id").disabled=true; 
+
+    $('input[name="patientType"]').change(function(){
+        var type=$(this).val();
+        if(type == '1'){
+            //alert('inpatient');
+            document.getElementById("emp-name").disabled=true;
+            
+            document.getElementById("emp-id").disabled=false;
+            $('#emp-id').val('');
+            
+            $('#emp-id').focus();
+            $('#show-detail').hide();
+            $('#found').hide();
+            $('#notfound').hide();
+            
+        }else if(type=='2'){
+            document.getElementById("emp-id").disabled=true;
+            $('#emp-id').val('0000');
+            $('#emp-name').val('');
+            
+            document.getElementById("emp-name").disabled=false;
+            $('#emp-name').focus();
+            $('#show-detail').hide();
+            $('#found').hide();
+            $('#notfound').hide();
         }
-    });
-    $('#searchMed').keyup(function(){
-        $('#searchMed').html('');
-        //alert('searching');
-        $.ajax({
-            url: "includes/login-check.php",
-            type: "POST",
-            data: {
-                action: 'medicine_listbox',
-                name: $('#searchMed').val()
-            },
-            success: function(result){
-                content='';
-                var arr = $.parseJSON(result);
-                $.each(arr, function(k, v) {
-                    content+='<option value="' + k +'" selected>' + v + '</option>';
-                });
-                $('#medicine-list').html(content);
-            }
-        });
     });
     $('#emp-id').keyup(function () {
         if($('#emp-id').val())
@@ -60,14 +54,13 @@ $(document).ready(function(){
                         $('#show-detail').show();
                         $('#found').show();
                         $('#notfound').hide();
-                        $('label#employee-name').text($NAME);
-                        $('label#employee-name').show();
+                        $('#emp-name').val($NAME);
                     }
                     else {
-                        $('label#employee-name').hide();
                         $('#show-detail').show();
                         $('#found').hide();
                         $('#notfound').show();
+                        $('#emp-name').val('');
                     }
                 }
             });
