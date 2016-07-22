@@ -124,7 +124,7 @@ include 'includes/checkInvalidUser.php';
                                                     </div>
 
                                                     <div class="row">
-                                                        <div class="col-md-2 detail">Employee Name</div>
+                                                        <div class="col-md-2 detail">Name</div>
                                                         <div class="col-md-3">
                                                             <input class="form-control input-group" type="text" id="emp-name" name='emp-name' autocomplete="off"/>
                                                         </div>
