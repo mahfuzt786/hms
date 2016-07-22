@@ -38,11 +38,38 @@ if ($action == "confirmLogin") {
     editDrug($mysqli);
 } else if ($action == "delete_drug") {
     delete_drug($mysqli);
+} else if ($action == "checkEmp") {
+    checkEmp($mysqli);
+} else if ($action == "medicine_listbox") {
+    medicine_listbox($mysqli);
+} else if ($action == "medicine_listbox_main") {
+    medicine_listbox_main($mysqli);
 } else {
     throw new Exception("Unknown Action: " + $action);
 }
 
 //if (isset($_POST['frmLogin']))
+function checkEmp($mysqli) {
+    $error = 'false';
+    $eid = strtoupper(getRequestPostDefault('eid', 'null'));
+    $sql = "SELECT employee.*
+            FROM wtfindin_hms.employee
+            WHERE e_emp_id='$eid'";
+    $arRes = $mysqli->query($sql);
+    if (!$arRes) {
+        throw new Exception($mysqli->error);
+    } else {
+        $row = $arRes->fetch_object();
+        if (mysqli_num_rows($arRes) == 0) {
+            echo 0;
+            return false;
+        } else {
+            echo $row->e_name;
+            return true;
+        }
+    }
+}
+
 function delete_drug($mysqli) {
     $error = 'false';
     $id = getRequestPostDefault('id', 'null');
@@ -53,6 +80,7 @@ function delete_drug($mysqli) {
         echo 'Error in Deleting Drug !!';
     }
 }
+
 function editDrug($mysqli) {
     $error = 'false';
     $did = getRequestPostDefault('did', 'null');
@@ -89,6 +117,7 @@ function add_drug($mysqli) {
         echo 'Error in Adding Drug detail !!';
     }
 }
+
 function edit_editDrug($did, $cat, $name, $desc, $price, $company, $man_d, $exp_d, $quantity, $mysqli) {
     $sql = "UPDATE wtfindin_hms.drugs 
                 SET drugs_cat_id='$cat', drugs_name='$name',
@@ -154,6 +183,44 @@ function show_drug($mysqli) {
     return true;
 }
 
+function medicine_listbox($mysqli) {
+    $error = 'false';
+    $name = getRequestPostDefault('name', 'null');
+    $sql = "SELECT wtfindin_hms.drugs.*
+                  FROM wtfindin_hms.drugs
+                  WHERE drugs_status='a' AND drugs_name LIKE '$name%'";
+    $arRes = $mysqli->query($sql);
+
+    $detail = array();
+    while ($row = $arRes->fetch_assoc()) {
+        $k = $row['drugs_id'];
+        $v = $row['drugs_name'];
+
+        $detail["$k"] = "$v";
+    }
+
+    echo json_encode($detail);
+    return true;
+}
+function medicine_listbox_main($mysqli) {
+    $error = 'false';
+    $sql = "SELECT wtfindin_hms.drugs.*
+                  FROM wtfindin_hms.drugs
+                  WHERE drugs_status='a'";
+    $arRes = $mysqli->query($sql);
+
+    $detail = array();
+    while ($row = $arRes->fetch_assoc()) {
+        $k = $row['drugs_id'];
+        $v = $row['drugs_name'];
+
+        $detail["$k"] = "$v";
+    }
+
+    echo json_encode($detail);
+    return true;
+}
+
 function retrieve_drug_category($mysqli) {
     $error = 'false';
     $sql = "SELECT drugscategory.*
@@ -162,10 +229,10 @@ function retrieve_drug_category($mysqli) {
 
     $detail = array();
     while ($row = $arRes->fetch_assoc()) {
-        $k=$row['drugs_cat_id'];
-        $v=$row['drugs_cat'];
+        $k = $row['drugs_cat_id'];
+        $v = $row['drugs_cat'];
 
-        $detail["$k"]= "$v";
+        $detail["$k"] = "$v";
     }
 
     echo json_encode($detail);
@@ -459,6 +526,7 @@ function delete_cat($id, $mysqli) {
         return true;
     }
 }
+
 function delete_drug_detail($id, $mysqli) {
     $sql = "SELECT drugs.*
             FROM wtfindin_hms.drugs

@@ -12,6 +12,20 @@
        <li class="listDashboard">
             <a href="home.php"><span class="fa-stack fa-lg pull-left"><i class="fa fa-dashboard fa-stack-1x "></i></span>Dashboard</a>
         </li>
+        
+        <li>
+            <a href="employee.php"> <span class="fa-stack fa-lg pull-left"><i class="fa fa-user fa-stack-1x "></i></span>Employee</a>
+        </li>
+        
+        <li>
+            <a href="doctor.php"> <span class="fa-stack fa-lg pull-left"><i class="fa fa-user-md fa-stack-1x "></i></span>Doctor</a>
+        </li>
+        <li>
+            <a href="prescription.php"> <span class="fa-stack fa-lg pull-left"><i class="fa fa-file fa-stack-1x "></i></span>Prescription</a>
+        </li>
+        <li>
+            <a href="#"> <span class="fa-stack fa-lg pull-left"><i class="fa fa-users fa-stack-1x "></i></span>Inpatients</a>
+        </li>
         <li>
             <a href="#"> <span class="fa-stack fa-lg pull-left"><i class="fa fa-users fa-stack-1x "></i></span>Outpatients</a>
         </li>

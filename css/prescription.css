@@ -1,0 +1,58 @@
+.tab-prescription{
+    border-bottom: 1px solid lightgrey;
+    border-left: 1px solid lightgrey;
+    border-right: 1px solid lightgrey;
+    margin: 0px;
+}
+.prescription-add-content{
+    margin: 5px;
+    margin-bottom: 20px;
+}
+.prescription-add-content .field{
+    margin-bottom: 5px;
+}
+.prescription-add-header{
+    margin: 10px;
+    border-bottom: 1px solid lightgrey;
+}
+.row-radio{
+    margin-top: 10px;
+}
+.table-pres-list{
+}
+.table-med table {
+    width: 100%;
+    display:block;
+}
+.table-med thead {
+    display: inline-block;
+    width: 100%;
+}
+.table-med tbody{
+    height: 200px;
+    display: inline-block;
+    width: 100%;
+    overflow: auto;
+}
+.radio-field{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.textArea{
+    margin: 0;
+    padding: 0;
+}
+.textArea-content{
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+.btnPres{
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+.detail{
+    margin: 8px;
+    margin-left: 0px;
+}
+.btn-list{padding: 5px;
+}
