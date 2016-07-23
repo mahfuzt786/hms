@@ -92,6 +92,38 @@
 
             return $pass; 
     }
+	
+	/**
+     * Creates SQL WHERE clause with logic:
+     *    - IF searchText contain a space ' ' CHAR, 
+     *          Extract the first word before space CHAR
+     *          Create reverseWord by second word + ' ' + firstword
+     *          RETURN SQL 'OR name LIKE' + reverseWord 
+     *    - ELSE
+     *          RETURN ''
+     * 
+     * Example: 
+     *    - INPUT $searchText = 'Head Hand'
+     *    - RETURN ' OR name LIKE '%Hand%Head%'
+     * 
+     * @param type $searchText
+     * @return type
+     */
+    function createReverseNameSql($searchText){
+        
+        $sqlLikeReverseName     = '';
+        $firstSpaceCharPosition = strpos($searchText, ' ' );
+        if ($firstSpaceCharPosition !== false)
+        {
+            $firstWord              = substr ( $searchText, 0 , $firstSpaceCharPosition );
+            $secondWord             = substr ( $searchText, $firstSpaceCharPosition + 1 );
+            $searchTextRevearse     = $secondWord. ' ' .$firstWord;
+            $searchTextRevearse     = str_replace(' ', '%', $searchTextRevearse);
+            $sqlLikeReverseName     = " OR name LIKE '%$searchTextRevearse%' ";
+        }
+	
+        return $sqlLikeReverseName;
+    }
     
 	
 ?>
