@@ -1,0 +1,38 @@
+.mapping{
+    font-size: 11px;
+    padding: 5px 5px 5px 17px;
+    text-decoration: none;
+}
+.head_employee{
+    margin: 0;
+    padding: 0;
+}
+.head_employee_2{
+    margin: 0;
+    padding: 0;
+}
+.employee-add-content{
+    margin: 5px;
+    margin-bottom: 20px;
+}
+.employee-add-header{
+    border-bottom: 1px solid lightgrey;
+}
+.field{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.field .head{
+    margin-top: 10px;
+}
+.field .head-dropdown{
+    margin-bottom: 15px;
+}
+.row-field{
+    margin-top: -10px;
+    padding-bottom: 10px;
+}
+.head-info{
+    border-right: 1px solid lightgrey;
+    margin-top: 15px;
+}

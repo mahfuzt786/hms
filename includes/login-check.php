@@ -44,11 +44,58 @@ if ($action == "confirmLogin") {
     medicine_listbox($mysqli);
 } else if ($action == "medicine_listbox_main") {
     medicine_listbox_main($mysqli);
+} else if ($action == "addEmployee") {
+    addEmployee($mysqli);
+} else if ($action == "checkEmployeeId") {
+    checkEmployeeId($mysqli);
 } else {
     throw new Exception("Unknown Action: " + $action);
 }
 
 //if (isset($_POST['frmLogin']))
+function checkEmployeeId($mysqli) {
+    $error = 'false';
+    $empid = getRequestPostDefault('empid', 'null');
+    $sql = "SELECT employee.*
+            FROM wtfindin_hms.employee
+            WHERE e_emp_id='$empid'";
+    $arRes = $mysqli->query($sql);
+    if (mysqli_num_rows($arRes) != 0) {
+        echo 'duplicate';
+    }else{
+        echo 'done';
+    }
+    return true;
+}
+
+function addEmployee($mysqli) {
+    $error = 'false';
+    $empid = getRequestPostDefault('empid', 'null');
+    $desid = getRequestPostDefault('desid', 'null');
+    $name = getRequestPostDefault('name', 'null');
+    $salary = getRequestPostDefault('salary', 'null');
+    $age = getRequestPostDefault('age', 'null');
+    $gender = getRequestPostDefault('gender', 'null');
+    $address = getRequestPostDefault('address', 'null');
+
+    if (addEmployeeDetail($empid, $desid, $name, $salary, $age, $gender, $address, $mysqli)) {
+        echo 'done';
+    } else {
+        echo 'Error in Adding Employee detail !!';
+    }
+}
+
+function addEmployeeDetail($empid, $desid, $name, $salary, $age, $gender, $address, $mysqli) {
+    $empid = strtoupper($empid);
+    $sql = "INSERT  INTO wtfindin_hms.employee (e_emp_id, e_des_id, e_name, e_salary, e_age, e_gender, e_address)
+            VALUE ('$empid', '$desid', '$name', '$salary', '$age', '$gender', '$address')";
+    $arRes = $mysqli->query($sql);
+    if (!$arRes) {
+        throw new Exception($mysqli->error);
+    }
+    return true;
+}
+
 function checkEmp($mysqli) {
     $error = 'false';
     $eid = strtoupper(getRequestPostDefault('eid', 'null'));
@@ -202,6 +249,7 @@ function medicine_listbox($mysqli) {
     echo json_encode($detail);
     return true;
 }
+
 function medicine_listbox_main($mysqli) {
     $error = 'false';
     $sql = "SELECT wtfindin_hms.drugs.*
