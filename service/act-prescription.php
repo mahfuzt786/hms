@@ -56,7 +56,7 @@ function checkEmp($mysqli) {
         
         $sqlLikeReverseName 	= createReverseNameSql(getRequestPostDefault('searchText', 'null'));
         
-        $sql    = " SELECT DISTINCT CONCAT(drugs_cat ,' - ', drugs_name) AS name, drugs_name, drugs_id AS ID, drugs_price, drugscategory.drugs_cat_id
+        $sql    = " SELECT DISTINCT CONCAT(drugs_cat ,' - ', drugs_name) AS name, drugs_name, drugs_id AS ID, drugs_price, drugscategory.drugs_cat_id, drugs_quantity
                       FROM wtfindin_hms.drugs
                         JOIN wtfindin_hms.drugscategory
                             ON drugs.drugs_cat_id = drugscategory.drugs_cat_id
@@ -94,6 +94,7 @@ function checkEmp($mysqli) {
         $drugCatId              = getPost('drugCatId');
         $addedQuantity          = getPost('addedQuantity');
 		$drugs_total            = getPost('drugs_total');
+		$drugsTotalQ            = getPost('drugsTotalQ');
 		
 		$validPresc				= validPresc($mysqli);
 		
@@ -116,26 +117,46 @@ function checkEmp($mysqli) {
 			
 			// Create insert SQL insert values
 			$sqlInsertValues = "";
+			$sqlUpdateDrugs = "";
 			for($i=0;$i<sizeof($drug_id);$i++)
 			{
 				if ($i > 0) { 
 					$sqlInsertValues  .= ", ";                     
 				}
+				$newDrugsTotalQ = 0;
 				
-				$sqlInsertValues    .= " ( '$prescriptionId','$drug_id[$i]','$drugCatId[$i]','$addedQuantity[$i]','$drugs_total[$i]')" ;
+				$newDrugsTotalQ = $drugsTotalQ[$i] - $addedQuantity[$i];
+				
+				$sqlInsertValues    .= " ( '$prescriptionId','$drug_id[$i]','$drugCatId[$i]','$addedQuantity[$i]','$drugs_total[$i]')";
+				
+				$sqlUpdate  = "UPDATE wtfindin_hms.drugs SET drugs_quantity = '$newDrugsTotalQ' WHERE drugs_id = '$drug_id[$i]'";
+				
+				// Execute SQL
+				$update_userIngre = $mysqli->query($sqlUpdate);
+				
+				if (!$update_userIngre) {
+					$errorz='1';
+					echo "Error in updating drugs quantity -> ". $mysqli->error;
+				}
+				else {
+					$errorz='0';
+				}
 			}
 			
-			// Create Insert Ingredient SQL
-			$sqlInsert  = "INSERT INTO wtfindin_hms.prescription_drugs (p_id, drug_id, drugCatId, addedQuantity, drugs_total) VALUES " . $sqlInsertValues;
-			
-			// Execute SQL
-			$insert_userIngre = $mysqli->query($sqlInsert);
-			
-			if (!$insert_userIngre) {
-				echo "Error in inserting drugs -> ". $mysqli->error;
-			}
-			else {
-				$errorz='0';
+			if($errorz == '0')
+			{
+				// Create Insert Ingredient SQL
+				$sqlInsert  = "INSERT INTO wtfindin_hms.prescription_drugs (p_id, drug_id, drugCatId, addedQuantity, drugs_total) VALUES " . $sqlInsertValues;
+				
+				// Execute SQL
+				$insert_userIngre = $mysqli->query($sqlInsert);
+				
+				if (!$insert_userIngre) {
+					echo "Error in inserting drugs -> ". $mysqli->error;
+				}
+				else {
+					$errorz='0';
+				}
 			}
 			
 			if($errorz=='0')   {

@@ -91,7 +91,8 @@ $(document).ready(function(){
                             value: Convalue['drugs_name'],
                             id: Convalue['ID'],
                             priceID: Convalue['drugs_price'],
-                            catId: Convalue['drugs_cat_id']
+                            catId: Convalue['drugs_cat_id'],
+                            drugsTotal: Convalue['drugs_quantity']
                         }
                     }));
                 },
@@ -113,7 +114,7 @@ $(document).ready(function(){
             if(ui.item)
             {
                 //var unitPrice=ui.item.priceID;
-                AddFields(ui.item.value, ui.item.id, ui.item.priceID, ui.item.catId);
+                AddFields(ui.item.value, ui.item.id, ui.item.priceID, ui.item.catId, ui.item.drugsTotal);
             }
             else {
                 Lobibox.alert("info",
@@ -149,9 +150,9 @@ $(document).ready(function(){
         });
     };
     
-    function AddFields(drugValue, drugId, drugPrice, categoryId)
+    function AddFields(drugValue, drugId, drugPrice, categoryId, drugsTotal)
     {
-        var rowDrugAdd=addIDs(drugValue, drugId, drugPrice, categoryId, i);
+        var rowDrugAdd=addIDs(drugValue, drugId, drugPrice, categoryId, drugsTotal, i);
         if(rowDrugAdd=='done') {
             $('#row5').show();
         }
@@ -165,7 +166,7 @@ $(document).ready(function(){
         i=i+1;
     }
     
-    function addIDs(drugValue, drugId, drugPrice, categoryId, i)
+    function addIDs(drugValue, drugId, drugPrice, categoryId, drugsTotal, i)
     {
         var duplicateHerb=1;
         drugPrice = Number(drugPrice).toFixed(2);
@@ -193,6 +194,7 @@ $(document).ready(function(){
             '<input id="drugs_name" name="drugs_name" placeholder="Name" readonly class="form-control input-group" type="text" value="'+drugValue+'"/>'+
             '<input id="drugs_id" name="drugs_id[]" readonly class="form-control input-group" type="hidden" value="'+drugId+'" />'+
             '<input id="drugCatId" name="drugCatId[]" readonly class="form-control input-group" type="hidden" value="'+categoryId+'" />'+
+            '<input id="drugsTotalQ" name="drugsTotalQ[]" readonly class="form-control input-group" type="hidden" value="'+drugsTotal+'" />'+
             '</div>'+
             '<div class="col-md-2 col-mod">'+
             '<input id="addedQuantity" name="addedQuantity[]" placeholder="Quantity" class="form-control input-group" type="text" value="1"/>'+
@@ -244,6 +246,19 @@ $(document).ready(function(){
         }
         
         $(this).parent().parent().find('#drugs_total').val(Number($(this).parent().parent().find('#drugs_Price').val() * this.value).toFixed(2));
+        
+        var maxQuantity = $(this).parent().parent().find('#drugsTotalQ').val();
+        
+        if(Number(this.value) > Number(maxQuantity))
+        {
+            Lobibox.alert("error",
+            {
+                msg: 'It has only '+ maxQuantity +' left in stock. Please enter less than that.'
+            });
+            
+            $(this).parent().parent().find('#addedQuantity').val(maxQuantity);
+            $(this).parent().parent().find('#drugs_total').val(Number($(this).parent().parent().find('#drugs_Price').val() * maxQuantity).toFixed(2));
+        }
     });
     
     /** save pres. in DB **/
