@@ -4,12 +4,13 @@ $(document).ready(function(){
     $('#found').hide();
     $('#notfound').hide();
     $('label#employee-name').hide();
-    $('#emp-id').focus();
+    $('#employee_id').focus();
     $(".nav-tabs a").click(function(){
         $(this).tab('show');
     });
+    document.getElementById("p-id").disabled=true;
     document.getElementById("emp-name").disabled=true;
-    document.getElementById("emp-id").disabled=true; 
+    document.getElementById("employee_id").disabled=true;
 
     $('input[name="patientType"]').change(function(){
         var type=$(this).val();
@@ -17,17 +18,17 @@ $(document).ready(function(){
             //alert('inpatient');
             document.getElementById("emp-name").disabled=true;
             
-            document.getElementById("emp-id").disabled=false;
-            $('#emp-id').val('');
+            document.getElementById("employee_id").disabled=false;
+            $('#employee_id').val('');
             
-            $('#emp-id').focus();
+            $('#employee_id').focus();
             $('#show-detail').hide();
             $('#found').hide();
             $('#notfound').hide();
             
         } else if(type=='outPatient') {
-            document.getElementById("emp-id").disabled=true;
-            $('#emp-id').val('0000');
+            document.getElementById("employee_id").disabled=true;
+            $('#employee_id').val('0000');
             $('#emp-name').val('');
             
             document.getElementById("emp-name").disabled=false;
@@ -38,15 +39,15 @@ $(document).ready(function(){
         }
     });
     
-    $('#emp-id').keyup(function () {
-        if($('#emp-id').val())
+    $('#employee_id').keyup(function () {
+        if($('#employee_id').val())
         {
             $.ajax({
                 url: "service/act-prescription.php",
                 type: "POST",
                 data: {
                     action: 'checkEmp',
-                    eid: $('input#emp-id').val()
+                    eid: $('input#employee_id').val()
                 },
                 //dataType: "json",
                 success: function(result){
@@ -148,12 +149,6 @@ $(document).ready(function(){
         });
     };
     
-    $('#GramsQuan').on('keyup',function () {
-        if (!this.value.match(/^([0-9]{0,9})$/)) {
-            this.value = this.value.replace(/[^0-9]/g, '').substring(0,9);                        
-        }
-    });
-    
     function AddFields(drugValue, drugId, drugPrice, categoryId)
     {
         var rowDrugAdd=addIDs(drugValue, drugId, drugPrice, categoryId, i);
@@ -173,6 +168,7 @@ $(document).ready(function(){
     function addIDs(drugValue, drugId, drugPrice, categoryId, i)
     {
         var duplicateHerb=1;
+        drugPrice = Number(drugPrice).toFixed(2);
         
         for(var z=0; z <(i+1); z++)
         {
@@ -194,18 +190,18 @@ $(document).ready(function(){
             var strAdd='<div class="row row-item displayNamez" id="Added'+i+'">'+
             //'<div class="col-md-1 text-center slno col-mod">('+ Number(i+1) +')</div>'+
             '<div class="col-md-4 col-mod">'+
-            '<input id="drugs_name" name="drugs_name" placeholder="Name" readonly class="form-control input-group" type="text"/>'+
-            '<input id="drugs_id" name="drugs_id[]" readonly class="form-control input-group" type="hidden" />'+
-            '<input id="drugs_cat" name="drugs_cat[]" readonly class="form-control input-group" type="hidden" />'+
+            '<input id="drugs_name" name="drugs_name" placeholder="Name" readonly class="form-control input-group" type="text" value="'+drugValue+'"/>'+
+            '<input id="drugs_id" name="drugs_id[]" readonly class="form-control input-group" type="hidden" value="'+drugId+'" />'+
+            '<input id="drugCatId" name="drugCatId[]" readonly class="form-control input-group" type="hidden" value="'+categoryId+'" />'+
             '</div>'+
             '<div class="col-md-2 col-mod">'+
-            '<input id="addedQuantity" name="addedQuantity[]" placeholder="Quantity" class="form-control input-group" type="text"/>'+
+            '<input id="addedQuantity" name="addedQuantity[]" placeholder="Quantity" class="form-control input-group" type="text" value="1"/>'+
             '</div>'+
             '<div class="col-md-2 col-mod">'+
-            '<input id="drugs_Price" name="drugs_Price" placeholder="Price" readonly class="form-control input-group" type="text"/>'+
+            '<input id="drugs_Price" name="drugs_Price" placeholder="Price" readonly class="form-control input-group" type="text" value="'+drugPrice+'"/>'+
             '</div>'+
             '<div class="col-md-2 col-mod">'+
-            '<input id="drugs_total" name="drugs_total[]" placeholder="Total" readonly class="form-control input-group" type="text"/>'+
+            '<input id="drugs_total" name="drugs_total[]" placeholder="Total" readonly class="form-control input-group" type="text" value="'+drugPrice+'"/>'+
             '</div>'+
             '<div class="col-md-2 col-mod">'+
             '<button type="button" class="btn btn-block btn-primary" id="txtDel">'+
@@ -215,14 +211,6 @@ $(document).ready(function(){
             '</div>';
                         
             $('#addedDrugs').append(strAdd);
-            
-            $("#Added"+i+" #drugs_name").val(drugValue);
-            $("#Added"+i+" #drugs_id").val(drugId);
-            $("#Added"+i+" #drugs_cat").val(categoryId);
-            $("#Added"+i+" #drugs_Price").val(drugPrice);
-            $("#Added"+i+" #addedQuantity").val('1');
-            $("#Added"+i+" #drugs_total").val(drugPrice);
-            
             
             $('#search_box').val('');
             $('#search_box').focus();
@@ -250,10 +238,97 @@ $(document).ready(function(){
         });
     });
     
-    /** save pres. in DB **/
-    $('#btnAddPrescription').on('click', function(e) {
-        e.preventDefault();
+    $('#addedDrugs').on('keyup', '#addedQuantity', function () {
+        if (!this.value.match(/^([0-9]{0,3})$/)) {
+            this.value = this.value.replace(/[^0-9]/g, '').substring(0,3);                        
+        }
         
-        alert('working..');
+        $(this).parent().parent().find('#drugs_total').val(Number($(this).parent().parent().find('#drugs_Price').val() * this.value).toFixed(2));
+    });
+    
+    /** save pres. in DB **/
+    $('#btnAddPrescription').on('click', function() {
+        
+        $('#action').val("addPres");
+        
+        if($('#Customprescription #doctor_id').val()=='' || $('#Customprescription #doctor_id').val()==null) {
+            Lobibox.alert("error",
+            {
+                msg: 'Please Select a Doctor'
+            });
+        }
+        else if($('#Customprescription input[name="patientType"]').val()=='' || $('#Customprescription input[name="patientType"]').val()==null) {
+            Lobibox.alert("error",
+            {
+                msg: 'Please select Patient type'
+            });
+        }
+        else if($('#Customprescription #employee_id').val()=='' || $('#Customprescription #employee_id').val()==null) {
+            Lobibox.alert("error",
+            {
+                msg: 'Please enter employee id'
+            });
+        }
+        else if($('#Customprescription #emp-name').val()=='' || $('#Customprescription #emp-name').val()==null) {
+            Lobibox.alert("error",
+            {
+                msg: 'Please enter employee name'
+            });
+        }
+        else if($('#addedDrugs .displayNamez').length < 1) {
+            Lobibox.alert("error",
+            {
+                msg: 'Please enter minimum 1 drug in Prescription'
+            });
+        }
+        else if($('#Customprescription #p_remark').val()=='' || $('#Customprescription #p_remark').val()==null) {
+            Lobibox.alert("error",
+            {
+                msg: 'Please enter remark'
+            });
+        }
+        else if($('#Customprescription #p_note').val()=='' || $('#Customprescription #p_note').val()==null) {
+            Lobibox.alert("error",
+            {
+                msg: 'Please enter note'
+            });
+        }
+        else {
+            document.getElementById("employee_id").disabled=false;
+            document.getElementById("employee_id").readonly=true;
+            document.getElementById("emp-name").disabled=false;
+            document.getElementById("emp-name").readonly=true;
+            
+            $.ajax({
+                url: "service/act-prescription.php",
+                type: "POST",
+                data: $('#Customprescription').serialize(),
+                //dataType: "json",
+                success: function(result){
+                if(result=='done')
+                    {
+                        Lobibox.alert("success",
+                        {
+                            msg: 'Prescription successfully added !!',
+                            callback: function ($this, type, ev) {
+                                location.reload();
+                            }
+                        });
+                    }
+                    else {
+                        Lobibox.alert("error",
+                        {
+                            msg: result
+                        });
+                    }
+                },
+                error: function (a,b,c) {
+                    Lobibox.alert("error",
+                    {
+                        msg: 'error in Adding Prescription'
+                    });
+                }
+            });
+        }
     });
 });

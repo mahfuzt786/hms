@@ -80,12 +80,32 @@ include 'includes/checkInvalidUser.php';
                                                 <h4><span class="fa fa-plus"></span> Add Prescription</h4>
                                             </div>
                                             <div class="prescription-add-content">
-                                                <form action="" id="frm-add-prescription">
+                                                <form name="Customprescription" id="Customprescription" action="<?php $_SERVER["PHP_SELF"];?>" method="post" enctype="multipart/form-data">
+                                                    <input id="action" type="hidden" name="action" value="" />
+                                                    <div class="row">
+                                                        <div class="col-md-2 detail">Prescription ID</div>
+                                                        <div class="col-md-3">
+                                                            <?php
+                                                                $pid=0;
+                                                                $sql = "SELECT prescription.p_id
+                                                                        FROM wtfindin_hms.prescription";
+                                                                $arRes = $mysqli->query($sql);
+                                                                if (!$arRes) {
+                                                                    throw new Exception($mysqli->error);
+                                                                } else {
+                                                                    if (mysqli_num_rows($arRes) != 0) {
+                                                                        $pid=$pid+1;
+                                                                    }
+                                                                }
+                                                            ?>
+                                                            <label class="pres-id" id="p-id" name='p-id'><?php echo "P".$pid;?></label>
+                                                        </div>
+                                                    </div>
                                                     <div class="row">
                                                         <div class="col-md-2 detail">Doctor Name</div>
                                                         <div class="col-md-3">
-                                                            <select id="doc-id" class="form-control input-group">
-                                                                <option value="select doctor">Select Doctor</option>
+                                                            <select id="doctor_id" name="doctor_id" class="form-control input-group">
+                                                                <option value="">Select Doctor</option>
                                                                 <?php
                                                                 $sql = "SELECT doctor.*
                                                                         FROM wtfindin_hms.doctor";
@@ -105,7 +125,7 @@ include 'includes/checkInvalidUser.php';
                                                         <div class="col-md-2 detail">Patient Type</div>
                                                         <div class="col-md-1 detail">
                                                             <label class="radio-inline">
-                                                                <input type="radio" value="inPatient" id="patientType1" name="patientType" >InPatient
+                                                                <input type="radio" value="inPatient" id="patientType1" name="patientType">InPatient
                                                             </label>
                                                         </div>
                                                         <div class="col-md-1 detail">
@@ -117,7 +137,7 @@ include 'includes/checkInvalidUser.php';
                                                     <div class="row">
                                                         <div class="col-md-2 detail">Employee ID</div>
                                                         <div class="col-md-3">
-                                                            <input class="form-control input-group" type="text" id="emp-id" name='emp-id' autocomplete="off"/>
+                                                            <input class="form-control input-group" type="text" id="employee_id" name='employee_id' autocomplete="off"/>
                                                         </div>
                                                         <div class="col-md-5 detail" id="show-detail">
                                                             <i class="glyphicon glyphicon-ok" id="found"></i>
@@ -179,13 +199,13 @@ include 'includes/checkInvalidUser.php';
                                                         <div class="col-md-6 textArea">
                                                             <div class="col-md-12">
                                                                 <div>Remark</div>
-                                                                <textarea class="form-control" type="text" id="date" name='date' autocomplete="off" style="resize: none;"></textarea>
+                                                                <textarea class="form-control" type="text" id="p_remark" name='p_remark' autocomplete="off" style="resize: none;"></textarea>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6 textArea">
                                                             <div class="col-md-12">
                                                                 <div>Note</div>
-                                                                <textarea class="form-control" type="text" id="date" name='date' autocomplete="off" style="resize: none;"></textarea>
+                                                                <textarea class="form-control" type="text" id="p_note" name='p_note' autocomplete="off" style="resize: none;"></textarea>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -199,7 +219,7 @@ include 'includes/checkInvalidUser.php';
                                             </div>
 
                                         </div>
-
+                                        
                                         <!--second tab-->
                                         <div id="prescriptionlist" class="tab-pane fade">
                                         </div>

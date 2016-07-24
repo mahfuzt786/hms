@@ -13,6 +13,9 @@ $action = $_REQUEST['action']; //Calling program must pass action
 if ($action == "checkEmp") {
     checkEmp($mysqli);
 }
+elseif ($action == "addPres") {
+    addPres($mysqli);
+}
 elseif  ($action == "getSuggest" )
 {
     $ListofSearch['0'] =  getSuggest($mysqli);
@@ -76,5 +79,112 @@ function checkEmp($mysqli) {
         }
         return $allResults;
     }
-
+	
+	/** add prescription **/
+	function addPres($mysqli)
+	{
+		$doctor_id       		= cleanValue($mysqli, getPost('doctor_id'));
+        $patientType         	= cleanValue($mysqli, getPost('patientType'));
+        $employee_id   			= cleanValue($mysqli, getPost('employee_id'));
+		$empName				= cleanValue($mysqli, getPost('emp-name'));
+        $p_remark               = cleanValue($mysqli, getPost('p_remark'));
+        $p_note                	= cleanValue($mysqli, getPost('p_note'));
+        
+        $drug_id                = getPost('drugs_id');
+        $drugCatId              = getPost('drugCatId');
+        $addedQuantity          = getPost('addedQuantity');
+		$drugs_total            = getPost('drugs_total');
+		
+		$validPresc				= validPresc($mysqli);
+		
+		if($validPresc=='valid') {
+			$errorz='1';
+			
+			$sql=("INSERT INTO wtfindin_hms.prescription (doctor_id, patient_type, employee_id, empName, p_remark, p_note)
+						VALUES ( '$doctor_id','$patientType','$employee_id','$empName','$p_remark','$p_note')");
+				    
+			$insert_user = $mysqli->query($sql);
+			if (!$insert_user) {
+				echo "Error in adding into prescription -> ". $mysqli->error;
+			}
+			else {
+				$errorz='0';
+			}
+			
+			$prescriptionId=  $mysqli->insert_id;
+			
+			
+			// Create insert SQL insert values
+			$sqlInsertValues = "";
+			for($i=0;$i<sizeof($drug_id);$i++)
+			{
+				if ($i > 0) { 
+					$sqlInsertValues  .= ", ";                     
+				}
+				
+				$sqlInsertValues    .= " ( '$prescriptionId','$drug_id[$i]','$drugCatId[$i]','$addedQuantity[$i]','$drugs_total[$i]')" ;
+			}
+			
+			// Create Insert Ingredient SQL
+			$sqlInsert  = "INSERT INTO wtfindin_hms.prescription_drugs (p_id, drug_id, drugCatId, addedQuantity, drugs_total) VALUES " . $sqlInsertValues;
+			
+			// Execute SQL
+			$insert_userIngre = $mysqli->query($sqlInsert);
+			
+			if (!$insert_userIngre) {
+				echo "Error in inserting drugs -> ". $mysqli->error;
+			}
+			else {
+				$errorz='0';
+			}
+			
+			if($errorz=='0')   {
+				echo "done";
+			}
+		}
+		else {
+			echo $validGranule;
+		}
+	}
+	
+	function validPresc($mysqli)
+	{
+		$doctor_id       		= cleanValue($mysqli, getPost('doctor_id'));
+        $patientType         	= cleanValue($mysqli, getPost('patientType'));
+        $employee_id   			= cleanValue($mysqli, getPost('employee_id'));
+		$empName				= cleanValue($mysqli, getPost('emp-name'));
+        $p_remark               = cleanValue($mysqli, getPost('p_remark'));
+        $p_note                	= cleanValue($mysqli, getPost('p_note'));
+		
+		$drug_id                = getPost('drugs_id');
+	
+		if( $doctor_id== 'null' || $doctor_id== null)
+        {
+            return "Please Select a Doctor";
+        }
+		elseif($patientType == 'null' || $patientType== null) {
+			return "Please select Patient type";
+		}
+		elseif( $employee_id== 'null' || $employee_id== null )
+        {
+            return "Please enter employee id";
+        }
+		elseif( $empName== 'null' || $empName== null )
+        {
+            return "Please enter employee name";
+        }
+		elseif($p_remark == 'null' || $p_remark== null) {
+			return "Please enter remark";
+		}
+		elseif($p_note == 'null' || $p_note== null) {
+			return "Please enter note";
+		}
+		elseif(sizeof($drug_id) < 1)
+		{
+			return 'Please enter minimum 1 drug in Prescription';
+		}
+		else {
+			return "valid";
+		}
+	}
 ?>
