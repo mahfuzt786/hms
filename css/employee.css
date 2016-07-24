@@ -36,3 +36,14 @@
     border-right: 1px solid lightgrey;
     margin-top: 15px;
 }
+.row-mod{
+    font-size: 13px;
+    margin-left: 0;
+    margin-bottom: 10px;
+}
+.empdetail{
+    background: lightgoldenrodyellow;
+}
+.empdetail .col-md-2{
+    font-weight: bold;
+}
