@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.9
+-- version 4.2.11
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 24, 2016 at 07:32 AM
--- Server version: 5.5.34
--- PHP Version: 5.4.22
+-- Generation Time: Jul 24, 2016 at 11:14 AM
+-- Server version: 5.6.21
+-- PHP Version: 5.6.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -29,9 +29,7 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `doctor` (
   `d_id` int(100) NOT NULL,
   `d_name` varchar(100) NOT NULL,
-  `d_designation` varchar(100) NOT NULL,
-  PRIMARY KEY (`d_id`),
-  UNIQUE KEY `d_designation` (`d_designation`)
+  `d_designation` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -49,30 +47,29 @@ INSERT INTO `doctor` (`d_id`, `d_name`, `d_designation`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `drugs` (
-  `drugs_id` int(100) NOT NULL AUTO_INCREMENT,
+`drugs_id` int(100) NOT NULL,
   `drugs_cat_id` int(100) NOT NULL,
   `drugs_name` varchar(100) NOT NULL,
   `drugs_description` varchar(200) NOT NULL,
   `drugs_price` int(30) NOT NULL,
   `drugs_company` varchar(100) NOT NULL,
   `drugs_quantity` int(100) NOT NULL,
-  `drugs_manufacturing_date` varchar(50) NOT NULL,
-  `drugs_expiry_date` timestamp NULL DEFAULT NULL,
+  `drugs_manufacturing_date` varchar(10) NOT NULL,
+  `drugs_expiry_date` varchar(10) DEFAULT NULL,
   `drugs_entry_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `isAvailable` enum('Y','N') NOT NULL DEFAULT 'Y',
-  PRIMARY KEY (`drugs_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+  `isAvailable` enum('Y','N') NOT NULL DEFAULT 'Y'
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `drugs`
 --
 
 INSERT INTO `drugs` (`drugs_id`, `drugs_cat_id`, `drugs_name`, `drugs_description`, `drugs_price`, `drugs_company`, `drugs_quantity`, `drugs_manufacturing_date`, `drugs_expiry_date`, `drugs_entry_date`, `isAvailable`) VALUES
-(2, 4, 'Nicip Plus', 'Paracetamol Tablet for Fever', 10, 'ITC', 300, '20/1/12', '2016-02-15 18:30:00', '2016-07-23 15:42:05', 'Y'),
-(3, 4, 'nice', 'nice tablets for fever and cold', 10, 'r and d company ltd.', 90, '13/04/2018', '0000-00-00 00:00:00', '2016-07-23 15:42:42', 'Y'),
-(4, 7, 'livsav plus', 'liver tonic', 130, 'Gayetri company', 15, '24/10/2018', '0000-00-00 00:00:00', '2016-07-23 15:42:46', 'Y'),
-(5, 8, 'citricoto', 'alergy lotion', 140, 'citric acid ltd', 100, '07/09/2015', '0000-00-00 00:00:00', '2016-07-23 15:42:50', 'Y'),
-(7, 4, 'sss', 'sssss', 90, 'sss', 100, '06/07/2016', '0000-00-00 00:00:00', '2016-07-23 15:42:53', 'Y');
+(2, 4, 'Nicip Plus', 'Paracetamol Tablet for Fever', 10, 'ITC', 300, '01/07/2016', '30/07/2016', '2016-07-24 07:17:43', 'Y'),
+(3, 4, 'nice', 'nice tablets for fever and cold', 10, 'r and d company ltd.', 90, '13/04/2018', '30/07/2016', '2016-07-24 07:17:55', 'Y'),
+(4, 7, 'livsav plus', 'liver tonic', 130, 'Gayetri company', 15, '24/10/2018', '30/07/2016', '2016-07-24 07:18:03', 'Y'),
+(5, 8, 'citricoto', 'alergy lotion', 140, 'citric acid ltd', 100, '07/09/2015', '30/07/2016', '2016-07-24 07:18:15', 'Y'),
+(7, 4, 'sss', 'sssss', 90, 'sss', 100, '06/07/2016', '29/07/2016', '2016-07-24 07:17:31', 'Y');
 
 -- --------------------------------------------------------
 
@@ -81,12 +78,11 @@ INSERT INTO `drugs` (`drugs_id`, `drugs_cat_id`, `drugs_name`, `drugs_descriptio
 --
 
 CREATE TABLE IF NOT EXISTS `drugscategory` (
-  `drugs_cat_id` int(100) NOT NULL AUTO_INCREMENT,
+`drugs_cat_id` int(100) NOT NULL,
   `drugs_cat` varchar(100) NOT NULL,
   `drugs_cat_desc` varchar(100) NOT NULL,
-  `drugs_cat_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`drugs_cat_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+  `drugs_cat_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `drugscategory`
@@ -105,7 +101,7 @@ INSERT INTO `drugscategory` (`drugs_cat_id`, `drugs_cat`, `drugs_cat_desc`, `dru
 --
 
 CREATE TABLE IF NOT EXISTS `employee` (
-  `e_id` int(100) NOT NULL AUTO_INCREMENT,
+`e_id` int(100) NOT NULL,
   `e_emp_id` varchar(100) NOT NULL,
   `e_des_id` int(100) NOT NULL,
   `e_name` varchar(100) NOT NULL,
@@ -113,18 +109,17 @@ CREATE TABLE IF NOT EXISTS `employee` (
   `e_age` int(3) NOT NULL,
   `e_gender` enum('male','female') NOT NULL,
   `e_address` varchar(100) NOT NULL,
-  PRIMARY KEY (`e_id`),
-  UNIQUE KEY `e_emp_id` (`e_emp_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+  `isActive` enum('Y','N') NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `employee`
 --
 
-INSERT INTO `employee` (`e_id`, `e_emp_id`, `e_des_id`, `e_name`, `e_salary`, `e_age`, `e_gender`, `e_address`) VALUES
-(1, 'EMP1001', 1, 'Debojit Deori', 10000, 27, 'male', 'Sonari Court Colony, Sibsagar'),
-(2, 'EMP1002', 2, 'Manash Jyoti Gogoi', 9000, 27, 'male', 'Meteka Gaon, Sibsagar'),
-(3, 'EMP1003', 3, 'Sridevi Karmakar', 5000, 30, 'female', 'Borsillah Tea Estate');
+INSERT INTO `employee` (`e_id`, `e_emp_id`, `e_des_id`, `e_name`, `e_salary`, `e_age`, `e_gender`, `e_address`, `isActive`) VALUES
+(1, 'EMP1001', 1, 'Debojit Deori', 10000, 27, 'male', 'Sonari Court Colony, Sibsagar', 'Y'),
+(2, 'EMP1002', 2, 'Manash Jyoti Gogoi', 9000, 27, 'male', 'Meteka Gaon, Sibsagar', 'Y'),
+(3, 'EMP1003', 3, 'Sridevi Karmakar', 5000, 30, 'female', 'Borsillah Tea Estate', 'Y');
 
 -- --------------------------------------------------------
 
@@ -133,11 +128,9 @@ INSERT INTO `employee` (`e_id`, `e_emp_id`, `e_des_id`, `e_name`, `e_salary`, `e
 --
 
 CREATE TABLE IF NOT EXISTS `employee_designation` (
-  `e_des_id` int(100) NOT NULL AUTO_INCREMENT,
-  `e_des` varchar(30) NOT NULL,
-  PRIMARY KEY (`e_des_id`),
-  UNIQUE KEY `e_des` (`e_des`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+`e_des_id` int(100) NOT NULL,
+  `e_des` varchar(30) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `employee_designation`
@@ -155,16 +148,15 @@ INSERT INTO `employee_designation` (`e_des_id`, `e_des`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `prescription` (
-  `p_id` int(100) NOT NULL AUTO_INCREMENT,
+`p_id` int(100) NOT NULL,
   `doctor_id` int(100) NOT NULL,
   `patient_type` enum('inPatient','outPatient') NOT NULL DEFAULT 'inPatient',
   `employee_id` int(100) NOT NULL,
   `p_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `p_remark` varchar(100) NOT NULL,
   `p_note` varchar(100) NOT NULL,
-  `updateDate` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`p_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+  `updateDate` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `prescription`
@@ -180,14 +172,13 @@ INSERT INTO `prescription` (`p_id`, `doctor_id`, `patient_type`, `employee_id`, 
 --
 
 CREATE TABLE IF NOT EXISTS `prescription_drugs` (
-  `pdId` int(11) NOT NULL AUTO_INCREMENT,
+`pdId` int(11) NOT NULL,
   `p_id` int(11) NOT NULL,
   `drug_id` int(11) NOT NULL,
   `drugCatId` int(11) NOT NULL,
   `addedQuantity` varchar(45) NOT NULL DEFAULT '1',
-  `drugs_total` varchar(45) NOT NULL,
-  PRIMARY KEY (`pdId`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  `drugs_total` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -196,13 +187,12 @@ CREATE TABLE IF NOT EXISTS `prescription_drugs` (
 --
 
 CREATE TABLE IF NOT EXISTS `user` (
-  `userId` int(5) NOT NULL AUTO_INCREMENT,
+`userId` int(5) NOT NULL,
   `loginId` varchar(100) NOT NULL,
   `first_name` varchar(30) NOT NULL,
   `last_name` varchar(30) NOT NULL,
-  `password` varchar(100) NOT NULL,
-  PRIMARY KEY (`userId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+  `password` varchar(100) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `user`
@@ -218,12 +208,11 @@ INSERT INTO `user` (`userId`, `loginId`, `first_name`, `last_name`, `password`) 
 --
 
 CREATE TABLE IF NOT EXISTS `userlogin` (
-  `userLoginId` int(11) NOT NULL AUTO_INCREMENT,
+`userLoginId` int(11) NOT NULL,
   `loginDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `userId` int(11) NOT NULL,
-  `remote_addr` varchar(45) NOT NULL,
-  PRIMARY KEY (`userLoginId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=45 ;
+  `remote_addr` varchar(45) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `userlogin`
@@ -273,8 +262,111 @@ INSERT INTO `userlogin` (`userLoginId`, `loginDate`, `userId`, `remote_addr`) VA
 (41, '2016-07-21 13:07:03', 1, '::1'),
 (42, '2016-07-22 17:32:44', 1, '::1'),
 (43, '2016-07-23 02:20:19', 1, '::1'),
-(44, '2016-07-24 05:13:38', 1, '::1');
+(44, '2016-07-24 05:13:38', 1, '::1'),
+(45, '2016-07-24 08:18:24', 1, '127.0.0.1');
 
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `doctor`
+--
+ALTER TABLE `doctor`
+ ADD PRIMARY KEY (`d_id`), ADD UNIQUE KEY `d_designation` (`d_designation`);
+
+--
+-- Indexes for table `drugs`
+--
+ALTER TABLE `drugs`
+ ADD PRIMARY KEY (`drugs_id`);
+
+--
+-- Indexes for table `drugscategory`
+--
+ALTER TABLE `drugscategory`
+ ADD PRIMARY KEY (`drugs_cat_id`);
+
+--
+-- Indexes for table `employee`
+--
+ALTER TABLE `employee`
+ ADD PRIMARY KEY (`e_id`), ADD UNIQUE KEY `e_emp_id` (`e_emp_id`);
+
+--
+-- Indexes for table `employee_designation`
+--
+ALTER TABLE `employee_designation`
+ ADD PRIMARY KEY (`e_des_id`), ADD UNIQUE KEY `e_des` (`e_des`);
+
+--
+-- Indexes for table `prescription`
+--
+ALTER TABLE `prescription`
+ ADD PRIMARY KEY (`p_id`);
+
+--
+-- Indexes for table `prescription_drugs`
+--
+ALTER TABLE `prescription_drugs`
+ ADD PRIMARY KEY (`pdId`);
+
+--
+-- Indexes for table `user`
+--
+ALTER TABLE `user`
+ ADD PRIMARY KEY (`userId`);
+
+--
+-- Indexes for table `userlogin`
+--
+ALTER TABLE `userlogin`
+ ADD PRIMARY KEY (`userLoginId`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `drugs`
+--
+ALTER TABLE `drugs`
+MODIFY `drugs_id` int(100) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+--
+-- AUTO_INCREMENT for table `drugscategory`
+--
+ALTER TABLE `drugscategory`
+MODIFY `drugs_cat_id` int(100) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+--
+-- AUTO_INCREMENT for table `employee`
+--
+ALTER TABLE `employee`
+MODIFY `e_id` int(100) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `employee_designation`
+--
+ALTER TABLE `employee_designation`
+MODIFY `e_des_id` int(100) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `prescription`
+--
+ALTER TABLE `prescription`
+MODIFY `p_id` int(100) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `prescription_drugs`
+--
+ALTER TABLE `prescription_drugs`
+MODIFY `pdId` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `user`
+--
+ALTER TABLE `user`
+MODIFY `userId` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `userlogin`
+--
+ALTER TABLE `userlogin`
+MODIFY `userLoginId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=46;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
