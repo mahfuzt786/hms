@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 23, 2016 at 03:06 PM
+-- Generation Time: Jul 24, 2016 at 07:32 AM
 -- Server version: 5.5.34
 -- PHP Version: 5.4.22
 
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `drugs` (
   `drugs_manufacturing_date` varchar(50) NOT NULL,
   `drugs_expiry_date` timestamp NULL DEFAULT NULL,
   `drugs_entry_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `drugs_status` varchar(2) NOT NULL,
+  `isAvailable` enum('Y','N') NOT NULL DEFAULT 'Y',
   PRIMARY KEY (`drugs_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
@@ -67,12 +67,12 @@ CREATE TABLE IF NOT EXISTS `drugs` (
 -- Dumping data for table `drugs`
 --
 
-INSERT INTO `drugs` (`drugs_id`, `drugs_cat_id`, `drugs_name`, `drugs_description`, `drugs_price`, `drugs_company`, `drugs_quantity`, `drugs_manufacturing_date`, `drugs_expiry_date`, `drugs_entry_date`, `drugs_status`) VALUES
-(2, 4, 'Nicip Plus', 'Paracetamol Tablet for Fever', 10, 'ITC', 300, '20/1/12', '2016-02-15 18:30:00', '2016-07-19 09:51:37', 'e'),
-(3, 4, 'nice', 'nice tablets for fever and cold', 10, 'r and d company ltd.', 90, '13/04/2018', '0000-00-00 00:00:00', '2016-07-21 13:00:49', 'a'),
-(4, 7, 'livsav plus', 'liver tonic', 130, 'Gayetri company', 15, '24/10/2018', '0000-00-00 00:00:00', '2016-07-21 13:01:04', 'a'),
-(5, 8, 'citricoto', 'alergy lotion', 140, 'citric acid ltd', 100, '07/09/2015', '0000-00-00 00:00:00', '2016-07-21 04:22:37', 'a'),
-(7, 4, 'sss', 'sssss', 90, 'sss', 100, '06/07/2016', '0000-00-00 00:00:00', '2016-07-22 01:24:58', 'a');
+INSERT INTO `drugs` (`drugs_id`, `drugs_cat_id`, `drugs_name`, `drugs_description`, `drugs_price`, `drugs_company`, `drugs_quantity`, `drugs_manufacturing_date`, `drugs_expiry_date`, `drugs_entry_date`, `isAvailable`) VALUES
+(2, 4, 'Nicip Plus', 'Paracetamol Tablet for Fever', 10, 'ITC', 300, '20/1/12', '2016-02-15 18:30:00', '2016-07-23 15:42:05', 'Y'),
+(3, 4, 'nice', 'nice tablets for fever and cold', 10, 'r and d company ltd.', 90, '13/04/2018', '0000-00-00 00:00:00', '2016-07-23 15:42:42', 'Y'),
+(4, 7, 'livsav plus', 'liver tonic', 130, 'Gayetri company', 15, '24/10/2018', '0000-00-00 00:00:00', '2016-07-23 15:42:46', 'Y'),
+(5, 8, 'citricoto', 'alergy lotion', 140, 'citric acid ltd', 100, '07/09/2015', '0000-00-00 00:00:00', '2016-07-23 15:42:50', 'Y'),
+(7, 4, 'sss', 'sssss', 90, 'sss', 100, '06/07/2016', '0000-00-00 00:00:00', '2016-07-23 15:42:53', 'Y');
 
 -- --------------------------------------------------------
 
@@ -184,6 +184,8 @@ CREATE TABLE IF NOT EXISTS `prescription_drugs` (
   `p_id` int(11) NOT NULL,
   `drug_id` int(11) NOT NULL,
   `drugCatId` int(11) NOT NULL,
+  `addedQuantity` varchar(45) NOT NULL DEFAULT '1',
+  `drugs_total` varchar(45) NOT NULL,
   PRIMARY KEY (`pdId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
@@ -221,7 +223,7 @@ CREATE TABLE IF NOT EXISTS `userlogin` (
   `userId` int(11) NOT NULL,
   `remote_addr` varchar(45) NOT NULL,
   PRIMARY KEY (`userLoginId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=44 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=45 ;
 
 --
 -- Dumping data for table `userlogin`
@@ -270,7 +272,8 @@ INSERT INTO `userlogin` (`userLoginId`, `loginDate`, `userId`, `remote_addr`) VA
 (40, '2016-07-21 12:48:41', 1, '::1'),
 (41, '2016-07-21 13:07:03', 1, '::1'),
 (42, '2016-07-22 17:32:44', 1, '::1'),
-(43, '2016-07-23 02:20:19', 1, '::1');
+(43, '2016-07-23 02:20:19', 1, '::1'),
+(44, '2016-07-24 05:13:38', 1, '::1');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
