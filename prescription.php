@@ -38,6 +38,8 @@ include 'includes/checkInvalidUser.php';
 
                 }
             }*/
+    
+    
             $(document).ready(function() {
                 var options = {
                     valueNames: ['option','drugname' ]
@@ -137,39 +139,41 @@ include 'includes/checkInvalidUser.php';
                                                         </div>
                                                     </div>
                                                     <!--MEDICINE LIST-->
-                                                    
-                                                    <div class="row">
-                                                        <div class="col-md-2 prescribed_head">
-                                                            <b><i class="fa fa-file-text"></i> Prescribed Medicines</b>
+                                                    <div class="med-list">
+                                                        <div class=" row panel panel-default">
+                                                            <div class="panel-heading">
+                                                                <div class="prescribed_head">
+                                                                    <b><i class="fa fa-file-text"></i> Prescribed Medicines</b>
+                                                                </div>
+                                                            </div>
+                                                            <div class="panel-body" style="background: lightcyan;">
+                                                                <div class="col-mod">
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon" id="basic-addon1">
+                                                                            <i class="fa fa-search"></i>
+                                                                        </span><input class="form-control input-group" type="text" autocomplete="off" name="search_box" title="Search For" id="search_box" value="" placeholder="Search Drugs Name" />
+                                                                    </div>
+                                                                </div>
+                                                                <!--<div class="col-md-1 col-mod"> </div>
+                                                                <div class="col-md-1 col-mod">
+                                                                    <button type="button" class="btn btn-block btn-primary">
+                                                                        <span class="fa fa-plus"></span> Add</button>  
+                                                                </div>-->
+
+                                                                <div class="col-md-12 col-mod" id="row5" style="margin-top: 10px; display: none;">
+                                                                        <!--<div class="col-md-1 col-mod text-center"><strong>Sl. Number</strong></div>-->
+                                                                    <div class="col-md-4 col-mod text-center"><strong>Name</strong></div>
+                                                                    <div class="col-md-2 col-mod text-center"><strong>Quantity</strong></div>
+                                                                    <div class="col-md-2 col-mod text-center"><strong>Unit Price</strong></div>
+                                                                    <div class="col-md-2 col-mod text-center"><strong>Total</strong></div>
+                                                                    <div class="col-md-2 col-mod text-center"><strong>#</strong></div>
+
+                                                                </div>
+                                                                <!--Dynamic Textfield-->
+                                                                <div class="row col-mod" id="addedDrugs"></div>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    
-                                                    <div class="row row-item">
-                                                        <div class="col-md-1 col-mod"> </div>
-                                                        <div class="col-md-5 col-mod">
-                                                            <input class="form-control input-group" type="text" autocomplete="off" name="search_box" title="Search For" id="search_box" value="" placeholder="Search Drugs Name" />
-                                                        </div>
-                                                        <!--<div class="col-md-1 col-mod"> </div>
-                                                        <div class="col-md-1 col-mod">
-                                                            <button type="button" class="btn btn-block btn-primary">
-                                                                <span class="fa fa-plus"></span> Add</button>  
-                                                        </div>-->
-                                                    </div>
-                                                    
-                                                    <div id="row5" style="margin-top: 15px; display: none;">
-                                                        <div class="row row-item">
-                                                            <!--<div class="col-md-1 col-mod text-center"><strong>Sl. Number</strong></div>-->
-                                                            <div class="col-md-4 col-mod text-center"><strong>Name</strong></div>
-                                                            <div class="col-md-2 col-mod text-center"><strong>Quantity</strong></div>
-                                                            <div class="col-md-2 col-mod text-center"><strong>Unit Price</strong></div>
-                                                            <div class="col-md-2 col-mod text-center"><strong>Total</strong></div>
-                                                            <div class="col-md-2 col-mod text-center"><strong>#</strong></div>
-                                                        </div>
-                                                    </div>
-                                                    <div id="addedDrugs">    
-                                                        
-                                                    </div>
-                                                    
                                                     <!--END OF MEDICINE LIST-->
                                                     <div class="row textArea-content">
                                                         <div class="col-md-6 textArea">

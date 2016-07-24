@@ -217,7 +217,7 @@ include 'includes/checkInvalidUser.php';
                                                         $sno = 1;
                                                         $sql_drugs = "SELECT wtfindin_hms.drugs.*
                                                                 FROM wtfindin_hms.drugs
-                                                                WHERE drugs_status='a'
+                                                                WHERE isAvailable='Y'
                                                                 ORDER BY drugs_id DESC";
                                                         $result = $mysqli->query($sql_drugs);
                                                         while ($rows = $result->fetch_assoc()) {
@@ -285,7 +285,7 @@ include 'includes/checkInvalidUser.php';
                                                         $sno = 1;
                                                         $sql_drugs = "SELECT wtfindin_hms.drugs.*
                                                                 FROM wtfindin_hms.drugs
-                                                                WHERE drugs_status='e'
+                                                                WHERE isAvailable='N'
                                                                 ORDER BY drugs_id DESC";
                                                         $result = $mysqli->query($sql_drugs);
                                                         while ($rows = $result->fetch_assoc()) {

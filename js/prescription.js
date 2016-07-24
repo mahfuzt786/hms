@@ -72,12 +72,15 @@ $(document).ready(function(){
     /** prescription auro complete **/
     var i=$('#addedDrugs .displayNamez').length;
     var isSelected = false;
-	$('input#search_box').autocomplete({
-	    source: function( request, response ) {
+    $('input#search_box').autocomplete({
+        source: function( request, response ) {
             $.ajax({
                 url: "service/act-prescription.php",
                 type: "POST",
-                data: {action:'getSuggest',searchText:request.term},
+                data: {
+                    action:'getSuggest',
+                    searchText:request.term
+                },
                 dataType: "json",
                 cache: false,
                 success: function( data ) {
@@ -98,11 +101,11 @@ $(document).ready(function(){
                     });
                 }
             });
-	    },
-	    //autoFocus: true,
-	    maxCacheLength: 0,
-	    minLength: 1,
-	    select: function( event, ui ) {
+        },
+        //autoFocus: true,
+        maxCacheLength: 0,
+        minLength: 1,
+        select: function( event, ui ) {
             event.preventDefault();
             isSelected = true;
             $('input#search_box').val('');
@@ -117,30 +120,32 @@ $(document).ready(function(){
                     msg: "Nothing selected, input was " + this.value
                 });
             }
-	    }
-	});
+        }
+    });
 	
-	/*highlight auto-complete*/
-	String.prototype.replaceAt = function(index, char) {
-	    return this.substr(0, index) + "<span style='font-weight:bold; color:#0cc;'>" + char + "</span>";
-	}
+    /*highlight auto-complete*/
+    String.prototype.replaceAt = function(index, char) {
+        return this.substr(0, index) + "<span style='font-weight:bold; color:#0cc;'>" + char + "</span>";
+    }
 	
-	$.ui.autocomplete.prototype._renderItem = function(ul, item) {
-	    this.term = this.term.toLowerCase();
-	    var resultStr = item.label.toLowerCase();
-	    var t = "";
-	    while (resultStr.indexOf(this.term) != -1) {
-		var index = resultStr.indexOf(this.term);
-		t = t + item.label.replaceAt(index, item.label.slice(index, index + this.term.length));
-		resultStr = resultStr.substr(index + this.term.length);
-		item.label = item.label.substr(index + this.term.length);
-	    }
-	    return $("<li></li>").data("item.autocomplete", item).append("<a>" + t + item.label + "</a>").appendTo(ul);
-	};
+    $.ui.autocomplete.prototype._renderItem = function(ul, item) {
+        this.term = this.term.toLowerCase();
+        var resultStr = item.label.toLowerCase();
+        var t = "";
+        while (resultStr.indexOf(this.term) != -1) {
+            var index = resultStr.indexOf(this.term);
+            t = t + item.label.replaceAt(index, item.label.slice(index, index + this.term.length));
+            resultStr = resultStr.substr(index + this.term.length);
+            item.label = item.label.substr(index + this.term.length);
+        }
+        return $("<li></li>").data("item.autocomplete", item).append("<a>" + t + item.label + "</a>").appendTo(ul);
+    };
     
     /*capitalize in js*/
     String.prototype.capitalize = function() {
-        return this.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
+        return this.replace(/(?:^|\s)\S/g, function(a) {
+            return a.toUpperCase();
+        });
     };
     
     $('#GramsQuan').on('keyup',function () {
@@ -152,17 +157,17 @@ $(document).ready(function(){
     function AddFields(drugValue, drugId, drugPrice, categoryId)
     {
         var rowDrugAdd=addIDs(drugValue, drugId, drugPrice, categoryId, i);
-	    if(rowDrugAdd=='done') {
+        if(rowDrugAdd=='done') {
             $('#row5').show();
-	    }
-	    if(rowDrugAdd=='duplicate')
-	    {
-			Lobibox.alert("error",
+        }
+        if(rowDrugAdd=='duplicate')
+        {
+            Lobibox.alert("error",
             {
                 msg: drugValue+' already in your prescription.'
             });
-	    }
-	    i=i+1;
+        }
+        i=i+1;
     }
     
     function addIDs(drugValue, drugId, drugPrice, categoryId, i)
@@ -187,27 +192,27 @@ $(document).ready(function(){
         if(duplicateHerb==0)
         {
             var strAdd='<div class="row row-item displayNamez" id="Added'+i+'">'+
-                            //'<div class="col-md-1 text-center slno col-mod">('+ Number(i+1) +')</div>'+
-                            '<div class="col-md-4 col-mod">'+
-                                '<input id="drugs_name" name="drugs_name" placeholder="Name" readonly class="form-control input-group" type="text"/>'+
-                                '<input id="drugs_id" name="drugs_id[]" readonly class="form-control input-group" type="hidden" />'+
-                                '<input id="drugs_cat" name="drugs_cat[]" readonly class="form-control input-group" type="hidden" />'+
-                            '</div>'+
-                            '<div class="col-md-2 col-mod">'+
-                                '<input id="addedQuantity" name="addedQuantity[]" placeholder="Quantity" class="form-control input-group" type="text"/>'+
-                            '</div>'+
-                            '<div class="col-md-2 col-mod">'+
-                                '<input id="drugs_Price" name="drugs_Price" placeholder="Price" readonly class="form-control input-group" type="text"/>'+
-                            '</div>'+
-                            '<div class="col-md-2 col-mod">'+
-                                '<input id="drugs_total" name="drugs_total[]" placeholder="Total" readonly class="form-control input-group" type="text"/>'+
-                            '</div>'+
-                            '<div class="col-md-2 col-mod">'+
-                                '<button type="button" class="btn btn-block btn-primary" id="txtDel">'+
-                                    '<span class="fa fa-trash-o"></span> Remove'+
-                                '</button>'+
-                            '</div>'+
-                        '</div>';
+            //'<div class="col-md-1 text-center slno col-mod">('+ Number(i+1) +')</div>'+
+            '<div class="col-md-4 col-mod">'+
+            '<input id="drugs_name" name="drugs_name" placeholder="Name" readonly class="form-control input-group" type="text"/>'+
+            '<input id="drugs_id" name="drugs_id[]" readonly class="form-control input-group" type="hidden" />'+
+            '<input id="drugs_cat" name="drugs_cat[]" readonly class="form-control input-group" type="hidden" />'+
+            '</div>'+
+            '<div class="col-md-2 col-mod">'+
+            '<input id="addedQuantity" name="addedQuantity[]" placeholder="Quantity" class="form-control input-group" type="text"/>'+
+            '</div>'+
+            '<div class="col-md-2 col-mod">'+
+            '<input id="drugs_Price" name="drugs_Price" placeholder="Price" readonly class="form-control input-group" type="text"/>'+
+            '</div>'+
+            '<div class="col-md-2 col-mod">'+
+            '<input id="drugs_total" name="drugs_total[]" placeholder="Total" readonly class="form-control input-group" type="text"/>'+
+            '</div>'+
+            '<div class="col-md-2 col-mod">'+
+            '<button type="button" class="btn btn-block btn-primary" id="txtDel">'+
+            '<span class="fa fa-trash-o"></span> Remove'+
+            '</button>'+
+            '</div>'+
+            '</div>';
                         
             $('#addedDrugs').append(strAdd);
             
@@ -230,19 +235,19 @@ $(document).ready(function(){
     $('#addedDrugs').on('click','#txtDel',function() {
 	
         var id = $(this).parents('.displayNamez').attr('id');
-		Lobibox.confirm({
-				msg: "Click Yes to confirm delete?",
-				callback: function ($this, type, ev) {
-					if (type == 'yes') {
-						$('#'+id).remove();
+        Lobibox.confirm({
+            msg: "Click Yes to confirm delete?",
+            callback: function ($this, type, ev) {
+                if (type == 'yes') {
+                    $('#'+id).remove();
 						
-						if($('#addedDrugs .displayNamez').length <= 1)
-						{
-                            $('#row5').hide();
-						}
-					}
-				}
-			});
+                    if($('#addedDrugs .displayNamez').length <= 1)
+                    {
+                        $('#row5').hide();
+                    }
+                }
+            }
+        });
     });
     
     /** save pres. in DB **/

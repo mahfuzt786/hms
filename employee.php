@@ -197,7 +197,7 @@ include 'includes/checkInvalidUser.php';
                                             $sno = 1;
                                             $sql_drugs = "SELECT wtfindin_hms.employee.*
                                                                 FROM wtfindin_hms.employee
-                                                                WHERE e_status='active'
+                                                                WHERE isActive='Y'
                                                                 ORDER BY e_id DESC";
                                             $result = $mysqli->query($sql_drugs);
                                             while ($rows = $result->fetch_assoc()) {
