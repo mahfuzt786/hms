@@ -94,6 +94,7 @@ include 'includes/checkInvalidUser.php';
                                                                     throw new Exception($mysqli->error);
                                                                 } else {
                                                                     if (mysqli_num_rows($arRes) != 0) {
+                                                                        $pid=mysqli_num_rows($arRes);
                                                                         $pid=$pid+1;
                                                                     }
                                                                 }
