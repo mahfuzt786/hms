@@ -8,6 +8,7 @@ $(document).ready(function(){
     $(".nav-tabs a").click(function(){
         $(this).tab('show');
     });
+    document.getElementById("p-id").disabled=true;
     document.getElementById("emp-name").disabled=true;
     document.getElementById("emp-id").disabled=true; 
 

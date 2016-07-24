@@ -82,6 +82,25 @@ include 'includes/checkInvalidUser.php';
                                             <div class="prescription-add-content">
                                                 <form action="" id="frm-add-prescription">
                                                     <div class="row">
+                                                        <div class="col-md-2 detail">Prescription ID</div>
+                                                        <div class="col-md-3">
+                                                            <?php
+                                                            $pid=0;
+                                                            $sql = "SELECT prescription.p_id
+                                                                    FROM wtfindin_hms.prescription";
+                                                            $arRes = $mysqli->query($sql);
+                                                            if (!$arRes) {
+                                                                throw new Exception($mysqli->error);
+                                                            } else {
+                                                                if (mysqli_num_rows($arRes) != 0) {
+                                                                    $pid=$pid+1;
+                                                                }
+                                                            }
+                                                            ?>
+                                                            <label class="pres-id" id="p-id" name='p-id'><?php echo "P".$pid;?></label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
                                                         <div class="col-md-2 detail">Doctor Name</div>
                                                         <div class="col-md-3">
                                                             <select id="doc-id" class="form-control input-group">
