@@ -204,7 +204,7 @@ include 'includes/checkInvalidUser.php';
                                                 //$rows['drugs_cat_id'];
                                                 echo "<tr>";
                                                 echo"<td class='sno text-center'>" . $sno . "</td>";
-                                                echo"<td class='employeeid' data-toggle=\"modal\" data-target=\"#drug-detail\" onclick=\"show_drug('" . $rows['e_id'] . "')\">" . $rows['e_emp_id'] . "</td>";
+                                                echo"<td class='employeeid'><a href=\"employee-detail.php?id=".$rows['e_id']."\">" . $rows['e_emp_id'] . "</a></td>";
                                                 echo"<td class='name'>" . $rows['e_name'] . "</td>";
 
                                                 $eid = $rows['e_des_id'];
