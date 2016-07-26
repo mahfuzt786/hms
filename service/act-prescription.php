@@ -56,7 +56,7 @@ function getSuggest($mysqli) {
                         JOIN wtfindin_hms.drugscategory
                             ON drugs.drugs_cat_id = drugscategory.drugs_cat_id
                      WHERE (drugs_name LIKE '%$searchText%' " . $sqlLikeReverseName . ")
-                       AND isAvailable = 'Y'
+                       AND isAvailable = 'Y' AND drugs_quantity > 0
                    ORDER BY name";
 
     $arRes = $mysqli->query($sql);
@@ -119,8 +119,14 @@ function addPres($mysqli) {
             $newDrugsTotalQ = $drugsTotalQ[$i] - $addedQuantity[$i];
 
             $sqlInsertValues .= " ( '$prescriptionId','$drug_id[$i]','$drugCatId[$i]','$addedQuantity[$i]','$drugs_total[$i]')";
+			
+			$checkIsAvailable = '';
+			if($newDrugsTotalQ < 1)
+			{
+				$checkIsAvailable = ", isAvailable = 'N'";
+			}
 
-            $sqlUpdate = "UPDATE wtfindin_hms.drugs SET drugs_quantity = '$newDrugsTotalQ' WHERE drugs_id = '$drug_id[$i]'";
+            $sqlUpdate = "UPDATE wtfindin_hms.drugs SET drugs_quantity = '$newDrugsTotalQ' ". $checkIsAvailable." WHERE drugs_id = '$drug_id[$i]'";
 
             // Execute SQL
             $update_userIngre = $mysqli->query($sqlUpdate);
@@ -135,7 +141,7 @@ function addPres($mysqli) {
 
         if ($errorz == '0') {
             // Create Insert Ingredient SQL
-            $sqlInsert = "INSERT INTO wtfindin_hms.prescription_drugs (p_id, drug_id, drugCatId, addedQuantity, drugs_total) VALUES " . $sqlInsertValues;
+            $sqlInsert = "INSERT INTO wtfindin_hms.prescription_drugs (p_id, drugs_id, drugCatId, addedQuantity, drugs_total) VALUES " . $sqlInsertValues;
 
             // Execute SQL
             $insert_userIngre = $mysqli->query($sqlInsert);

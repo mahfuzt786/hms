@@ -1,19 +1,23 @@
 $(document).ready(function(){
     $("#drugs-manu-date").datepicker({
-        dateFormat: 'dd/mm/yy',
-        maxDate: 0
+        dateFormat:'yy-mm-dd',
+        changeMonth: true,
+        changeYear: true
     });
     $("#drugs-exp-date").datepicker({
-        dateFormat: 'dd/mm/yy',
-        minDate: 0
+        dateFormat:'yy-mm-dd',
+        changeMonth: true,
+        changeYear: true
     });
     $("#drugs-manu-date-edit").datepicker({
-        dateFormat: 'dd/mm/yy',
-        maxDate: 0
+        dateFormat:'yy-mm-dd',
+        changeMonth: true,
+        changeYear: true
     });
     $("#drugs-exp-date-edit").datepicker({
-        dateFormat: 'dd/mm/yy',
-        minDate: 0
+        dateFormat:'yy-mm-dd',
+        changeMonth: true,
+        changeYear: true
     });
     
     $(".nav-tabs a").click(function(){
