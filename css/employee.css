@@ -47,3 +47,8 @@
 .empdetail .col-md-2{
     font-weight: bold;
 }
+.emp-detail{
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+}

@@ -12,40 +12,20 @@ include 'includes/checkInvalidUser.php';
         <link href="css/prescription.css" rel="stylesheet"/>
         <script src="js/prescription.js"></script>
         <script>
-            /* function listbox_item_move(source,destination){
-                var src = document.getElementById(source);
-                var dest = document.getElementById(destination);
-
-                for(var count=0; count < src.options.length; count++) {
-
-                    if(src.options[count].selected == true) {
-                        var option = src.options[count];
-
-                        var newOption = document.createElement("option");
-                        newOption.value = option.value;
-                        newOption.text = option.text;
-                        newOption.selected = true;
-                        try {
-                            dest.add(newOption, null); //Standard
-                            src.remove(count, null);
-                        }catch(error) {
-                            dest.add(newOption); // IE only
-                            src.remove(count);
-                        }
-                        count--;
-
-                    }
-
-                }
-            }*/
-    
-    
             $(document).ready(function() {
                 var options = {
-                    valueNames: ['option','drugname' ]
+                    valueNames: [ 'pid', 'employeeid', 'name', 'patientType', 'doctor', 'date','option' ],
+                    page: 10,
+                    plugins: [
+                        ListPagination({
+                            innerWindow: 3,
+                            left: 2,
+                            right: 2
+                        })
+                    ]
                 };
 
-                var drugs = new List('drugs', options);
+                var prescription = new List('prescription-list', options);
                 $('[data-toggle="tooltip"]').tooltip({
                     container : 'body'
                 });  
@@ -80,26 +60,27 @@ include 'includes/checkInvalidUser.php';
                                                 <h4><span class="fa fa-plus"></span> Add Prescription</h4>
                                             </div>
                                             <div class="prescription-add-content">
-                                                <form name="Customprescription" id="Customprescription" action="<?php $_SERVER["PHP_SELF"];?>" method="post" enctype="multipart/form-data">
+                                                <form name="Customprescription" id="Customprescription" action="<?php $_SERVER["PHP_SELF"]; ?>" method="post" enctype="multipart/form-data">
                                                     <input id="action" type="hidden" name="action" value="" />
                                                     <div class="row">
                                                         <div class="col-md-2 detail">Prescription ID</div>
                                                         <div class="col-md-3">
                                                             <?php
-                                                                $pid=0;
-                                                                $sql = "SELECT prescription.p_id
+                                                            $pid = 0;
+                                                            $sql = "SELECT MAX(prescription.p_id) AS max
                                                                         FROM wtfindin_hms.prescription";
-                                                                $arRes = $mysqli->query($sql);
-                                                                if (!$arRes) {
-                                                                    throw new Exception($mysqli->error);
-                                                                } else {
-                                                                    if (mysqli_num_rows($arRes) != 0) {
-                                                                        $pid=mysqli_num_rows($arRes);
-                                                                        $pid=$pid+1;
-                                                                    }
+                                                            $arRes = $mysqli->query($sql);
+                                                            if (!$arRes) {
+                                                                throw new Exception($mysqli->error);
+                                                            } else {
+                                                                if (mysqli_num_rows($arRes) != 0) {
+                                                                    $row = $arRes->fetch_object();
+                                                                    $pid = $row->max;
+                                                                    $pid = $pid + 1;
                                                                 }
+                                                            }
                                                             ?>
-                                                            <label class="pres-id" id="p-id" name='p-id'><?php echo "P".$pid;?></label>
+                                                            <label class="pres-id" id="p-id" name='p-id'><?php echo $pid; ?></label>
                                                         </div>
                                                     </div>
                                                     <div class="row">
@@ -220,9 +201,63 @@ include 'includes/checkInvalidUser.php';
                                             </div>
 
                                         </div>
-                                        
+
                                         <!--second tab-->
                                         <div id="prescriptionlist" class="tab-pane fade">
+                                            <div id="prescription-list" class="prescription">
+                                                <div class="col-md-12 head_employee_2">
+                                                    <input class="search" placeholder="Search" />
+                                                </div>
+                                                <table class="col-lg-12 table-drugs">  
+                                                    <thead>  
+                                                        <tr>
+                                                            <th class="sort text-center" data-sort="pid" data-toggle="tooltip" data-placement="auto" title="Sort by Prescription ID">pre. ID</th>
+                                                            <th class="sort text-center" data-sort="employeeid" data-toggle="tooltip" data-placement="auto" title="Sort by Employee ID">Emp. ID</th>
+                                                            <th class="sort text-center" data-sort="name" data-toggle="tooltip" data-placement="auto" title="Sort by Employee Name">Emp. Name</th>
+                                                            <th class="sort text-center" data-sort="patientType" data-toggle="tooltip" data-placement="auto" title="Sort by Patient Type">Patient Type</th>
+                                                            <th class="sort text-center" data-sort="doctor" data-toggle="tooltip" data-placement="auto" title="Sort by Doctor Name">Doctor Name</th>
+                                                            <th class="sort text-center" data-sort="date" data-toggle="tooltip" data-placement="auto" title="Sort by Date">Date</th>
+                                                            <th class="text-center" data-toggle="tooltip" data-placement="auto" title="Options">Options</th>
+                                                        </tr>  
+                                                    </thead>
+
+                                                    <tbody class="list">
+                                                        <?php
+                                                        $sql_prescription = "SELECT p.p_id, d.d_name,p.patient_type, p.employee_id, p.empName, p.p_date, p.p_remark, p.p_note
+                                                                         FROM prescription p, doctor d
+                                                                         WHERE p.doctor_id=d.d_id 
+                                                                         ORDER BY p.p_id DESC";
+                                                        $result = $mysqli->query($sql_prescription);
+                                                        while ($rows = $result->fetch_assoc()) {
+                                                            //$rows['drugs_cat_id'];
+                                                            echo "<tr>";
+                                                            echo"<td class='pid text-center'>" . $rows['p_id'] . "</td>";
+                                                            echo"<td class='employeeid'>" . $rows['employee_id'] . "</td>";
+                                                            echo"<td class='name'>" . $rows['empName'] . "</td>";
+                                                            echo"<td class='patientType'>" . $rows['patient_type'] . "</td>";
+                                                            echo"<td class='doctor'>" . $rows['d_name'] . "</td>";
+                                                            
+                                                            $dt = new DateTime($rows['p_date']);
+                                                            $date = $dt->format('j-M-Y, g:i A');
+                                                            
+                                                            echo"<td class='date text-center'>" . $date . "</td>";
+                                                            echo"<td class='text-center'>
+                                                        <button id=\"btn-edit-drug\" data-toggle=\"modal\" data-target=\"#edit-drug\" onclick=\"edit_drug('" . $rows['drugs_id'] . "')\"><i style='color:darkgreen;' data-toggle='tooltip' data-placement='auto' title='Edit' class='fa fa-wrench'></i></button>
+                                                        &nbsp;&nbsp;
+                                                        <button id=\"btn-delete-drug\" onclick=\"delete_drug('" . $rows['drugs_id'] . "')\"><i style='color:red;' data-toggle='tooltip' data-placement='auto' title='Delete' class='fa fa-trash'></i></button>
+                                                        </td>";
+                                                            echo"</tr>";
+                                                        }
+                                                        ?>
+                                                    </tbody>
+                                                </table>
+                                                <div class="text-right">
+                                                    <div class="pagination"></div>
+                                                </div>
+                                                <div>
+                                                    <p style="color: darkcyan;">*** click on column header to sort ***</p>
+                                                </div>
+                                            </div> 
                                         </div>
                                         <!--second tab-->
                                     </div>

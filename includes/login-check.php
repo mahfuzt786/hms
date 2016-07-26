@@ -48,11 +48,36 @@ if ($action == "confirmLogin") {
     addEmployee($mysqli);
 } else if ($action == "checkEmployeeId") {
     checkEmployeeId($mysqli);
+} else if ($action == "show_medicine_list") {
+    show_medicine_list($mysqli);
 } else {
     throw new Exception("Unknown Action: " + $action);
 }
 
 //if (isset($_POST['frmLogin']))
+function show_medicine_list($mysqli) {
+    $error = 'false';
+    $id = getRequestPostDefault('id', 'null');
+    $sql = "SELECT d.drugs_name, c.drugs_cat, p.addedQuantity, p.drugs_total
+            FROM prescription_drugs p, drugscategory c, drugs d
+            WHERE p.drug_id=d.drugs_id AND d.drugs_cat_id=c.drugs_cat_id AND p.p_id='$id'";
+    $arRes = $mysqli->query($sql);
+
+    $outp = "[";
+    while ($rs = $arRes->fetch_array(MYSQLI_ASSOC)) {
+        if ($outp != "[") {
+            $outp .= ",";
+        }
+        $outp .= '{"Name":"' . $rs["drugs_name"] . '",';
+        $outp .= '"Category":"' . $rs["drugs_cat"] . '",';
+        $outp .= '"Quantity":"' . $rs["addedQuantity"] . '",';
+        $outp .= '"Total":"' . $rs["drugs_total"] . '"}';
+    }
+    $outp .="]";
+    echo $outp;
+    return true;
+}
+
 function checkEmployeeId($mysqli) {
     $error = 'false';
     $empid = getRequestPostDefault('empid', 'null');
@@ -62,7 +87,7 @@ function checkEmployeeId($mysqli) {
     $arRes = $mysqli->query($sql);
     if (mysqli_num_rows($arRes) != 0) {
         echo 'duplicate';
-    }else{
+    } else {
         echo 'done';
     }
     return true;

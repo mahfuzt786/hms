@@ -12,10 +12,40 @@ include 'includes/checkInvalidUser.php';
         <link href="css/employee.css" rel="stylesheet"/>
         <script src=""></script>
         <script>
+            var oTable = $('#listmedicine').dataTable();
+            function show_drug(id){
+                $.ajax({
+                    url: "includes/login-check.php",
+                    type: "POST",
+                    data: {
+                        action: 'show_medicine_list',
+                        id: id
+                    },
+                    success: function(result){
+                        var arr = JSON.parse(result);
+                        var i;
+                        var out = "";
+                        for(i = 0; i < arr.length; i++) {
+                            out += "<tr><td>" +
+                                arr[i].Name +
+                                "</td><td>" +
+                                arr[i].Category +
+                                "</td><td>" +
+                                arr[i].Quantity +
+                                "</td><td>" +
+                                arr[i].Total +
+                                "</td></tr>";
+                        }
+                        out += "";
+                        document.getElementById("druglist").innerHTML = out;    
+                    }
+                });
+            }
             $(document).ready(function() {
+                
                 var options = {
-                    valueNames: [ 'sno', 'employeeid', 'name', 'designation', 'age', 'gender', 'salary', 'options' ],
-                    page: 10,
+                    valueNames: [ 'pid', 'doctor', 'date', 'remark', 'note' ],
+                    page: 5,
                     plugins: [
                         ListPagination({
                             innerWindow: 3,
@@ -24,11 +54,23 @@ include 'includes/checkInvalidUser.php';
                         })
                     ]
                 };
-
-                var employee = new List('employee', options);
+                var prescription_details = new List('prescription-details', options);
+                var options2 = {
+                    valueNames: [ 'drugname', 'drugcategory', 'drugquantity', 'drugtotal' ],
+                    page: 5,
+                    plugins: [
+                        ListPagination({
+                            innerWindow: 3,
+                            left: 2,
+                            right: 2
+                        })
+                    ]
+                };
+                var medicine = new List('md', options2);
                 $('[data-toggle="tooltip"]').tooltip({
                     container : 'body'
-                });  
+                }); 
+
             });
         </script>
     </head>
@@ -128,59 +170,48 @@ include 'includes/checkInvalidUser.php';
                                 <div class="panel panel-primary">
                                     <div class="panel-heading"><i class="fa fa-file"></i> Prescription List</div>
                                     <div class="panel-body">
-                                        
+
                                         <!--Prescription List-->
-                                        <div id="employee">
+                                        <div id="prescription-details">
                                             <div class="col-md-12 head_employee_2">
                                                 <input class="search" placeholder="Search" />
                                             </div>
                                             <table class="col-lg-12 table-drugs">  
                                                 <thead>  
                                                     <tr>
-                                                        <th class="sort text-center" data-sort="sno" data-toggle="tooltip" data-placement="auto" title="Sort by Serial No">#</th>
-                                                        <th class="sort text-center" data-sort="employeeid" data-toggle="tooltip" data-placement="auto" title="Sort by Employee ID">ID</th>
-                                                        <th class="sort text-center" data-sort="name" data-toggle="tooltip" data-placement="auto" title="Sort by Name">Name</th>
-                                                        <th class="sort text-center" data-sort="designation" data-toggle="tooltip" data-placement="auto" title="Sort by Designation">Designation</th>
-                                                        <th class="sort text-center" data-sort="age" data-toggle="tooltip" data-placement="auto" title="Sort by Age">Age</th>
-                                                        <th class="sort text-center" data-sort="gender" data-toggle="tooltip" data-placement="auto" title="Sort by Gender">Gender</th>
-                                                        <th class="sort text-center" data-sort="salary" data-toggle="tooltip" data-placement="auto" title="Sort by Salary">Salary</th>
-                                                        <th class="text-center" data-toggle="tooltip" data-placement="auto" title="Options">Options</th>
+                                                        <th class="sort text-center" width="20%" data-sort="pid" data-toggle="tooltip" data-placement="auto" title="Sort by Prescription ID">Prescription ID</th>
+                                                        <th class="sort text-center" width="20%" data-sort="doctor" data-toggle="tooltip" data-placement="auto" title="Sort by Doctor">Doctor</th>
+                                                        <th class="sort text-center" width="20%" data-sort="date" data-toggle="tooltip" data-placement="auto" title="Sort by Date">Date</th>
+                                                        <th class="sort text-center" width="20%" data-sort="remark" data-toggle="tooltip" data-placement="auto" title="Sort by Remark">Remark</th>
+                                                        <th class="sort text-center" width="20%" data-sort="note" data-toggle="tooltip" data-placement="auto" title="Sort by Note">Note</th>
                                                     </tr>  
                                                 </thead>
 
                                                 <tbody class="list">
                                                     <?php
-                                                    $sno = 1;
-                                                    $sql_drugs = "SELECT wtfindin_hms.employee.*
-                                                                FROM wtfindin_hms.employee
-                                                                WHERE isActive='Y'
-                                                                ORDER BY e_id DESC";
-                                                    $result = $mysqli->query($sql_drugs);
-                                                    while ($rows = $result->fetch_assoc()) {
-                                                        //$rows['drugs_cat_id'];
-                                                        echo "<tr>";
-                                                        echo"<td class='sno text-center'>" . $sno . "</td>";
-                                                        echo"<td class='employeeid'><a href=\"employee-detail.php?id=" . $rows['e_id'] . "\">" . $rows['e_emp_id'] . "</a></td>";
-                                                        echo"<td class='name'>" . $rows['e_name'] . "</td>";
+                                                    $sql_prescription = "SELECT p.p_id, d.d_name, p.p_date, p.p_remark, p.p_note
+                                                                         FROM prescription p, doctor d, employee e
+                                                                         WHERE p.doctor_id=d.d_id AND p.employee_id=e.e_emp_id AND e.e_id='$id'
+                                                                         ORDER BY p.p_id DESC";
+                                                    $result_prescription = $mysqli->query($sql_prescription);
+                                                    if (mysqli_num_rows($result_prescription) == 0) {
+                                                        echo "<tr><td class='text-center' colspan='5'>";
+                                                        echo "<b>NO RECORD FOUND</b>";
+                                                        echo "</td></tr>";
+                                                    } else {
+                                                        while ($row_p = $result_prescription->fetch_assoc()) {
+                                                            //$rows['drugs_cat_id'];
+                                                            echo "<tr>";
+                                                            echo"<td class='pid text-center' data-toggle=\"modal\" data-target=\"#medicineList\" onclick=\"show_drug('" . $row_p['p_id'] . "')\"> <div class='emp-detail'>" . $row_p['p_id'] . "</div> </td>";
+                                                            echo"<td class='doctor'>" . $row_p['d_name'] . "</td>";
 
-                                                        $eid = $rows['e_des_id'];
-                                                        $sql_employee_designation = "SELECT employee_designation.*
-                                                                FROM wtfindin_hms.employee_designation
-                                                                WHERE e_des_id='$eid'";
-                                                        $result2 = $mysqli->query($sql_employee_designation);
-                                                        $row = $result2->fetch_assoc();
+                                                            $dt = new DateTime($row_p['date']);
+                                                            $date = $dt->format('j-M-Y, g:i A');
 
-                                                        echo"<td class='designation'>" . $row['e_des'] . "</td>";
-                                                        echo"<td class='age text-center'>" . $rows['e_age'] . "</td>";
-                                                        echo"<td class='gender text-center'>" . $rows['e_gender'] . "</td>";
-                                                        echo"<td class='salary text-center'>" . $rows['e_salary'] . "</td>";
-                                                        echo"<td class='text-center'>
-                                                        <button id=\"btn-edit-drug\" data-toggle=\"modal\" data-target=\"#edit-drug\" onclick=\"edit_drug('" . $rows['drugs_id'] . "')\"><i style='color:darkgreen;' data-toggle='tooltip' data-placement='auto' title='Edit' class='fa fa-wrench'></i></button>
-                                                        &nbsp;&nbsp;
-                                                        <button id=\"btn-delete-drug\" onclick=\"delete_drug('" . $rows['drugs_id'] . "')\"><i style='color:red;' data-toggle='tooltip' data-placement='auto' title='Delete' class='fa fa-trash'></i></button>
-                                                        </td>";
-                                                        echo"</tr>";
-                                                        $sno = $sno + 1;
+                                                            echo"<td class='date text-center'>" . $date . "</td>";
+                                                            echo"<td class='remark'>" . $row_p['p_remark'] . "</td>";
+                                                            echo"<td class='note'>" . $row_p['p_note'] . "</td>";
+                                                        }
                                                     }
                                                     ?>
                                                 </tbody>
@@ -212,6 +243,54 @@ include 'includes/checkInvalidUser.php';
     <script src="js/profile.js"></script>
 
     <!--body div-->
+
+    <!--edit medicine list Modal -->
+    <div class="modal fade" id="medicineList" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"><span class="fa fa-file-o"></span> Medicine List</h4>
+                </div>
+                <div class="modal-body">
+                    <!--Prescription List-->
+                    <div id="md">
+
+                        <div class="col-md-12 head_employee_2">
+                            <input class="search" placeholder="Search" />
+                        </div>
+                        <table class="col-md-12 table-drugs" id="listmedicine">  
+                            <thead>  
+                                <tr>
+                                    <th class="sort text-center" width="20%" data-sort="drugdrug" data-toggle="tooltip" data-placement="auto" title="Sort by Drug Name">Drug Name</th>
+                                    <th class="sort text-center" width="20%" data-sort="drugcategory" data-toggle="tooltip" data-placement="auto" title="Sort by Doctor">Category</th>
+                                    <th class="sort text-center" width="20%" data-sort="drugquantity" data-toggle="tooltip" data-placement="auto" title="Sort by Date">Quantity</th>
+                                    <th class="sort text-center" width="20%" data-sort="drugtotal" data-toggle="tooltip" data-placement="auto" title="Sort by Remark">Total</th>
+                                </tr>  
+                            </thead>
+                            <tbody class="list" id="druglist">
+                            </tbody>
+                        </table>
+
+                        <div class="text-right">
+                            <div id="drug" class="pagination"></div>
+                        </div>
+                        <div>
+                            <p style="color: darkcyan;">*** click on column header to sort ***</p>
+                        </div>
+                    </div>
+                    <!--End of prescription list-->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!--end edit Medicine list modal-->
 
 </body>
 </html>
