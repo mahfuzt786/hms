@@ -205,8 +205,8 @@ function edit_editDrug($did, $cat, $name, $desc, $price, $company, $man_d, $exp_
 }
 
 function add_addDrug($cat, $name, $desc, $price, $company, $man_d, $exp_d, $quantity, $mysqli) {
-    $sql = "INSERT  INTO wtfindin_hms.drugs (drugs_cat_id,drugs_name,drugs_description,drugs_price,drugs_company,drugs_quantity,drugs_manufacturing_date,drugs_expiry_date,drugs_status)
-            VALUE ('$cat', '$name', '$desc', '$price', '$company', '$quantity', '$man_d', '$exp_d', 'a')";
+    $sql = "INSERT  INTO wtfindin_hms.drugs (drugs_cat_id,drugs_name,drugs_description,drugs_price,drugs_company,drugs_quantity,drugs_manufacturing_date,drugs_expiry_date)
+            VALUE ('$cat', '$name', '$desc', '$price', '$company', '$quantity', '$man_d', '$exp_d')";
     $arRes = $mysqli->query($sql);
     if (!$arRes) {
         throw new Exception($mysqli->error);
