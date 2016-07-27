@@ -141,7 +141,7 @@ function addPres($mysqli) {
 
         if ($errorz == '0') {
             // Create Insert Ingredient SQL
-            $sqlInsert = "INSERT INTO wtfindin_hms.prescription_drugs (p_id, drugs_id, drugCatId, addedQuantity, drugs_total) VALUES " . $sqlInsertValues;
+            $sqlInsert = "INSERT INTO wtfindin_hms.prescription_drugs (p_id, drug_id, drugCatId, addedQuantity, drugs_total) VALUES " . $sqlInsertValues;
 
             // Execute SQL
             $insert_userIngre = $mysqli->query($sqlInsert);

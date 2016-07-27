@@ -18,4 +18,12 @@
     {
         echo $e->getMessage();
     }
+/*
+#
+# New XAMPP security concept
+#
+<LocationMatch "^/(?i:(?:xampp|security|licenses|phpmyadmin|webalizer|server-status|server-info))">
+        Require local
+	ErrorDocument 403 /error/XAMPP_FORBIDDEN.html.var
+</LocationMatch>*/
 ?>

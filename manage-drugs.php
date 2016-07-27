@@ -135,7 +135,7 @@ include 'includes/checkInvalidUser.php';
             $(document).ready(function() {
                 var options = {
                     valueNames: [ 'sno', 'drugsname', 'category', 'price', 'man_date', 'exp_date', 'quantity', 'options' ],
-                    page: 5,
+                    page: 10,
                     plugins: [
                         ListPagination({
                             innerWindow: 3,
@@ -146,7 +146,7 @@ include 'includes/checkInvalidUser.php';
                 };
                 var options_expiry = {
                     valueNames: [ 'sno', 'drugsname', 'category', 'price', 'man_date', 'exp_date', 'quantity', 'options' ],
-                    page: 5,
+                    page: 10,
                     plugins: [
                         ListPagination({
                             innerWindow: 3,
