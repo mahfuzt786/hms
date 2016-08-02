@@ -10,6 +10,7 @@ $(document).ready(function(){
     });
     document.getElementById("p-id").disabled=true;
     document.getElementById("emp-name").disabled=true;
+    document.getElementById("emp-address").disabled=true;
     document.getElementById("employee_id").disabled=true;
 
     $('input[name="patientType"]').change(function(){
@@ -17,6 +18,7 @@ $(document).ready(function(){
         if(type == 'inPatient') {
             //alert('inpatient');
             document.getElementById("emp-name").disabled=true;
+            document.getElementById("emp-address").disabled=true;
             
             document.getElementById("employee_id").disabled=false;
             $('#employee_id').val('');
@@ -32,6 +34,7 @@ $(document).ready(function(){
             $('#emp-name').val('');
             
             document.getElementById("emp-name").disabled=false;
+            document.getElementById("emp-address").disabled=false;
             $('#emp-name').focus();
             $('#show-detail').hide();
             $('#found').hide();
@@ -320,7 +323,7 @@ $(document).ready(function(){
                 data: $('#Customprescription').serialize(),
                 //dataType: "json",
                 success: function(result){
-                if(result=='done')
+                    if(result=='done')
                     {
                         Lobibox.alert("success",
                         {

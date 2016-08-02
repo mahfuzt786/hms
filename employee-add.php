@@ -46,19 +46,20 @@ include 'includes/checkInvalidUser.php';
                                                 <div class="row">
                                                     <div class="col-md-6 head-info text-right">
                                                         <?php
-                                                        $total=0;
+                                                        $total = 0;
                                                         $sql = "SELECT employee.*
                                                                 FROM wtfindin_hms.employee";
                                                         $arRes = $mysqli->query($sql);
                                                         if (!$arRes) {
                                                             throw new Exception($mysqli->error);
-                                                        }else{
-                                                            $total=mysqli_num_rows($arRes);
-                                                            $total=$total+1;
+                                                        } else {
+                                                            $total = mysqli_num_rows($arRes);
+                                                            $total = $total + 1;
                                                         }
-                                                        $egid='EMP100'.$total;
+                                                        $egid = 'EMP100' . $total;
+                                                        $egpfid = 'PF100' . $total;
                                                         ?>
-                                                        Serial No. : <?php echo $total;?>
+                                                        Serial No. : <?php echo $total; ?>
                                                     </div>
                                                     <div class="col-md-6 head-info" style="border: none;">
                                                         <a href="employee.php" style="text-decoration: none;"><< Back</a>
@@ -66,6 +67,60 @@ include 'includes/checkInvalidUser.php';
                                                 </div> 
                                             </div>
                                         </div>
+                                        <div class="row field">
+                                            <div class="col-md-2 head">Division</div>
+                                            <div class="col-md-3">
+                                                <select id="division" class="form-control input-group">
+                                                    <option value="select">Select Division</option>
+                                                    <?php
+                                                    $sql = "SELECT division.*
+                                                            FROM wtfindin_hms.division";
+                                                    $arRes = $mysqli->query($sql);
+                                                    while ($row = $arRes->fetch_assoc()) {
+                                                        echo "<option value=" . $row['div_id'];
+                                                        echo ">" . $row['div_name'];
+                                                        echo "</option>";
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-3 field">
+                                                <span style="border-right: 1px solid lightgrey; padding-right: 10px;"><i class="fa fa-question-circle"></i></span>
+                                                <span style="border-right: 1px solid lightgrey; margin-left: 5px; padding-right: 10px;"><i class="fa fa-plus"></i></span>
+                                                <span><i class="fa fa-wrench" style="margin-left: 5px;"></i></span>
+                                            </div>
+                                        </div>
+                                        <div class="row field" style="padding-bottom: 10px;">
+                                            <div class="col-md-2 head">Book</div>
+                                            <div class="col-md-1 head">
+                                                <label class="radio-inline">
+                                                    <input type="radio" value="1"  id="I" name="book" >I
+                                                </label>
+                                            </div>
+                                            <div class="col-md-1 head">
+                                                <label class="radio-inline">
+                                                    <input type="radio" value="2"  id="II" name="book" >II
+                                                </label>
+                                            </div>
+                                            <div class="col-md-1 head">
+                                                <label class="radio-inline">
+                                                    <input type="radio" value="3" id="III" name="book">III
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="row field">
+                                            <div class="col-md-2 head">Employee ID</div>
+                                            <div class="col-md-3">
+                                                <input class="form-control input-group" type="text" id="emp-id" name='emp-id' placeholder="Example : <?php echo $egid; ?>"/>
+                                            </div>
+                                        </div>
+                                        <div class="row field">
+                                            <div class="col-md-2 head">PF ID</div>
+                                            <div class="col-md-3">
+                                                <input class="form-control input-group" type="text" id="pfid" name='pfid' placeholder="Example : <?php echo $egpfid; ?>"/>
+                                            </div>
+                                        </div>
+
                                         <div class="row field">
                                             <div class="col-md-2 head head-dropdown">Designation</div>
                                             <div class="col-md-3">
@@ -86,12 +141,6 @@ include 'includes/checkInvalidUser.php';
                                             <div class="col-md-3 field">
                                                 <span style="border-right: 1px solid lightgrey; padding-right: 10px;"><i class="fa fa-plus"></i></span>
                                                 <span><i class="fa fa-wrench" style="margin-left: 5px;"></i></span>
-                                            </div>
-                                        </div>
-                                        <div class="row field">
-                                            <div class="col-md-2 head">Employee ID</div>
-                                            <div class="col-md-3">
-                                                <input class="form-control input-group" type="text" id="emp-id" name='emp-id' placeholder="Example : <?php echo $egid;?>"/>
                                             </div>
                                         </div>
 

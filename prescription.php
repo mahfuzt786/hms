@@ -133,6 +133,12 @@ include 'includes/checkInvalidUser.php';
                                                             <input class="form-control input-group" type="text" id="emp-name" name='emp-name' autocomplete="off"/>
                                                         </div>
                                                     </div>
+                                                    <div class="row" style="margin-bottom: 10px;">
+                                                        <div class="col-md-2 detail">Address</div>
+                                                        <div class="col-md-3">
+                                                            <textarea class="form-control" type="text" id="emp-address" name='emp-address'></textarea>
+                                                        </div>
+                                                    </div>
 
                                                     <div class="row">
                                                         <div class="col-md-2 detail">Date</div>

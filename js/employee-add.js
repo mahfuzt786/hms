@@ -20,9 +20,30 @@ $(document).ready(function(){
                        
                     Lobibox.alert("error",
                     {
-                        msg: 'Employee ID already taken'
+                        msg: 'Employee ID "'+$('#emp-id').val().toUpperCase()+'" already taken'
                     });
                     $('#emp-id').val('');
+                }
+            }
+        });
+    });
+    $('#pfid').keyup(function () {
+        $.ajax({
+            url: "includes/login-check.php",
+            type: "POST",
+            data: {
+                action: 'checkPfId',
+                pfid: $('#pfid').val()
+            },
+            //dataType: "json",
+            success: function(result){
+                if(result=='duplicate') {
+                       
+                    Lobibox.alert("error",
+                    {
+                        msg: 'PF ID "'+$('#pfid').val().toUpperCase()+'" already taken'
+                    });
+                    $('#pfid').val('');
                 }
             }
         });
@@ -32,15 +53,30 @@ $(document).ready(function(){
         check();    
     });
     function check(){
-        if($('#des-id').val()=="select"){
+        if($('#division').val()=="select"){
             Lobibox.alert("error",
             {
-                msg: 'Please select a designation!'
+                msg: 'Please select a division!'
+            });
+        }else if($("input:radio[name='book']:checked").length == 0){
+            Lobibox.alert("error",
+            {
+                msg: 'Please select a Book-ID!'
             });
         }else if($('#emp-id').val()==""){
             Lobibox.alert("error",
             {
                 msg: 'Please enter employee ID!'
+            });
+        }else if($('#pfid').val()==""){
+            Lobibox.alert("error",
+            {
+                msg: 'Please enter PF ID!'
+            });
+        }else if($('#des-id').val()=="select"){
+            Lobibox.alert("error",
+            {
+                msg: 'Please select a designation!'
             });
         }else if($('#emp-name').val()==""){
             Lobibox.alert("error",
@@ -91,6 +127,9 @@ $(document).ready(function(){
                 data: {
                     action: 'addEmployee',
                     empid: $('#emp-id').val(),
+                    division: $('#division').val(),
+                    book: $("input:radio[name='book']:checked").val(),
+                    pfid: $('#pfid').val(),
                     desid: $('#des-id').val(),
                     name: $('#emp-name').val(),
                     salary: $('#emp-salary').val(),

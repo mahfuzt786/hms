@@ -50,6 +50,9 @@
         <li>
             <a href="#"> <span class="fa-stack fa-lg pull-left"><i class="fa fa-battery-0 fa-stack-1x "></i></span>Sick allowance</a>
         </li>
+        <li>
+            <a href="report.php"> <span class="fa-stack fa-lg pull-left"><i class="fa fa-file-pdf-o fa-stack-1x "></i></span>Report</a>
+        </li>
         <li class="listSetting">
             <a href="setting.php"><span class="fa-stack fa-lg pull-left"><i class="fa fa-gears fa-stack-1x "></i></span>Setting</a>
         </li>

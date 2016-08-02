@@ -19,25 +19,25 @@ include 'includes/checkInvalidUser.php';
             require_once('includes/menu_sidebar.php');
             $sql_total = "SELECT employee.*
             FROM wtfindin_hms.employee";
-            
+
             $sql_male = "SELECT employee.*
             FROM wtfindin_hms.employee
             WHERE e_gender='male'";
-            
+
             $sql_female = "SELECT employee.*
             FROM wtfindin_hms.employee
             WHERE e_gender='female'";
-            
+
             $arRes_total = $mysqli->query($sql_total);
             $arRes_male = $mysqli->query($sql_male);
             $arRes_female = $mysqli->query($sql_female);
             if (!$arRes_total && !$arRes_male && !arRes_female) {
                 throw new Exception($mysqli->error);
-            }else{
-                $total_employee=mysqli_num_rows($arRes_total);
-                $total_male=mysqli_num_rows($arRes_male);
-                $total_female=mysqli_num_rows($arRes_female);
-            } 
+            } else {
+                $total_employee = mysqli_num_rows($arRes_total);
+                $total_male = mysqli_num_rows($arRes_male);
+                $total_female = mysqli_num_rows($arRes_female);
+            }
             ?>
             <!-- Page Content -->
             <div id="page-content-wrapper">
@@ -49,15 +49,15 @@ include 'includes/checkInvalidUser.php';
                             <div class="row-fluid">
                                 <div class="col-md-4 dash-head-item" style="border: none;">
                                     <i class="fa fa-users"> Total Employees</i>
-                                    <h3><?php echo $total_employee;?></h3>
+                                    <h3><?php echo $total_employee; ?></h3>
                                 </div>
                                 <div class="col-md-4 dash-head-item">
                                     <i class="fa fa-user"> Male Employees</i>
-                                    <h3><?php echo $total_male;?></h3>
+                                    <h3><?php echo $total_male; ?></h3>
                                 </div>
                                 <div class="col-md-4 dash-head-item">
                                     <i class="fa fa-user"> Female Employees</i>
-                                    <h3><?php echo $total_female;?></h3>
+                                    <h3><?php echo $total_female; ?></h3>
                                 </div>
                             </div>
                         </div>
@@ -121,6 +121,14 @@ include 'includes/checkInvalidUser.php';
                                         <div class="panel panel-default">
                                             <div class="panel-body"><i class="fa fa-4x fa-battery-0"></i></div>
                                             <div class="panel-heading">Sick Allowance</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 dash-item">
+                                        <div class="panel panel-default">
+                                            <a href="report.php">
+                                                <div class="panel-body"><i class="fa fa-4x fa-file-pdf-o"></i></div>
+                                                <div class="panel-heading">Report</div>
+                                            </a>
                                         </div>
                                     </div>
                                     <div class="col-md-2 dash-item">

@@ -134,7 +134,7 @@ include 'includes/checkInvalidUser.php';
             }
             $(document).ready(function() {
                 var options = {
-                    valueNames: [ 'sno', 'employeeid', 'name', 'designation', 'age', 'gender', 'salary', 'options' ],
+                    valueNames: [ 'sno', 'employeeid','pfid', 'name','division','book', 'designation', 'age', 'gender', 'salary', 'options' ],
                     page: 10,
                     plugins: [
                         ListPagination({
@@ -182,8 +182,11 @@ include 'includes/checkInvalidUser.php';
                                         <thead>  
                                             <tr>
                                                 <th class="sort text-center" data-sort="sno" data-toggle="tooltip" data-placement="auto" title="Sort by Serial No">#</th>
-                                                <th class="sort text-center" data-sort="employeeid" data-toggle="tooltip" data-placement="auto" title="Sort by Employee ID">ID</th>
+                                                <th class="sort text-center" data-sort="employeeid" data-toggle="tooltip" data-placement="auto" title="Sort by Employee ID">Employee ID</th>
+                                                <th class="sort text-center" data-sort="pfid" data-toggle="tooltip" data-placement="auto" title="Sort by PF ID">PF ID</th>
                                                 <th class="sort text-center" data-sort="name" data-toggle="tooltip" data-placement="auto" title="Sort by Name">Name</th>
+                                                <th class="sort text-center" data-sort="division" data-toggle="tooltip" data-placement="auto" title="Sort by Division">Division</th>
+                                                <th class="sort text-center" data-sort="book" data-toggle="tooltip" data-placement="auto" title="Sort by Book ID">Book ID</th>
                                                 <th class="sort text-center" data-sort="designation" data-toggle="tooltip" data-placement="auto" title="Sort by Designation">Designation</th>
                                                 <th class="sort text-center" data-sort="age" data-toggle="tooltip" data-placement="auto" title="Sort by Age">Age</th>
                                                 <th class="sort text-center" data-sort="gender" data-toggle="tooltip" data-placement="auto" title="Sort by Gender">Gender</th>
@@ -195,26 +198,21 @@ include 'includes/checkInvalidUser.php';
                                         <tbody class="list">
                                             <?php
                                             $sno = 1;
-                                            $sql_drugs = "SELECT wtfindin_hms.employee.*
-                                                                FROM wtfindin_hms.employee
-                                                                WHERE isActive='Y'
-                                                                ORDER BY e_id DESC";
+                                            $sql_drugs = "SELECT e.*,d.*,v.*
+                                                          FROM employee e,employee_designation d,division v
+                                                          WHERE e.division=v.div_id AND e.e_des_id=d.e_des_id AND e.isActive='Y'
+                                                          ORDER BY e.e_id DESC";
                                             $result = $mysqli->query($sql_drugs);
                                             while ($rows = $result->fetch_assoc()) {
                                                 //$rows['drugs_cat_id'];
                                                 echo "<tr>";
                                                 echo"<td class='sno text-center'>" . $sno . "</td>";
-                                                echo"<td class='employeeid'><a href=\"employee-detail.php?id=".$rows['e_id']."\">" . $rows['e_emp_id'] . "</a></td>";
+                                                echo"<td class='employeeid'><a href=\"employee-detail.php?id=" . $rows['e_id'] . "\">" . $rows['e_emp_id'] . "</a></td>";
+                                                echo"<td class='pfid'>" . $rows['pf_id'] . "</td>";
                                                 echo"<td class='name'>" . $rows['e_name'] . "</td>";
-
-                                                $eid = $rows['e_des_id'];
-                                                $sql_employee_designation = "SELECT employee_designation.*
-                                                                FROM wtfindin_hms.employee_designation
-                                                                WHERE e_des_id='$eid'";
-                                                $result2 = $mysqli->query($sql_employee_designation);
-                                                $row = $result2->fetch_assoc();
-                                                
-                                                echo"<td class='designation'>" . $row['e_des'] . "</td>";
+                                                echo"<td class='division'>" . $rows['div_name'] . "</td>";
+                                                echo"<td class='book'>" . $rows['book'] . "</td>";
+                                                echo"<td class='designation'>" . $rows['e_des'] . "</td>";
                                                 echo"<td class='age text-center'>" . $rows['e_age'] . "</td>";
                                                 echo"<td class='gender text-center'>" . $rows['e_gender'] . "</td>";
                                                 echo"<td class='salary text-center'>" . $rows['e_salary'] . "</td>";

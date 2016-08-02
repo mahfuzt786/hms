@@ -48,6 +48,8 @@ if ($action == "confirmLogin") {
     addEmployee($mysqli);
 } else if ($action == "checkEmployeeId") {
     checkEmployeeId($mysqli);
+} else if ($action == "checkPfId") {
+    checkPfId($mysqli);
 } else if ($action == "show_medicine_list") {
     show_medicine_list($mysqli);
 } else {
@@ -92,10 +94,27 @@ function checkEmployeeId($mysqli) {
     }
     return true;
 }
+function checkPfId($mysqli) {
+    $error = 'false';
+    $pfid = getRequestPostDefault('pfid', 'null');
+    $sql = "SELECT employee.*
+            FROM wtfindin_hms.employee
+            WHERE pf_id='$pfid'";
+    $arRes = $mysqli->query($sql);
+    if (mysqli_num_rows($arRes) != 0) {
+        echo 'duplicate';
+    } else {
+        echo 'done';
+    }
+    return true;
+}
 
 function addEmployee($mysqli) {
     $error = 'false';
     $empid = getRequestPostDefault('empid', 'null');
+    $division = getRequestPostDefault('division', 'null');
+    $book = getRequestPostDefault('book', 'null');
+    $pfid = getRequestPostDefault('pfid', 'null');
     $desid = getRequestPostDefault('desid', 'null');
     $name = getRequestPostDefault('name', 'null');
     $salary = getRequestPostDefault('salary', 'null');
@@ -103,17 +122,18 @@ function addEmployee($mysqli) {
     $gender = getRequestPostDefault('gender', 'null');
     $address = getRequestPostDefault('address', 'null');
 
-    if (addEmployeeDetail($empid, $desid, $name, $salary, $age, $gender, $address, $mysqli)) {
+    if (addEmployeeDetail($empid, $division, $book, $pfid, $desid, $name, $salary, $age, $gender, $address, $mysqli)) {
         echo 'done';
     } else {
         echo 'Error in Adding Employee detail !!';
     }
 }
 
-function addEmployeeDetail($empid, $desid, $name, $salary, $age, $gender, $address, $mysqli) {
+function addEmployeeDetail($empid, $division, $book, $pfid, $desid, $name, $salary, $age, $gender, $address, $mysqli) {
     $empid = strtoupper($empid);
-    $sql = "INSERT  INTO wtfindin_hms.employee (e_emp_id, e_des_id, e_name, e_salary, e_age, e_gender, e_address)
-            VALUE ('$empid', '$desid', '$name', '$salary', '$age', '$gender', '$address')";
+    $pfid = strtoupper($pfid);
+    $sql = "INSERT  INTO wtfindin_hms.employee (e_emp_id, division, book, pf_id, e_des_id, e_name, e_salary, e_age, e_gender, e_address)
+            VALUE ('$empid', '$division', '$book', '$pfid', '$desid', '$name', '$salary', '$age', '$gender', '$address')";
     $arRes = $mysqli->query($sql);
     if (!$arRes) {
         throw new Exception($mysqli->error);

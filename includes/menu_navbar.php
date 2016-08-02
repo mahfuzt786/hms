@@ -24,14 +24,20 @@
          </ul>-->
 
         <div class="user">
-            <i class="fa fa-user"></i>
-            welcome, 
-            <a href="#" data-toggle="popover" title="Administrator"  data-trigger="focus" data-placement="bottom" >
-                <b><?php echo $_SESSION[SESS_LOGIN_NAME]; ?></b>&nbsp;
-                <i class="fa fa-angle-down"></i>
-            </a>
-            <div id="popover_content_wrapper" style="display: none">
-                <div><a style="color: darkslateblue;" href="setting.php"><i class="fa fa-gears"></i> Setting</a></div>
+            <div>
+                <i class="fa fa-user"></i>
+                welcome, 
+                <a href="#" data-toggle="popover" title="Administrator"  data-trigger="focus" data-placement="bottom" >
+                    <b><?php echo $_SESSION[SESS_LOGIN_NAME]; ?></b>&nbsp;
+                    <i class="fa fa-angle-down"></i>
+                </a>
+                <div id="popover_content_wrapper" style="display: none">
+                    <div><a style="color: darkslateblue;" href="setting.php"><i class="fa fa-gears"></i> Setting</a></div>
+                </div>
+                &nbsp;&nbsp;
+                <a href="#" data-toggle="popover" title="Notifications"  data-trigger="focus" data-placement="bottom" >
+                    Notifications <span class="badge" style="background: darkred; color: white;">30</span>
+                </a>
             </div>
         </div>
     </div><!-- bs-example-navbar-collapse-1 -->
