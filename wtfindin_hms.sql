@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 27, 2016 at 06:10 PM
+-- Generation Time: Aug 02, 2016 at 09:36 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -19,6 +19,26 @@ SET time_zone = "+00:00";
 --
 -- Database: `wtfindin_hms`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `division`
+--
+
+CREATE TABLE IF NOT EXISTS `division` (
+`div_id` int(10) NOT NULL,
+  `div_name` varchar(50) NOT NULL,
+  `div_address` varchar(100) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `division`
+--
+
+INSERT INTO `division` (`div_id`, `div_name`, `div_address`) VALUES
+(1, 'Borsillah', 'Borsillah Tea Estate, Sivsagar'),
+(2, 'Moran', 'Moran, Dibrugarh');
 
 -- --------------------------------------------------------
 
@@ -54,21 +74,22 @@ CREATE TABLE IF NOT EXISTS `drugs` (
   `drugs_price` int(30) NOT NULL,
   `drugs_company` varchar(100) NOT NULL,
   `drugs_quantity` int(100) NOT NULL,
-  `drugs_manufacturing_date` varchar(10) NOT NULL,
-  `drugs_expiry_date` varchar(10) DEFAULT NULL,
+  `drugs_manufacturing_date` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `drugs_expiry_date` timestamp NULL DEFAULT NULL,
   `drugs_entry_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `isAvailable` enum('Y','N') NOT NULL DEFAULT 'Y'
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `drugs`
 --
 
 INSERT INTO `drugs` (`drugs_id`, `drugs_cat_id`, `drugs_name`, `drugs_description`, `drugs_price`, `drugs_company`, `drugs_quantity`, `drugs_manufacturing_date`, `drugs_expiry_date`, `drugs_entry_date`, `isAvailable`) VALUES
-(1, 7, 'Livosin', 'liver tonic', 120, 'livosin', 99, '2015-05-20', '2018-09-14', '2016-07-27 15:35:31', 'Y'),
-(2, 7, 'livsav plus', 'liver tonic', 140, 'livsav gayetri', 140, '2013-03-14', '2017-07-04', '2016-07-27 15:26:54', 'Y'),
-(3, 4, 'nice', 'paracetamol for fever and cold', 3, 'paracetamol', 98, '2015-09-04', '2017-08-15', '2016-07-27 15:35:31', 'Y'),
-(4, 9, 'quinine', 'fever', 30, 'alley', 60, '2014-07-22', '2016-07-12', '2016-07-27 15:31:09', 'N');
+(1, 7, 'Livosin', 'liver tonic', 120, 'livosin', 99, '2015-05-19 18:30:00', '2018-09-13 18:30:00', '2016-07-27 15:35:31', 'Y'),
+(2, 7, 'livsav plus', 'liver tonic', 140, 'livsav gayetri', 140, '2013-03-13 18:30:00', '2017-07-03 18:30:00', '2016-07-27 15:26:54', 'Y'),
+(3, 4, 'nice', 'paracetamol for fever and cold', 3, 'paracetamol', 98, '2015-09-03 18:30:00', '2017-08-14 18:30:00', '2016-07-27 15:35:31', 'Y'),
+(4, 9, 'quinine', 'fever', 30, 'alley', 60, '2014-07-21 18:30:00', '2016-07-11 18:30:00', '2016-07-27 15:31:09', 'N'),
+(5, 7, 'Livsav plus', 'liver tonic', 120, 'livsav plus', 100, '2016-07-30 18:25:21', '2016-07-29 18:30:00', '2016-07-30 18:25:21', 'N');
 
 -- --------------------------------------------------------
 
@@ -103,6 +124,9 @@ INSERT INTO `drugscategory` (`drugs_cat_id`, `drugs_cat`, `drugs_cat_desc`, `dru
 CREATE TABLE IF NOT EXISTS `employee` (
 `e_id` int(100) NOT NULL,
   `e_emp_id` varchar(100) NOT NULL,
+  `division` int(10) NOT NULL,
+  `book` enum('1','2','3') NOT NULL,
+  `pf_id` varchar(100) NOT NULL,
   `e_des_id` int(100) NOT NULL,
   `e_name` varchar(100) NOT NULL,
   `e_salary` int(100) NOT NULL,
@@ -110,16 +134,18 @@ CREATE TABLE IF NOT EXISTS `employee` (
   `e_gender` enum('male','female') NOT NULL,
   `e_address` varchar(100) NOT NULL,
   `isActive` enum('Y','N') NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `employee`
 --
 
-INSERT INTO `employee` (`e_id`, `e_emp_id`, `e_des_id`, `e_name`, `e_salary`, `e_age`, `e_gender`, `e_address`, `isActive`) VALUES
-(1, 'EMP1001', 1, 'Debojit Deori', 10000, 27, 'male', 'Sonari Court Colony, Sibsagar', 'Y'),
-(2, 'EMP1002', 2, 'Manash Jyoti Gogoi', 9000, 27, 'male', 'Meteka Gaon, Sibsagar', 'Y'),
-(3, 'EMP1003', 3, 'Sridevi Karmakar', 5000, 30, 'female', 'Borsillah Tea Estate', 'Y');
+INSERT INTO `employee` (`e_id`, `e_emp_id`, `division`, `book`, `pf_id`, `e_des_id`, `e_name`, `e_salary`, `e_age`, `e_gender`, `e_address`, `isActive`) VALUES
+(1, 'EMP1001', 1, '1', 'PF1001', 1, 'Debojit Deori', 10000, 27, 'male', 'Sonari Court Colony, Sibsagar', 'Y'),
+(2, 'EMP1002', 2, '2', 'PF1002', 2, 'Manash Jyoti Gogoi', 9000, 27, 'male', 'Meteka Gaon, Sibsagar', 'Y'),
+(3, 'EMP1003', 3, '3', 'PF1003', 3, 'Sridevi Karmakar', 5000, 30, 'female', 'Borsillah Tea Estate', 'Y'),
+(4, 'EMP1004', 2, '2', 'PF1004', 2, 'Rajiv Saikia', 10000, 27, 'male', 'Dibrugarh', 'Y'),
+(5, 'EMP1005', 1, '2', 'PF1005', 3, 'Hariya', 5000, 30, 'male', 'Dibrugarh', 'Y');
 
 -- --------------------------------------------------------
 
@@ -221,7 +247,7 @@ CREATE TABLE IF NOT EXISTS `userlogin` (
   `loginDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `userId` int(11) NOT NULL,
   `remote_addr` varchar(45) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `userlogin`
@@ -278,11 +304,27 @@ INSERT INTO `userlogin` (`userLoginId`, `loginDate`, `userId`, `remote_addr`) VA
 (48, '2016-07-27 11:22:58', 1, '192.168.50.2'),
 (49, '2016-07-27 11:27:21', 1, '192.168.50.2'),
 (50, '2016-07-27 11:32:07', 1, '192.168.50.2'),
-(51, '2016-07-27 15:10:54', 1, '127.0.0.1');
+(51, '2016-07-27 15:10:54', 1, '127.0.0.1'),
+(52, '2016-07-29 15:19:02', 1, '127.0.0.1'),
+(53, '2016-07-29 15:22:52', 1, '127.0.0.1'),
+(54, '2016-07-30 17:03:25', 1, '127.0.0.1'),
+(55, '2016-07-31 13:43:50', 1, '127.0.0.1'),
+(56, '2016-07-31 17:47:04', 1, '127.0.0.1'),
+(57, '2016-08-01 17:58:43', 1, '127.0.0.1'),
+(58, '2016-08-01 18:08:08', 1, '127.0.0.1'),
+(59, '2016-08-01 18:51:03', 1, '127.0.0.1'),
+(60, '2016-08-01 19:40:05', 1, '127.0.0.1'),
+(61, '2016-08-02 05:37:27', 1, '127.0.0.1');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `division`
+--
+ALTER TABLE `division`
+ ADD PRIMARY KEY (`div_id`);
 
 --
 -- Indexes for table `doctor`
@@ -343,6 +385,11 @@ ALTER TABLE `userlogin`
 --
 
 --
+-- AUTO_INCREMENT for table `division`
+--
+ALTER TABLE `division`
+MODIFY `div_id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
 -- AUTO_INCREMENT for table `doctor`
 --
 ALTER TABLE `doctor`
@@ -351,7 +398,7 @@ MODIFY `d_id` int(100) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 -- AUTO_INCREMENT for table `drugs`
 --
 ALTER TABLE `drugs`
-MODIFY `drugs_id` int(100) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+MODIFY `drugs_id` int(100) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `drugscategory`
 --
@@ -361,7 +408,7 @@ MODIFY `drugs_cat_id` int(100) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
 -- AUTO_INCREMENT for table `employee`
 --
 ALTER TABLE `employee`
-MODIFY `e_id` int(100) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+MODIFY `e_id` int(100) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `employee_designation`
 --
@@ -386,7 +433,7 @@ MODIFY `userId` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 -- AUTO_INCREMENT for table `userlogin`
 --
 ALTER TABLE `userlogin`
-MODIFY `userLoginId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=52;
+MODIFY `userLoginId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=62;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
