@@ -229,7 +229,7 @@ include 'includes/checkInvalidUser.php';
 
                                                     <tbody class="list">
                                                         <?php
-                                                        $sql_prescription = "SELECT p.p_id, d.d_name,p.patient_type, p.employee_id, p.empName, p.p_date, p.p_remark, p.p_note
+                                                        $sql_prescription = "SELECT p.*, d.d_name
                                                                          FROM prescription p, doctor d
                                                                          WHERE p.doctor_id=d.d_id 
                                                                          ORDER BY p.p_id DESC";
