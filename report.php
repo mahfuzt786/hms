@@ -27,7 +27,7 @@ include 'includes/checkInvalidUser.php';
                                 <div class="row-fluid">
                                     <div class="col-md-2 dash-item">
                                         <div class="panel panel-default">
-                                            <a href="drug-report.php">
+                                            <a href="lib/tcpdf/reports/test simple.php">
                                                 <div class="panel-body"><i class="fa fa-4x fa-medkit"></i></div>
                                                 <div class="panel-heading">Drugs Report</div>
                                             </a>
