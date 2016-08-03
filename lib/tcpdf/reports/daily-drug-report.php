@@ -8,9 +8,9 @@ require_once '../../../includes/util.php';
 
 $error = 'false';
 $dt = $_GET['dat'];
-$sql = "SELECT pd.p_id,pd.drug_id,pd.addedQuantity,d.drugs_id,d.drugs_name,d.drugs_quantity,p.p_id,p.p_date
+$sql = "SELECT pd.p_id,pd.drugs_id,pd.addedQuantity,d.drugs_id,d.drugs_name,d.drugs_quantity,p.p_id,p.p_date
             FROM prescription_drugs pd, drugs d, prescription p
-            WHERE pd.drug_id=d.drugs_id AND pd.p_id=p.p_id AND DATE(p.p_date)='$dt'";
+            WHERE pd.drugs_id=d.drugs_id AND pd.p_id=p.p_id AND DATE(p.p_date)='$dt'";
 $arRes = $mysqli->query($sql);
 if (!$arRes) {
     throw new Exception($mysqli->error);
