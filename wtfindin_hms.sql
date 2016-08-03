@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 03, 2016 at 06:05 PM
+-- Generation Time: Aug 03, 2016 at 06:27 PM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS `drugs` (
   `drugs_price` int(30) NOT NULL,
   `drugs_company` varchar(100) NOT NULL,
   `drugs_quantity` int(100) NOT NULL,
-  `drugs_manufacturing_date` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `drugs_manufacturing_date` timestamp NULL DEFAULT NULL,
   `drugs_expiry_date` timestamp NULL DEFAULT NULL,
   `drugs_entry_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `isAvailable` enum('Y','N') NOT NULL DEFAULT 'Y'

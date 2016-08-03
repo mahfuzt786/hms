@@ -24,7 +24,7 @@ if (!$arRes) {
     class MYPDF extends TCPDF {
 
         public function Header() {
-            $html = '<table cellspacing="0" cellpadding="1" style="border-bottom:1px solid lightgrey;">
+            $html = '<table cellspacing="0" cellpadding="6" style="border-bottom:1px solid lightgrey;">
                 <tr>
                 <td colspan="5" align="center">Borsillah Tea Estate</td>
                 </tr>
@@ -65,9 +65,10 @@ if (!$arRes) {
     $pdf->SetFont('helvetica', '', 9);
     $pdf->AddPage();
     $html = '<html>
-                 <head></head>
+                 <head>
+                 </head>
                  <body>
-                 <table cellspacing="0" cellpadding="2">
+                 <table cellspacing="0" cellpadding="5" border="1">
                  <tr>
                  <th align="center">sl. No.</th>
                  <th align="center">Drug Name</th>
