@@ -166,8 +166,8 @@ include 'includes/checkInvalidUser.php';
                 </div>
                 <!-- pdf viewer-->
                 <div class="pdf-viewer" id="pdfloader">
-                    <iframe src="lib/tcpdf/reports/test simple.php" style="width: 100%; min-height: 450px; height: 100%;"/>
-                </div>
+                    <iframe id="frame" style="width: 100%; min-height: 500px; height: 100%;"></iframe>
+                </div> 
                 <!--end of pdf viewer-->
             </div>
             <!-- /#page-content-wrapper -->

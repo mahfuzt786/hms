@@ -12,12 +12,9 @@ $pdf->SetFont('helvetica', '', 9);
 $pdf->AddPage();
 $html = '<html>
 <head></head>
-<body><table border="1">
-<tr><th>name</th>
-<th>company</th></tr>
+<body><table width="100%">
 <tr>
-<td>hello</td>
-<td>xx technologies</td>
+<th  height="50%" align="center">*** NO RECORD FOUND ***</th>
 </tr>
 </table>
 </body>
