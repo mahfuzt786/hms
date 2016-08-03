@@ -215,7 +215,8 @@ function edit_editDrug($did, $cat, $name, $desc, $price, $company, $man_d, $exp_
                 SET drugs_cat_id='$cat', drugs_name='$name',
                 drugs_description='$desc', drugs_price='$price',
                 drugs_company='$company', drugs_manufacturing_date='$man_d',
-                drugs_expiry_date='$exp_d', drugs_quantity='$quantity'
+                drugs_expiry_date='$exp_d', drugs_quantity='$quantity',
+                total_stock='$quantity'
                 WHERE drugs_id='$did'";
     $arRes = $mysqli->query($sql);
     if (!$arRes) {
@@ -225,8 +226,8 @@ function edit_editDrug($did, $cat, $name, $desc, $price, $company, $man_d, $exp_
 }
 
 function add_addDrug($cat, $name, $desc, $price, $company, $man_d, $exp_d, $quantity, $mysqli) {
-    $sql = "INSERT  INTO wtfindin_hms.drugs (drugs_cat_id,drugs_name,drugs_description,drugs_price,drugs_company,drugs_quantity,drugs_manufacturing_date,drugs_expiry_date)
-            VALUE ('$cat', '$name', '$desc', '$price', '$company', '$quantity', '$man_d', '$exp_d')";
+    $sql = "INSERT  INTO wtfindin_hms.drugs (drugs_cat_id,drugs_name,drugs_description,drugs_price,drugs_company,drugs_quantity,total_stock,drugs_manufacturing_date,drugs_expiry_date)
+            VALUE ('$cat', '$name', '$desc', '$price', '$company', '$quantity', '$quantity', '$man_d', '$exp_d')";
     $arRes = $mysqli->query($sql);
     if (!$arRes) {
         throw new Exception($mysqli->error);

@@ -53,8 +53,23 @@ include 'includes/checkInvalidUser.php';
                                     </div>
                                 </div>
                                 <div id="weekly" class="tab-pane fade">
-                                    <h3>Menu 1</h3>
-                                    <p>Some content in menu 1.</p>
+                                    <div id="daily" class="tab-pane fade in active">
+                                    <div class="tab-rep">
+                                        <div class="col-md-1 drug-field">Enter Date</div>
+                                        <div class="col-md-3">
+                                            <div class=" input-group">
+                                                <span class="input-group-addon" id="basic-addon1">
+                                                    <i class="fa fa-calendar"></i>
+                                                </span>
+                                                <input class="form-control" readonly type="text" id="weekly-date" name='weekly-date'/></input>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1 head">
+                                            <button type="button" class="btn btn-block btn-success" name="btn-weekly-drug" id="btn-weekly-drug">
+                                                <span class="fa fa-server"></span> Go</button>       
+                                        </div>
+                                    </div>
+                                </div>
                                 </div>
                                 <div id="monthly" class="tab-pane fade">
                                     <div class="tab-rep">

@@ -1,21 +1,31 @@
 $(document).ready(function(){
     $('.nav-tabs a').click(function(){
         $(this).tab('show');
+        $('#frame').prop('src', '');
     })
     $("#daily-date").datepicker({
         dateFormat:'yy-mm-dd',
         changeMonth: true,
-        changeYear: true
+        changeYear: true,
+        maxDate: 0
+    });
+    $("#weekly-date").datepicker({
+        dateFormat:'yy-mm-dd',
+        changeMonth: true,
+        changeYear: true,
+        maxDate: 0
     });
     $("#start-date").datepicker({
         dateFormat:'yy-mm-dd',
         changeMonth: true,
-        changeYear: true
+        changeYear: true,
+        maxDate: 0
     });
     $("#end-date").datepicker({
         dateFormat:'yy-mm-dd',
         changeMonth: true,
-        changeYear: true
+        changeYear: true,
+        maxDate: 0
     });
     $('#btn-daily-drug').on('click',function(e) {
         e.preventDefault();
