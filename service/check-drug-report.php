@@ -20,9 +20,10 @@ if ($action == "check_daily") {
 function check_daily($mysqli) {
     $error = 'false';
     $dt = strtoupper(getRequestPostDefault('dt', 'null'));
-    $sql = "SELECT pd.p_id,pd.drug_id,pd.addedQuantity,d.drugs_id,d.drugs_name,d.drugs_quantity,p.p_id,p.p_date
+    $sql = "SELECT pd.p_id,pd.drug_id,SUM(pd.addedQuantity) AS quantity,count(d.drugs_id) AS cnt,d.drugs_name,d.drugs_quantity,d.total_stock,p.p_id,p.p_date
             FROM prescription_drugs pd, drugs d, prescription p
-            WHERE pd.drug_id=d.drugs_id AND pd.p_id=p.p_id AND DATE(p.p_date)='$dt'";
+            WHERE pd.drug_id=d.drugs_id AND pd.p_id=p.p_id AND DATE(p.p_date)='$dt'
+            GROUP BY d.drugs_name HAVING cnt >= 1";
     $arRes = $mysqli->query($sql);
     if (!$arRes) {
         throw new Exception($mysqli->error);

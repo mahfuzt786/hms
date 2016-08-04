@@ -127,7 +127,7 @@ include 'includes/checkInvalidUser.php';
                                 </div>
                                 <div id="between" class="tab-pane fade">
                                     <div class="tab-rep">
-                                        <div class="col-md-1 drug-field">Enter Dates</div>
+                                        <div class="col-md-1 drug-field">Dates</div>
                                         <div class="col-md-3">
                                             <div class=" input-group">
                                                 <span class="input-group-addon" id="basic-addon1">

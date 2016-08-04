@@ -11,7 +11,8 @@ $dt = $_GET['dat'];
 $sql = "SELECT pd.p_id,pd.drug_id,SUM(pd.addedQuantity) AS quantity,count(d.drugs_id) AS cnt,d.drugs_name,d.drugs_quantity,d.total_stock,p.p_id,p.p_date
             FROM prescription_drugs pd, drugs d, prescription p
             WHERE pd.drug_id=d.drugs_id AND pd.p_id=p.p_id AND DATE(p.p_date)='$dt'
-            GROUP BY d.drugs_name HAVING cnt >= 1";
+            GROUP BY d.drugs_name HAVING cnt >= 1
+            ORDER BY d.drugs_name ASC";
 $arRes = $mysqli->query($sql);
 if (!$arRes) {
     throw new Exception($mysqli->error);
