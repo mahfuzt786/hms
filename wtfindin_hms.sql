@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 03, 2016 at 06:36 PM
+-- Generation Time: Aug 04, 2016 at 09:42 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -74,22 +74,24 @@ CREATE TABLE IF NOT EXISTS `drugs` (
   `drugs_price` int(30) NOT NULL,
   `drugs_company` varchar(100) NOT NULL,
   `drugs_quantity` int(100) NOT NULL,
+  `total_stock` int(100) NOT NULL,
   `drugs_manufacturing_date` timestamp NULL DEFAULT NULL,
   `drugs_expiry_date` timestamp NULL DEFAULT NULL,
   `drugs_entry_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `isAvailable` enum('Y','N') NOT NULL DEFAULT 'Y'
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `drugs`
 --
 
-INSERT INTO `drugs` (`drugs_id`, `drugs_cat_id`, `drugs_name`, `drugs_description`, `drugs_price`, `drugs_company`, `drugs_quantity`, `drugs_manufacturing_date`, `drugs_expiry_date`, `drugs_entry_date`, `isAvailable`) VALUES
-(1, 7, 'Livosin', 'liver tonic', 120, 'livosin', 99, '2015-05-19 18:30:00', '2018-09-13 18:30:00', '2016-07-27 15:35:31', 'Y'),
-(2, 7, 'livsav plus', 'liver tonic', 140, 'livsav gayetri', 140, '2013-03-13 18:30:00', '2017-07-03 18:30:00', '2016-07-27 15:26:54', 'Y'),
-(3, 4, 'nice', 'paracetamol for fever and cold', 3, 'paracetamol', 98, '2015-09-03 18:30:00', '2017-08-14 18:30:00', '2016-07-27 15:35:31', 'Y'),
-(4, 9, 'quinine', 'fever', 30, 'alley', 60, '2014-07-21 18:30:00', '2016-07-11 18:30:00', '2016-07-27 15:31:09', 'N'),
-(5, 7, 'Livsav plus', 'liver tonic', 120, 'livsav plus', 100, '2016-07-30 18:25:21', '2016-07-29 18:30:00', '2016-07-30 18:25:21', 'N');
+INSERT INTO `drugs` (`drugs_id`, `drugs_cat_id`, `drugs_name`, `drugs_description`, `drugs_price`, `drugs_company`, `drugs_quantity`, `total_stock`, `drugs_manufacturing_date`, `drugs_expiry_date`, `drugs_entry_date`, `isAvailable`) VALUES
+(1, 7, 'Livosin', 'liver tonic', 120, 'livosin', 81, 100, '2015-05-19 18:30:00', '2018-09-13 18:30:00', '2016-08-03 19:03:45', 'Y'),
+(2, 7, 'livsav plus', 'liver tonic', 140, 'livsav gayetri', 117, 200, '2013-03-13 18:30:00', '2017-07-03 18:30:00', '2016-08-03 18:23:20', 'Y'),
+(3, 4, 'nice', 'paracetamol for fever and cold', 3, 'paracetamol', 18, 100, '2015-09-03 18:30:00', '2017-08-14 18:30:00', '2016-08-03 19:03:46', 'Y'),
+(4, 9, 'quinine', 'fever', 30, 'alley', 60, 100, '2014-07-21 18:30:00', '2016-07-11 18:30:00', '2016-08-03 17:17:21', 'N'),
+(5, 7, 'Livsav plus', 'liver tonic', 120, 'livsav plus', 100, 100, '2016-07-30 18:25:21', '2016-07-29 18:30:00', '2016-08-03 17:17:21', 'N'),
+(6, 5, 'Jhandu Balm', 'pain relief balm', 40, 'jhandu', 59, 80, '2016-07-31 18:30:00', '2016-08-30 18:30:00', '2016-08-03 18:23:20', 'Y');
 
 -- --------------------------------------------------------
 
@@ -183,14 +185,19 @@ CREATE TABLE IF NOT EXISTS `prescription` (
   `p_remark` varchar(100) NOT NULL,
   `p_note` varchar(100) NOT NULL,
   `updateDate` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `prescription`
 --
 
 INSERT INTO `prescription` (`p_id`, `doctor_id`, `patient_type`, `employee_id`, `empName`, `p_date`, `p_remark`, `p_note`, `updateDate`) VALUES
-(1, 2, 'inPatient', 'EMP1003', 'Sridevi Karmakar', '2016-07-27 15:35:31', 'nil', 'nil', NULL);
+(1, 2, 'inPatient', 'EMP1003', 'Sridevi Karmakar', '2016-07-27 15:35:31', 'nil', 'nil', NULL),
+(2, 2, 'inPatient', 'EMP1002', 'Manash Jyoti Gogoi', '2016-08-03 17:55:12', 'nil', 'nil', NULL),
+(3, 1, 'inPatient', 'EMP1003', 'Sridevi Karmakar', '2016-08-03 17:56:08', 'nil', 'nil', NULL),
+(4, 1, 'inPatient', 'EMP1001', 'Debojit Deori', '2016-08-03 17:58:43', 'nil', 'nil', NULL),
+(5, 1, 'inPatient', 'EMP1002', 'Manash Jyoti Gogoi', '2016-08-03 18:23:19', 'nil', 'nil', NULL),
+(6, 1, 'inPatient', 'EMP1002', 'Manash Jyoti Gogoi', '2016-08-03 19:03:45', 'NIL', 'NIL', NULL);
 
 -- --------------------------------------------------------
 
@@ -205,7 +212,7 @@ CREATE TABLE IF NOT EXISTS `prescription_drugs` (
   `drugCatId` int(11) NOT NULL,
   `addedQuantity` varchar(45) NOT NULL DEFAULT '1',
   `drugs_total` varchar(45) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `prescription_drugs`
@@ -213,7 +220,21 @@ CREATE TABLE IF NOT EXISTS `prescription_drugs` (
 
 INSERT INTO `prescription_drugs` (`pdId`, `p_id`, `drug_id`, `drugCatId`, `addedQuantity`, `drugs_total`) VALUES
 (1, 1, 1, 7, '1', '120.00'),
-(2, 1, 3, 4, '2', '6.00');
+(2, 1, 3, 4, '2', '6.00'),
+(3, 2, 2, 7, '1', '140.00'),
+(4, 2, 6, 5, '1', '40.00'),
+(5, 2, 3, 4, '10', '30.00'),
+(6, 2, 1, 7, '1', '120.00'),
+(7, 3, 2, 7, '2', '280.00'),
+(8, 3, 3, 4, '20', '60.00'),
+(9, 4, 1, 7, '10', '1200.00'),
+(10, 4, 2, 7, '10', '1400.00'),
+(11, 4, 3, 4, '30', '90.00'),
+(12, 5, 1, 7, '3', '360.00'),
+(13, 5, 6, 5, '20', '800.00'),
+(14, 5, 2, 7, '10', '1400.00'),
+(15, 6, 1, 7, '4', '480.00'),
+(16, 6, 3, 4, '20', '60.00');
 
 -- --------------------------------------------------------
 
@@ -247,7 +268,7 @@ CREATE TABLE IF NOT EXISTS `userlogin` (
   `loginDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `userId` int(11) NOT NULL,
   `remote_addr` varchar(45) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `userlogin`
@@ -323,7 +344,10 @@ INSERT INTO `userlogin` (`userLoginId`, `loginDate`, `userId`, `remote_addr`) VA
 (67, '2016-08-03 09:56:34', 1, '127.0.0.1'),
 (68, '2016-08-03 14:17:09', 1, '127.0.0.1'),
 (69, '2016-08-03 14:17:31', 1, '127.0.0.1'),
-(70, '2016-08-03 14:20:07', 1, '127.0.0.1');
+(70, '2016-08-03 14:20:07', 1, '127.0.0.1'),
+(71, '2016-08-04 05:58:15', 1, '127.0.0.1'),
+(72, '2016-08-04 05:58:14', 1, '127.0.0.1'),
+(73, '2016-08-04 05:58:14', 1, '127.0.0.1');
 
 --
 -- Indexes for dumped tables
@@ -407,7 +431,7 @@ MODIFY `d_id` int(100) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 -- AUTO_INCREMENT for table `drugs`
 --
 ALTER TABLE `drugs`
-MODIFY `drugs_id` int(100) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+MODIFY `drugs_id` int(100) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `drugscategory`
 --
@@ -427,12 +451,12 @@ MODIFY `e_des_id` int(100) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 -- AUTO_INCREMENT for table `prescription`
 --
 ALTER TABLE `prescription`
-MODIFY `p_id` int(100) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `p_id` int(100) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `prescription_drugs`
 --
 ALTER TABLE `prescription_drugs`
-MODIFY `pdId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+MODIFY `pdId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT for table `user`
 --
@@ -442,7 +466,7 @@ MODIFY `userId` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 -- AUTO_INCREMENT for table `userlogin`
 --
 ALTER TABLE `userlogin`
-MODIFY `userLoginId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=71;
+MODIFY `userLoginId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=74;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
