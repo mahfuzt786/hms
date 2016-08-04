@@ -12,4 +12,9 @@
 iframe{
     border: 0px;
 }
+.tab-content{
+    border: 1px solid lightgrey;
+    height: 70px;
+    border-top: none;
+}
 

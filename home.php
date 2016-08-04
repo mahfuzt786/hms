@@ -119,8 +119,10 @@ include 'includes/checkInvalidUser.php';
                                     </div>
                                     <div class="col-md-2 dash-item">
                                         <div class="panel panel-default">
-                                            <div class="panel-body"><i class="fa fa-4x fa-battery-0"></i></div>
-                                            <div class="panel-heading">Sick Allowance</div>
+                                            <a href="sick-allowance.php"> 
+                                                <div class="panel-body"><i class="fa fa-4x fa-battery-0"></i></div>
+                                                <div class="panel-heading">Sick Allowance</div>
+                                            </a>
                                         </div>
                                     </div>
                                     <div class="col-md-2 dash-item">

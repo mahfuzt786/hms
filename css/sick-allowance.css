@@ -1,0 +1,14 @@
+.content{
+    border: 1px solid lightgrey;
+    width: auto;
+    border-top: none;
+}
+.inner-content{
+    margin: 0px;
+    padding: 5px;
+}
+.fields{
+    margin: 0px;
+    padding-top: 10px;
+}
+

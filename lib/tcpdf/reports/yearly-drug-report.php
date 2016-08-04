@@ -7,54 +7,14 @@ require_once '../../../includes/database-config.php'; /* Database Settings */
 require_once '../../../includes/util.php';
 
 $error = 'false';
-$month = $_GET['month']; //in the drop down set month as 1,2,3,.....,12
 $year = $_GET['year'];
 
-
-switch ($_GET['month']) {
-    case "1":
-        $mon = 'January';
-        break;
-    case "2":
-        $mon = 'February';
-        break;
-    case "3":
-        $mon = 'March';
-        break;
-    case "4":
-        $mon = 'April';
-        break;
-    case "5":
-        $mon = 'May';
-        break;
-    case "6":
-        $mon = 'June';
-        break;
-    case "7":
-        $mon = 'July';
-        break;
-    case "8":
-        $mon = 'August';
-        break;
-    case "9":
-        $mon = 'September';
-        break;
-    case "10":
-        $mon = 'October';
-        break;
-    case "11":
-        $mon = 'November';
-        break;
-    case "12":
-        $mon = 'December';
-        break;
-}
 $sql = "SELECT DISTINCT pd.p_id, pd.drug_id, SUM( pd.addedQuantity ) AS quantity, count(d.drugs_id) AS cnt, d.drugs_name, d.drugs_quantity, d.total_stock, p.p_id, 
 			date( p.p_date ) prescDate
 			FROM prescription_drugs pd
 					JOIN drugs d ON pd.drug_id = d.drugs_id
 					JOIN prescription p ON pd.p_id = p.p_id
-                    WHERE MONTH(p.p_date)='$month' AND YEAR(p.p_date)='$year'
+                    WHERE YEAR(p.p_date)='$year'
 				GROUP BY d.drugs_name, prescDate
 				ORDER BY prescDate";
 $arRes = $mysqli->query($sql);
@@ -70,52 +30,13 @@ if (!$arRes) {
     class MYPDF extends TCPDF {
 
         public function Header() {
-            //$dt_c = new DateTime($_GET['dat']);
-            //$dt_r = $dt_c->format('j/m/Y');
-            switch ($_GET['month']) {
-                case "1":
-                    $mon = 'January';
-                    break;
-                case "2":
-                    $mon = 'February';
-                    break;
-                case "3":
-                    $mon = 'March';
-                    break;
-                case "4":
-                    $mon = 'April';
-                    break;
-                case "5":
-                    $mon = 'May';
-                    break;
-                case "6":
-                    $mon = 'June';
-                    break;
-                case "7":
-                    $mon = 'July';
-                    break;
-                case "8":
-                    $mon = 'August';
-                    break;
-                case "9":
-                    $mon = 'September';
-                    break;
-                case "10":
-                    $mon = 'October';
-                    break;
-                case "11":
-                    $mon = 'November';
-                    break;
-                case "12":
-                    $mon = 'December';
-                    break;
-            }
+            
             $html = '<table cellspacing="0" cellpadding="6">
                 <tr>
                 <td colspan="6" align="center"><h2>Borsillah Tea Estate</h2></td>
                 </tr>
                 <tr>
-                <td colspan="6" align="center"><b>Monthly Drug Report on ' . $mon . ', ' . $_GET['year'] . '</b></td>
+                <td colspan="6" align="center"><b>Yearly Drug Report - Year :: '. $_GET['year'] . '</b></td>
                 </tr>
                 </table>';
             $this->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $html, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = 'top', $autopadding = true);
@@ -167,7 +88,7 @@ if (!$arRes) {
     while ($row = $arRes->fetch_assoc()) {
         $pDate = new DateTime($row['prescDate']);
         $date = $pDate->format('j-m-Y');
-        if ($month && $year) {//check $date month == $month ie $date's month parameter is 6 and user select June ie 6 then display
+        if ($year) {//check $date month == $month ie $date's month parameter is 6 and user select June ie 6 then display
             $count = $count + 1;
             $html .= '<tr>
                  <td align="center" >' . $count . '</td> 
