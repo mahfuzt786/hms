@@ -10,11 +10,13 @@ $error = 'false';
 $month = $_GET['month']; //in the drop down set month as 1,2,3,.....,12
 $year = $_GET['year'];
 
-$sql = "SELECT pd.p_id,pd.drug_id,SUM(pd.addedQuantity) AS quantity,count(d.drugs_id) AS cnt,d.drugs_name,d.drugs_quantity,d.total_stock,p.p_id,p.p_date
-            FROM prescription_drugs pd, drugs d, prescription p
-            WHERE pd.drug_id=d.drugs_id AND pd.p_id=p.p_id
-            GROUP BY d.drugs_name HAVING cnt >= 1
-            ORDER BY d.drugs_name ASC";
+$sql = "SELECT DISTINCT pd.p_id, pd.drug_id, SUM( pd.addedQuantity ) AS quantity, count(d.drugs_id) AS cnt, d.drugs_name, d.drugs_quantity, d.total_stock, p.p_id, 
+			date( p.p_date ) prescDate
+			FROM prescription_drugs pd
+					JOIN drugs d ON pd.drug_id = d.drugs_id
+					JOIN prescription p ON pd.p_id = p.p_id
+				GROUP BY d.drugs_name, prescDate
+				ORDER BY prescDate"; 
 $arRes = $mysqli->query($sql);
 if (!$arRes) {
     throw new Exception($mysqli->error);
