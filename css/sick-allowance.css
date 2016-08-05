@@ -1,7 +1,7 @@
 .content{
     border: 1px solid lightgrey;
-    width: auto;
     border-top: none;
+    padding-bottom: 10px;
 }
 .inner-content{
     margin: 0px;
@@ -11,4 +11,18 @@
     margin: 0px;
     padding-top: 10px;
 }
-
+.fields-radio{
+    margin: 0px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.emp-record{
+    margin-top: 40px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    color: darkslateblue;
+    border: 1px solid lightgrey;
+    border-radius:5px;
+    box-shadow: 3px 3px 3px 3px;
+   
+}

@@ -7,6 +7,8 @@ $(document).ready(function(){
         dateFormat:'yy-mm-dd',
         changeMonth: true,
         changeYear: true,
+        showOtherMonths: true,
+        selectOtherMonths: true,
         maxDate: 0
     });
     $("#weekly-date").datepicker({

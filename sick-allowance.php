@@ -30,10 +30,10 @@ include 'includes/checkInvalidUser.php';
                                 <li><a data-toggle="tab" href="#sickrecord">Sick Record</a></li>
                             </ul>
 
-                            <div class="tab-content">
-                                <div class="content">
-                                    <div id="sickleave" class="col-md-12 inner-content tab-pane fade in active">
-                                        <div class="col-md-6">
+                            <div class="tab-content content">
+                                <div id="sickleave" class=" row tab-pane fade in active">
+                                    <div class="col-md-6">
+                                        <form>
                                             <div class="fields row">
                                                 <div class="fields col-md-4">Employee ID</div>
                                                 <div class="col-md-6"><input class="form-control" type="text" id="empid" name="empid"></input></div>
@@ -43,24 +43,97 @@ include 'includes/checkInvalidUser.php';
                                                 </div>
                                                 <div class="col-md-6"><input class="form-control" type="text" id="rate" name='rate'></input></div>
                                             </div>
+                                            <div class="fields row">
+                                                <div class="fields col-md-4">Patient Type
+                                                </div>
+                                                <div class="col-md-6 fields-radio">
+                                                    <input type="radio" name="type-patient" id="patient-self" value="self"> Self</input>
+                                                    &nbsp;
+                                                    <input type="radio" name="type-patient" id="patient-dependent" value="dependent"> Dependent</input>
+                                                </div>
+                                            </div>
+
+                                            <div id="dependent">
+                                                <div class="fields row">
+                                                    <div class="fields col-md-4 wrap">Relation
+                                                    </div>
+                                                    <div class="col-md-6 fields-radio wrap">
+                                                        <input type="radio" class="relation" name="relation" id="relation-child" value="child"> Child</input>
+                                                        &nbsp;
+                                                        <input type="radio" class="relation" name="relation" id="relation-parent" value="parent"> Parent</input>
+                                                    </div>
+                                                </div>
+                                                <div class="fields row">
+                                                    <div class="fields col-md-4 wrap">Dependent's Gender
+                                                    </div>
+                                                    <div class="col-md-6 fields-radio wrap">
+                                                        <input type="radio" class="gender" name="gender" id="g-male" value="male"> Male</input>
+                                                        &nbsp;
+                                                        <input type="radio" class="gender" name="gender" id="g-female" value="female"> Female</input>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                             <div class=" fields row">
                                                 <div class="fields col-md-4">Start Date</div>
-                                                <div class="col-md-6"><input class="form-control" type="text" id="start-date" name='start-date'></input></div>
+                                                <div class="col-md-6">
+                                                    <div class=" input-group">
+                                                        <span class="input-group-addon" id="basic-addon1">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </span>
+                                                        <input class="form-control" readonly type="text" id="start-date" name='start-date'></input>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class=" fields row">
                                                 <div class="fields col-md-4">End Date</div>
-                                                <div class="col-md-6"><input class="form-control" type="text" id="end-date" name='end-date'></input></div>
+                                                <div class="col-md-6">
+                                                    <div class=" input-group">
+                                                        <span class="input-group-addon" id="basic-addon1">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </span><input class="form-control" readonly type="text" id="end-date" name='end-date'></input>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="fields row" style="padding-bottom: 15px;">
+                                                <div class="fields col-md-10">
+                                                    <button type="button" class="btn btn-block btn-primary" name="btn-grant-leave" id="btn-grant-leave">
+                                                        <span class="fa fa-plus"></span> Grant Leave</button>  
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="col-md-12 emp-record ">
+                                            <div class=" fields row">
+                                                <div class="fields col-md-4">Employee ID</div>
+                                                <div class="col-md-8"><input class="form-control" type="text" id="end-date" name='end-date'></input></div>
+                                            </div>
+                                            <div class=" fields row">
+                                                <div class="fields col-md-4">Employee Name</div>
+                                                <div class="col-md-8"><input class="form-control" type="text" id="end-date" name='end-date'></input></div>
+                                            </div>
+                                            <div class=" fields row">
+                                                <div class="fields col-md-4">PF ID</div>
+                                                <div class="col-md-8"><input class="form-control" type="text" id="end-date" name='end-date'></input></div>
+                                            </div>
+                                            <div class=" fields row">
+                                                <div class="fields col-md-4">Division</div>
+                                                <div class="col-md-8"><input class="form-control" type="text" id="end-date" name='end-date'></input></div>
+                                            </div>
+                                            <div class=" fields row">
+                                                <div class="fields col-md-4">Book Number</div>
+                                                <div class="col-md-8"><input class="form-control" type="text" id="end-date" name='end-date'></input></div>
+                                            </div>
+                                            <div class=" fields row">
+                                                <div class="fields col-md-4">Gender</div>
+                                                <div class="col-md-8"><input class="form-control" type="text" id="end-date" name='end-date'></input></div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6"></div>
                                     </div>
                                 </div>
-                                <div class="content">
-                                    <div id="sickrecord" class="tab-pane fade">
-                                        <div id="daily" class="tab-pane fade in active">
-                                            <p>Table</p>
-                                        </div>
-                                    </div>
+                                <div id="sickrecord" class="row tab-pane fade">
+                                    <p>some text</p>
                                 </div>
                             </div>
                         </div>
