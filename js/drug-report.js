@@ -11,12 +11,12 @@ $(document).ready(function(){
         selectOtherMonths: true,
         maxDate: 0
     });
-    $("#weekly-date").datepicker({
+    /*$("#weekly-date").datepicker({
         dateFormat:'yy-mm-dd',
         changeMonth: true,
         changeYear: true,
         maxDate: 0
-    });
+    });*/
     $("#start-date").datepicker({
         dateFormat:'yy-mm-dd',
         changeMonth: true,

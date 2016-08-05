@@ -12,8 +12,8 @@ include 'includes/checkInvalidUser.php';
         <link href="css/drug-report.css" rel="stylesheet"/>
         <link href="css/profile.css" rel="stylesheet"/>
         <link href="css/dashboard.css" rel="stylesheet"/>
-        <script>
-           $(function() {
+        <script type="text/javascript">
+            $(function() {
                 var startDate;
                 var endDate;
     
@@ -100,12 +100,15 @@ include 'includes/checkInvalidUser.php';
                                                     <span class="input-group-addon" id="basic-addon1">
                                                         <i class="fa fa-calendar"></i>
                                                     </span>
-                                                    <input class="form-control " readonly type="text" id="weekly-date" name='weekly-date'/></input>
+                                                    <input class="form-control " readonly type="text" class="week-picker" id="weekly-date" name='weekly-date'/></input>
                                                 </div>
                                             </div>
                                             <div class="col-md-1 head">
                                                 <button type="button" class="btn btn-block btn-success" name="btn-weekly-drug" id="btn-weekly-drug">
                                                     <span class="fa fa-server"></span> Go</button>       
+                                            </div>
+                                            <div class="week">
+                                                <label>Week :</label> <span id="startDate"></span> - <span id="endDate"></span>
                                             </div>
                                         </div>
                                     </div>

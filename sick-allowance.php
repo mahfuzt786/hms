@@ -37,6 +37,10 @@ include 'includes/checkInvalidUser.php';
                                             <div class="fields row">
                                                 <div class="fields col-md-4">Employee ID</div>
                                                 <div class="col-md-6"><input class="form-control" type="text" id="empid" name="empid"></input></div>
+                                                <div class="col-md-2 fields">
+                                                    <i class="glyphicon glyphicon-ok" id="found"></i>
+                                                    <i class="glyphicon glyphicon-remove" id="notfound"></i>
+                                                </div>
                                             </div>
                                             <div class="fields row">
                                                 <div class="fields col-md-4">Allowance Rate
@@ -104,30 +108,34 @@ include 'includes/checkInvalidUser.php';
                                         </form>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="col-md-12 emp-record ">
+                                        <div class="col-md-12 emp-record " id="emp-record">
                                             <div class=" fields row">
                                                 <div class="fields col-md-4">Employee ID</div>
-                                                <div class="col-md-8"><input class="form-control" type="text" id="end-date" name='end-date'></input></div>
+                                                <div class="fields col-md-8"><span id="id"></span></div>
                                             </div>
                                             <div class=" fields row">
                                                 <div class="fields col-md-4">Employee Name</div>
-                                                <div class="col-md-8"><input class="form-control" type="text" id="end-date" name='end-date'></input></div>
+                                                <div class="fields col-md-8"><span id="name"></span></div>
                                             </div>
                                             <div class=" fields row">
                                                 <div class="fields col-md-4">PF ID</div>
-                                                <div class="col-md-8"><input class="form-control" type="text" id="end-date" name='end-date'></input></div>
+                                                <div class="fields col-md-8"><span id="pfid"></span></input></div>
                                             </div>
                                             <div class=" fields row">
                                                 <div class="fields col-md-4">Division</div>
-                                                <div class="col-md-8"><input class="form-control" type="text" id="end-date" name='end-date'></input></div>
+                                                <div class="fields col-md-8"><span id="div"></span></div>
                                             </div>
                                             <div class=" fields row">
                                                 <div class="fields col-md-4">Book Number</div>
-                                                <div class="col-md-8"><input class="form-control" type="text" id="end-date" name='end-date'></input></div>
+                                                <div class="fields col-md-8"><span id="book"></span></div>
+                                            </div>
+                                            <div class=" fields row">
+                                                <div class="fields col-md-4">Designation</div>
+                                                <div class="fields col-md-8"><span id="desig"></span></div>
                                             </div>
                                             <div class=" fields row">
                                                 <div class="fields col-md-4">Gender</div>
-                                                <div class="col-md-8"><input class="form-control" type="text" id="end-date" name='end-date'></input></div>
+                                                <div class="fields col-md-8"><span id="gen"></span></div>
                                             </div>
                                         </div>
                                     </div>
