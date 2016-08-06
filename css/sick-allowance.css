@@ -26,3 +26,6 @@
     box-shadow: 3px 3px 3px 3px;
    
 }
+.edit-icon, .remove-textbox{
+    cursor: pointer;
+}
