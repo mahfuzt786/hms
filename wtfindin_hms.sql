@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 04, 2016 at 09:42 AM
+-- Generation Time: Aug 07, 2016 at 07:28 PM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -19,6 +19,27 @@ SET time_zone = "+00:00";
 --
 -- Database: `wtfindin_hms`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dependent`
+--
+
+CREATE TABLE IF NOT EXISTS `dependent` (
+`did` int(50) NOT NULL,
+  `sid` varchar(50) NOT NULL,
+  `relation` enum('child','parent') NOT NULL,
+  `gender` enum('male','female') NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `dependent`
+--
+
+INSERT INTO `dependent` (`did`, `sid`, `relation`, `gender`) VALUES
+(1, 'SL1001', 'child', 'female'),
+(2, 'SL1002', 'child', 'female');
 
 -- --------------------------------------------------------
 
@@ -239,6 +260,49 @@ INSERT INTO `prescription_drugs` (`pdId`, `p_id`, `drug_id`, `drugCatId`, `added
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `sick_allowance_rate`
+--
+
+CREATE TABLE IF NOT EXISTS `sick_allowance_rate` (
+`r_id` int(1) NOT NULL,
+  `r_rate` int(4) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `sick_allowance_rate`
+--
+
+INSERT INTO `sick_allowance_rate` (`r_id`, `r_rate`) VALUES
+(1, 150);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sick_leave`
+--
+
+CREATE TABLE IF NOT EXISTS `sick_leave` (
+`sid` int(50) NOT NULL,
+  `s_id` varchar(50) NOT NULL,
+  `emp_id` varchar(50) NOT NULL,
+  `rate` int(5) NOT NULL,
+  `patientType` varchar(10) NOT NULL,
+  `startDate` timestamp NULL DEFAULT NULL,
+  `endDate` timestamp NULL DEFAULT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `sick_leave`
+--
+
+INSERT INTO `sick_leave` (`sid`, `s_id`, `emp_id`, `rate`, `patientType`, `startDate`, `endDate`, `date`) VALUES
+(7, 'SL1001', 'EMP1001', 180, 'DEPENDENT', '2016-07-31 18:30:00', '2016-08-06 18:30:00', '2016-08-07 16:18:22'),
+(8, 'SL1002', 'EMP1002', 180, 'DEPENDENT', '2016-07-31 18:30:00', '2016-08-06 18:30:00', '2016-08-07 16:24:47');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `user`
 --
 
@@ -268,7 +332,7 @@ CREATE TABLE IF NOT EXISTS `userlogin` (
   `loginDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `userId` int(11) NOT NULL,
   `remote_addr` varchar(45) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=86 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `userlogin`
@@ -347,11 +411,29 @@ INSERT INTO `userlogin` (`userLoginId`, `loginDate`, `userId`, `remote_addr`) VA
 (70, '2016-08-03 14:20:07', 1, '127.0.0.1'),
 (71, '2016-08-04 05:58:15', 1, '127.0.0.1'),
 (72, '2016-08-04 05:58:14', 1, '127.0.0.1'),
-(73, '2016-08-04 05:58:14', 1, '127.0.0.1');
+(73, '2016-08-04 05:58:14', 1, '127.0.0.1'),
+(74, '2016-08-04 09:03:59', 1, '127.0.0.1'),
+(75, '2016-08-04 14:23:04', 1, '127.0.0.1'),
+(76, '2016-08-04 20:00:25', 1, '127.0.0.1'),
+(77, '2016-08-05 04:35:58', 1, '127.0.0.1'),
+(78, '2016-08-05 15:49:36', 1, '127.0.0.1'),
+(79, '2016-08-05 19:19:01', 1, '127.0.0.1'),
+(80, '2016-08-06 07:27:24', 1, '127.0.0.1'),
+(81, '2016-08-06 14:44:53', 1, '127.0.0.1'),
+(82, '2016-08-06 14:57:06', 1, '127.0.0.1'),
+(83, '2016-08-06 16:18:13', 1, '127.0.0.1'),
+(84, '2016-08-06 16:18:14', 1, '127.0.0.1'),
+(85, '2016-08-07 06:42:37', 1, '127.0.0.1');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `dependent`
+--
+ALTER TABLE `dependent`
+ ADD PRIMARY KEY (`did`);
 
 --
 -- Indexes for table `division`
@@ -402,6 +484,18 @@ ALTER TABLE `prescription_drugs`
  ADD PRIMARY KEY (`pdId`);
 
 --
+-- Indexes for table `sick_allowance_rate`
+--
+ALTER TABLE `sick_allowance_rate`
+ ADD PRIMARY KEY (`r_id`);
+
+--
+-- Indexes for table `sick_leave`
+--
+ALTER TABLE `sick_leave`
+ ADD PRIMARY KEY (`sid`);
+
+--
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
@@ -417,6 +511,11 @@ ALTER TABLE `userlogin`
 -- AUTO_INCREMENT for dumped tables
 --
 
+--
+-- AUTO_INCREMENT for table `dependent`
+--
+ALTER TABLE `dependent`
+MODIFY `did` int(50) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `division`
 --
@@ -458,6 +557,16 @@ MODIFY `p_id` int(100) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 ALTER TABLE `prescription_drugs`
 MODIFY `pdId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
 --
+-- AUTO_INCREMENT for table `sick_allowance_rate`
+--
+ALTER TABLE `sick_allowance_rate`
+MODIFY `r_id` int(1) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `sick_leave`
+--
+ALTER TABLE `sick_leave`
+MODIFY `sid` int(50) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+--
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
@@ -466,7 +575,7 @@ MODIFY `userId` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 -- AUTO_INCREMENT for table `userlogin`
 --
 ALTER TABLE `userlogin`
-MODIFY `userLoginId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=74;
+MODIFY `userLoginId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=86;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
