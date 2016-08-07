@@ -29,3 +29,10 @@
 .edit-icon, .remove-textbox{
     cursor: pointer;
 }
+.leave-search{
+    margin: 0px;
+    padding: 0px;
+}
+.leave-record{
+    padding-top: 10px;
+}

@@ -20,14 +20,12 @@ $(document).ready(function(){
     $("#start-date").datepicker({
         dateFormat:'yy-mm-dd',
         changeMonth: true,
-        changeYear: true,
-        maxDate: 0
+        changeYear: true
     });
     $("#end-date").datepicker({
         dateFormat:'yy-mm-dd',
         changeMonth: true,
-        changeYear: true,
-        maxDate: 0
+        changeYear: true
     });
     // By Default Disable radio button
     $(".relation").attr('disabled', true);
@@ -180,18 +178,16 @@ $(document).ready(function(){
             {
                 msg: 'Please select a Patient Type!'
             });
-        }else if($("input:radio[name='type-patient']:checked").val()=='dependent'){
-            if($("input:radio[name='relation']:checked").length == 0){
-                Lobibox.alert("error",
-                {
-                    msg: 'Please select relation!'
-                });
-            }else if($("input:radio[name='gender']:checked").length == 0){
-                Lobibox.alert("error",
-                {
-                    msg: 'Please select gender!'
-                });
-            }
+        }else if($("input:radio[name='type-patient']:checked").val()=='dependent'&& $("input:radio[name='relation']:checked").length == 0){
+            Lobibox.alert("error",
+            {
+                msg: 'Please select a relation!'
+            });
+        }else if($("input:radio[name='type-patient']:checked").val()=='dependent'&& $("input:radio[name='gender']:checked").length == 0){
+            Lobibox.alert("error",
+            {
+                msg: 'Please select gender!'
+            });
         }else if($('#start-date').val()=="" || $('#start-date').val()==null){
             Lobibox.alert("error",
             {
@@ -203,7 +199,41 @@ $(document).ready(function(){
                 msg: 'Please Enter End Date!'
             });
         }else{
-            alert('coming soon');
+            $.ajax({
+                url: "service/sick-allow.php",
+                type: "POST",
+                data: {
+                    action: 'addSickLeave',
+                    slid:$('#slid').text(),
+                    empid:$('#empid').val(),
+                    patient:$("input:radio[name='type-patient']:checked").val(),
+                    rate:$('#rate-text').text(),
+                    sdate:$('#start-date').val(),
+                    edate:$('#end-date').val(),
+                    relation:$("input:radio[name='relation']:checked").val(),
+                    gender:$("input:radio[name='gender']:checked").val()
+                },
+                //dataType: "json",
+                success: function(result){
+                    if(result=='done') {
+                        Lobibox.alert("success",
+                        {
+                            msg: 'Sick Leave Succsfully granted to '+$('#empid').val()+'',
+                            callback: function ($this, type, ev) {
+                                if(type=='ok'){
+                                    location.replace('sick-allowance.php');
+                                }
+                            }
+                        });
+                    }
+                    else {
+                        Lobibox.alert("error",
+                        {
+                            msg: result
+                        });
+                    }
+                }
+            });
         }
     });
 });
