@@ -78,24 +78,60 @@ $(document).ready(function(){
         }
     }
     function weeklydrug(){
-        if($('#weekly-date').val()==""){
+        if($('#weekly-date').val() === "")
+        {
             Lobibox.alert("error",
             {
                 msg: 'Please enter Date!'
             });
-        }else{
-            var dat=$('#weekly-date').val();
+        }
+        else if($('#startDate').text() === "")
+        {
+            Lobibox.alert("error",
+            {
+                msg: 'Week\'s 1st Date is not selected. Please re-select a date!'
+            });
+        }
+        else if($('#endDate').text() === "")
+        {
+            Lobibox.alert("error",
+            {
+                msg: 'Week\'s 2nd Date is not selected. Please re-select a date!'
+            });
+        }
+        else {
+            //var dat=$('#weekly-date').val();
+            //$.ajax({
+            //    url: "service/check-drug-report.php",
+            //    type: "POST",
+            //    data: {
+            //        action: 'check_weekly',
+            //        dt: dat
+            //    },
+            //    //dataType: "json",
+            //    success: function(result){
+            //        if(result=='done'){
+            //            $('#frame').prop('src', 'lib/tcpdf/reports/weekly-drug-report.php?dat='+dat+'');
+            //                   
+            //        }else{
+            //            $('#frame').prop('src', 'lib/tcpdf/reports/no-data.php');
+            //        }
+            //    }
+            //});
+            var wkstart     = $('#startDate').text();
+            var wkend       = $('#endDate').text();
             $.ajax({
                 url: "service/check-drug-report.php",
                 type: "POST",
                 data: {
-                    action: 'check_weekly',
-                    dt: dat
+                    action: 'check_between',
+                    start: wkstart,
+                    end: wkend
                 },
                 //dataType: "json",
                 success: function(result){
                     if(result=='done'){
-                        $('#frame').prop('src', 'lib/tcpdf/reports/weekly-drug-report.php?dat='+dat+'');
+                        $('#frame').prop('src', 'lib/tcpdf/reports/between-drug-report.php?start='+wkstart+'&end='+wkend+'');
                                
                     }else{
                         $('#frame').prop('src', 'lib/tcpdf/reports/no-data.php');
@@ -137,7 +173,8 @@ function monthlydrug(){
                 }
             });
         }
-    }function yearlydrug(){
+    }
+    function yearlydrug(){
         if($('#yearly-year').val()=="select"){
             Lobibox.alert("error",
             {
@@ -203,4 +240,43 @@ function monthlydrug(){
             });
         }
     }
+    
+    
+    var startDate;
+    var endDate;
+
+    var selectCurrentWeek = function() {
+        window.setTimeout(function () {
+            $('#weekly-date').find('.ui-datepicker-current-day a').addClass('ui-state-active')
+        }, 1);
+    }
+
+    $('#weekly-date').datepicker({
+        dateFormat:'yy-mm-dd',
+        changeMonth: true,
+        changeYear: true,
+        maxDate: 0,
+        onSelect: function(dateText, inst) { 
+            var date = $(this).datepicker('getDate');
+            startDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay());
+            endDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay() + 6);
+            var dateFormat = inst.settings.dateFormat || $.datepicker._defaults.dateFormat;
+            $('#startDate').text($.datepicker.formatDate( dateFormat, startDate, inst.settings ));
+            $('#endDate').text($.datepicker.formatDate( dateFormat, endDate, inst.settings ));
+            
+            selectCurrentWeek();
+        },
+        beforeShowDay: function(date) {
+            var cssClass = '';
+            if(date >= startDate && date <= endDate)
+                cssClass = 'ui-datepicker-current-day';
+            return [true, cssClass];
+        },
+        onChangeMonthYear: function(year, month, inst) {
+            selectCurrentWeek();
+        }
+    });
+
+    //$('.week-picker .ui-datepicker-calendar tr').live('mousemove', function() { $(this).find('td a').addClass('ui-state-hover'); });
+    //$('.week-picker .ui-datepicker-calendar tr').live('mouseleave', function() { $(this).find('td a').removeClass('ui-state-hover'); });
 });
