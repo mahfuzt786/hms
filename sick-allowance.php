@@ -15,7 +15,7 @@ include 'includes/checkInvalidUser.php';
         <script>
             $(document).ready(function() {
                 var options = {
-                    valueNames: [ 'SLID', 'EMPID', 'RATE', 'TYPE', 'START', 'END'],
+                    valueNames: [ 'SLID', 'EMPID', 'RATE', 'TYPE', 'START', 'DAYS', 'END'],
                     page: 10,
                     plugins: [
                         ListPagination({
@@ -229,6 +229,7 @@ include 'includes/checkInvalidUser.php';
                                                     <th class="sort text-center" data-sort="TYPE" data-toggle="tooltip" data-placement="auto" title="Sort by Patient Type">Patient Type</th>
                                                     <th class="sort text-center" data-sort="START" data-toggle="tooltip" data-placement="auto" title="Sort by Start Date">Start Date</th>
                                                     <th class="sort text-center" data-sort="END" data-toggle="tooltip" data-placement="auto" title="Sort by End Date">End Date</th>
+                                                    <th class="sort text-center" data-sort="DAYS" data-toggle="tooltip" data-placement="auto" title="Sort by No. of days on leave">Days on Leave</th>
                                                     <th class="text-center" data-toggle="tooltip" data-placement="auto" title="Options">Options</th>
                                                 </tr>  
                                             </thead>
@@ -246,15 +247,24 @@ include 'includes/checkInvalidUser.php';
                                                     echo"<td class='SLID text-center'>" . $rows['s_id'] . "</td>";
                                                     echo"<td class='EMPID text-center'>" . $rows['emp_id'] . "</td>";
                                                     echo"<td class='RATE text-center'>" . $rows['rate'] . "</td>";
-                                                    echo"<td class='TYPE text-center'>" . $rows['patientType'] . "</td>";
-                                                    
+                                                    if ($rows['patientType'] == 'DEPENDENT') {
+                                                        echo"<td class='TYPE text-center'>" . strtoupper($rows['relation']) . ' (' . strtoupper($rows['gender']) . ")</td>";
+                                                    } else {
+                                                        echo"<td class='TYPE text-center'>" . $rows['patientType'] . "</td>";
+                                                    }
+
                                                     $s = new DateTime($rows['startDate']);
                                                     $e = new DateTime($rows['endDate']);
                                                     $start = $s->format('j-M-Y');
                                                     $end = $e->format('j-M-Y');
-                                                    
+
+                                                    $days = $e->diff($s)->format("%a");
+                                                    $days=$days+1;
+
                                                     echo"<td class='START text-center'>" . $start . "</td>";
                                                     echo"<td class='END text-center'>" . $end . "</td>";
+
+                                                    echo"<td class='DAYS text-center'>" . $days . "</td>";
                                                     echo"<td class='text-center'>
                                                         <button id=\"btn-edit-drug\" data-toggle=\"modal\" data-target=\"#edit-drug\" onclick=\"edit_drug('" . $rows[''] . "')\"><i style='color:darkgreen;' data-toggle='tooltip' data-placement='auto' title='Edit' class='fa fa-wrench'></i></button>
                                                         &nbsp;&nbsp;

@@ -234,11 +234,13 @@ include 'includes/checkInvalidUser.php';
                                                             $result2 = $mysqli->query($sql_drugscategory);
                                                             $row = $result2->fetch_assoc();
                                                             echo"<td class='category'>" . $row['drugs_cat'] . "</td>";
-
-
                                                             echo"<td class='price'><i class=\"fa fa-rupee\"> </i>&nbsp;" . $rows['drugs_price'] . "</td>";
-                                                            echo"<td class='man_date text-center'>" . $rows['drugs_manufacturing_date'] . "</td>";
-                                                            echo"<td class='exp_date text-center'>" . $rows['drugs_expiry_date'] . "</td>";
+                                                            $m = new DateTime($rows['drugs_manufacturing_date']);
+                                                            $e = new DateTime($rows['drugs_expiry_date']);
+                                                            $manu = $m->format('j-M-Y');
+                                                            $exp = $e->format('j-M-Y');
+                                                            echo"<td class='man_date text-center'>" . $manu . "</td>";
+                                                            echo"<td class='exp_date text-center'>" . $exp . "</td>";
                                                             echo"<td class='quantity text-center'>" . $rows['drugs_quantity'] . "</td>";
                                                             echo"<td class='text-center'>
                                                         <button id=\"btn-edit-drug\" data-toggle=\"modal\" data-target=\"#edit-drug\" onclick=\"edit_drug('" . $rows['drugs_id'] . "')\"><i style='color:darkgreen;' data-toggle='tooltip' data-placement='auto' title='Edit' class='fa fa-wrench'></i></button>
@@ -282,38 +284,37 @@ include 'includes/checkInvalidUser.php';
 
                                                     <tbody class="list">
                                                         <?php
-                                                        $sno = 1;                                                        
-                                                        
+                                                        $sno = 1;
+
                                                         $today = date("Y-m-d H:i:s");
-                                                        
+
                                                         $sql_drugs = "SELECT wtfindin_hms.drugs.*
                                                                 FROM wtfindin_hms.drugs
                                                                 ORDER BY drugs_id DESC";
                                                         $result = $mysqli->query($sql_drugs);
                                                         while ($rows = $result->fetch_assoc()) {
                                                             //$rows['drugs_cat_id'];
-                                                                                                                        
-                                                            if( $rows['isAvailable'] == 'N' || strtotime($today) > strtotime($rows['drugs_expiry_date']))
-                                                            {
-                                                                /** UPDATE DB to inAvailable=N for expiry date, so that not available in prescription **/
+
+                                                            if ($rows['isAvailable'] == 'N' || strtotime($today) > strtotime($rows['drugs_expiry_date'])) {
+                                                                /** UPDATE DB to inAvailable=N for expiry date, so that not available in prescription * */
                                                                 $expiryDatezId = $rows['drugs_id'];
                                                                 $sqlUpdate = "UPDATE wtfindin_hms.drugs SET isAvailable = 'N' WHERE drugs_id = '$expiryDatezId';";
 
                                                                 // Execute SQL
                                                                 $update_userIngre = $mysqli->query($sqlUpdate);
-                                                    
+
                                                                 if (!$update_userIngre) {
                                                                     $errorz = '1';
                                                                     echo "Error in updating drugs status -> " . $mysqli->error;
                                                                 } else {
                                                                     $errorz = '0';
                                                                 }
-                                                                
+
                                                                 echo "<tr>";
                                                                 echo"<td class='sno text-center'>" . $sno . "</td>";
                                                                 echo"<td class='drugsname' data-toggle=\"modal\" data-target=\"#drug-detail\" onclick=\"show_drug('" . $rows['drugs_id'] . "')\">" . $rows['drugs_name'] . "</td>";
-    
-                                                                /** USE JOIN.. Try not to use sql query inside loop.. **/
+
+                                                                /** USE JOIN.. Try not to use sql query inside loop.. * */
                                                                 $catid = $rows['drugs_cat_id'];
                                                                 $sql_drugscategory = "SELECT drugscategory.drugs_cat
                                                                     FROM wtfindin_hms.drugscategory
@@ -321,19 +322,21 @@ include 'includes/checkInvalidUser.php';
                                                                 $result2 = $mysqli->query($sql_drugscategory);
                                                                 $row = $result2->fetch_assoc();
                                                                 echo"<td class='category'>" . $row['drugs_cat'] . "</td>";
-    
+
                                                                 echo"<td class='quantity text-center'>" . $rows['drugs_quantity'] . "</td>";
-                                                                echo"<td class='man_date text-center'>" . $rows['drugs_manufacturing_date'] . "</td>";
-                                                                echo"<td class='exp_date text-center'>" . $rows['drugs_expiry_date'] . "</td>";
+                                                                $m = new DateTime($rows['drugs_manufacturing_date']);
+                                                                $e = new DateTime($rows['drugs_expiry_date']);
+                                                                $manu = $m->format('j-M-Y');
+                                                                $exp = $e->format('j-M-Y');
+                                                                echo"<td class='man_date text-center'>" . $manu . "</td>";
+                                                                echo"<td class='exp_date text-center'>" . $exp . "</td>";
                                                                 echo"<td class='status text-center'>";
-                                                                        if($rows['drugs_quantity'] == '0')
-                                                                        {
-                                                                            echo '<strong> Out of Stock </strong>';
-                                                                        }
-                                                                        else {
-                                                                            echo '<strong> Expired </strong>';
-                                                                        }
-                                                                    echo "</td>";
+                                                                if ($rows['drugs_quantity'] == '0') {
+                                                                    echo '<strong> Out of Stock </strong>';
+                                                                } else {
+                                                                    echo '<strong> Expired </strong>';
+                                                                }
+                                                                echo "</td>";
                                                                 echo"</tr>";
                                                                 $sno = $sno + 1;
                                                             }
@@ -416,7 +419,7 @@ include 'includes/checkInvalidUser.php';
                         <div class="modal-body">
                             <div>
                                 <form action="" id="frm-add-drugs">
-                                    <!--<input type="hidden" id="id" value="<?//php echo $id; ?>"/>-->
+                                    <!--<input type="hidden" id="id" value="<? //php echo $id;    ?>"/>-->
                                     <div class="form-group ">
                                         <select class="form-control option-control" id="drugs-category" name='drugs-category'>
                                             <option value="select">Select Category</option>

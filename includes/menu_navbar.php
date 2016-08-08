@@ -1,5 +1,5 @@
 <!--header-->
-<nav class="navbar navbar-default no-margin">
+<nav class="navbar navbar-default no-margin" style="border-bottom: 2px solid yellow;">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header fixed-brand">
         <!--<button type="button" class="navbar-toggle" data-toggle="collapse" id="menu-toggle">
