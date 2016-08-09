@@ -108,7 +108,7 @@ if (!$arRes) {
                  </html>';
     $pdf->writeHTML($html, true, 0, true, 0);
     $pdf->lastPage();
-    $pdf->Output($dt . '.pdf', 'I');
+    $pdf->Output($start.'-'.$end.'.pdf', 'I');
     //echo $row->e_name;
 }
 ?>
