@@ -1,0 +1,24 @@
+.tab-rep{
+   padding-top: 15px;
+}
+.drug-field{
+    padding-top: 7px;
+}
+.pdf-viewer{
+    border: 1px solid lightgrey;
+    margin-left: 8px;
+    margin-right: 8px;
+}
+iframe{
+    border: 0px;
+}
+.tab-content{
+    border: 1px solid lightgrey;
+    height: 70px;
+    border-top: none;
+}
+.week{
+    margin: 5px;
+    margin-top: 10px;
+}
+
