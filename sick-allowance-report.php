@@ -12,45 +12,6 @@ include 'includes/checkInvalidUser.php';
         <link href="css/sick-allowance-report.css" rel="stylesheet"/>
         <link href="css/profile.css" rel="stylesheet"/>
         <link href="css/dashboard.css" rel="stylesheet"/>
-        <script type="text/javascript">
-            $(function() {
-                var startDate;
-                var endDate;
-    
-                var selectCurrentWeek = function() {
-                    window.setTimeout(function () {
-                        $('.week-picker').find('.ui-datepicker-current-day a').addClass('ui-state-active')
-                    }, 1);
-                }
-    
-                $('.week-picker').datepicker( {
-                    showOtherMonths: true,
-                    selectOtherMonths: true,
-                    onSelect: function(dateText, inst) { 
-                        var date = $(this).datepicker('getDate');
-                        startDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay());
-                        endDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay() + 6);
-                        var dateFormat = inst.settings.dateFormat || $.datepicker._defaults.dateFormat;
-                        $('#startDate').text($.datepicker.formatDate( dateFormat, startDate, inst.settings ));
-                        $('#endDate').text($.datepicker.formatDate( dateFormat, endDate, inst.settings ));
-            
-                        selectCurrentWeek();
-                    },
-                    beforeShowDay: function(date) {
-                        var cssClass = '';
-                        if(date >= startDate && date <= endDate)
-                            cssClass = 'ui-datepicker-current-day';
-                        return [true, cssClass];
-                    },
-                    onChangeMonthYear: function(year, month, inst) {
-                        selectCurrentWeek();
-                    }
-                });
-    
-                $('.week-picker .ui-datepicker-calendar tr').live('mousemove', function() { $(this).find('td a').addClass('ui-state-hover'); });
-                $('.week-picker .ui-datepicker-calendar tr').live('mouseleave', function() { $(this).find('td a').removeClass('ui-state-hover'); });
-            });
-        </script>
     </head>
     <body>
 
@@ -75,11 +36,6 @@ include 'includes/checkInvalidUser.php';
                             <div class="tab-content">
                                 <div id="daily" class="tab-pane fade in active">
                                     <div class="tab-rep">
-
-                                        <div class="col-md-1 drug-field">Emp. ID &nbsp;<input type="checkbox" id="d-empid" name="d-empid"></input></div>
-                                        <div class="col-md-3">
-                                            <input class="form-control" placeholder="Employee ID" type="text" id="daily-empid" name='daily-empid'/></input>
-                                        </div>
                                         <div class="col-md-1 drug-field">Enter Date</div>
                                         <div class="col-md-3">
                                             <div class=" input-group">
@@ -144,7 +100,7 @@ include 'includes/checkInvalidUser.php';
                                             </div>
                                         </div>
                                         <div class="col-md-1 head">
-                                            <button type="button" class="btn btn-block btn-success" name="btn-monthly-drug" id="btn-monthly-drug">
+                                            <button type="button" class="btn btn-block btn-success" name="btn-monthly-sl" id="btn-monthly-sl">
                                                 <span class="fa fa-server"></span> Go</button>       
                                         </div>
                                     </div>
@@ -169,13 +125,19 @@ include 'includes/checkInvalidUser.php';
                                             </div>
                                         </div>
                                         <div class="col-md-1 head">
-                                            <button type="button" class="btn btn-block btn-success" name="btn-between-drug" id="btn-between-drug">
+                                            <button type="button" class="btn btn-block btn-success" name="btn-between-sl" id="btn-between-sl">
                                                 <span class="fa fa-server"></span> Go</button>       
                                         </div>
                                     </div>
                                 </div>
                                 <div id="Yearly" class="tab-pane fade">
                                     <div class="tab-rep">
+
+
+                                        <div class="col-md-1 drug-field">Emp. ID &nbsp;<input type="checkbox" id="d-empid" name="d-empid"></input></div>
+                                        <div class="col-md-3">
+                                            <input class="form-control" placeholder="Employee ID" type="text" id="daily-empid" name='daily-empid'/></input>
+                                        </div>
                                         <div class="col-md-1 drug-field">Select Year</div>
                                         <div class="col-md-2">
                                             <div class=" input-group">
@@ -194,7 +156,7 @@ include 'includes/checkInvalidUser.php';
                                             </div>
                                         </div>
                                         <div class="col-md-1 head">
-                                            <button type="button" class="btn btn-block btn-success" name="btn-yearly-drug" id="btn-yearly-drug">
+                                            <button type="button" class="btn btn-block btn-success" name="btn-yearly-sl" id="btn-yearly-sl">
                                                 <span class="fa fa-server"></span> Go</button>       
                                         </div>
                                     </div>

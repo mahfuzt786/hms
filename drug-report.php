@@ -69,7 +69,7 @@ include 'includes/checkInvalidUser.php';
                                                     <span class="fa fa-server"></span> Go</button>       
                                             </div>
                                             <div class="week">
-                                                <label>Week :</label> <span id="startDate"></span> - <span id="endDate"></span>
+                                                <label>Week :</label> <span id="startDate"></span>&nbsp; - &nbsp;<span id="endDate"></span>
                                             </div>
                                         </div>
                                     </div>

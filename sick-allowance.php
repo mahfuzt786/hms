@@ -15,7 +15,7 @@ include 'includes/checkInvalidUser.php';
         <script>
             $(document).ready(function() {
                 var options = {
-                    valueNames: [ 'SLID', 'EMPID', 'RATE', 'TYPE', 'START', 'DAYS', 'END'],
+                    valueNames: [ 'SLID', 'EMPID', 'RATE', 'TYPE', 'START', 'DAYS', 'END', 'DATE'],
                     page: 10,
                     plugins: [
                         ListPagination({
@@ -230,6 +230,7 @@ include 'includes/checkInvalidUser.php';
                                                     <th class="sort text-center" data-sort="START" data-toggle="tooltip" data-placement="auto" title="Sort by Start Date">Start Date</th>
                                                     <th class="sort text-center" data-sort="END" data-toggle="tooltip" data-placement="auto" title="Sort by End Date">End Date</th>
                                                     <th class="sort text-center" data-sort="DAYS" data-toggle="tooltip" data-placement="auto" title="Sort by No. of days on leave">Days on Leave</th>
+                                                    <th class="sort text-center" data-sort="DATE" data-toggle="tooltip" data-placement="auto" title="Sort by No. of days on leave">Entry Date</th>
                                                     <th class="text-center" data-toggle="tooltip" data-placement="auto" title="Options">Options</th>
                                                 </tr>  
                                             </thead>
@@ -255,8 +256,10 @@ include 'includes/checkInvalidUser.php';
 
                                                     $s = new DateTime($rows['startDate']);
                                                     $e = new DateTime($rows['endDate']);
+                                                    $d = new DateTime($rows['date']);
                                                     $start = $s->format('j-M-Y');
                                                     $end = $e->format('j-M-Y');
+                                                    $date = $d->format('j-m-Y');
 
                                                     $days = $e->diff($s)->format("%a");
                                                     $days=$days+1;
@@ -265,6 +268,7 @@ include 'includes/checkInvalidUser.php';
                                                     echo"<td class='END text-center'>" . $end . "</td>";
 
                                                     echo"<td class='DAYS text-center'>" . $days . "</td>";
+                                                    echo"<td class='DATE text-center'>" . $date . "</td>";
                                                     echo"<td class='text-center'>
                                                         <button id=\"btn-edit-drug\" data-toggle=\"modal\" data-target=\"#edit-drug\" onclick=\"edit_drug('" . $rows[''] . "')\"><i style='color:darkgreen;' data-toggle='tooltip' data-placement='auto' title='Edit' class='fa fa-wrench'></i></button>
                                                         &nbsp;&nbsp;

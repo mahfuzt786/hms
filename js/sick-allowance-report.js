@@ -1,12 +1,16 @@
 $(document).ready(function(){
     document.getElementById("daily-empid").disabled=true;
+    var flag_daily=0;
     $('#d-empid').change(function(){
         if($('#d-empid').prop('checked')){
             document.getElementById("daily-empid").disabled=false; 
             $('#daily-empid').focus();
+            flag_daily=1;
         }else{
             document.getElementById("daily-empid").disabled=true;
             $('#daily-date').focus();
+            $('#daily-empid').val('');
+            flag_daily=0;
         }
     });
     $('.nav-tabs a').click(function(){
@@ -41,32 +45,24 @@ $(document).ready(function(){
     });
     $('#btn-daily-sa').on('click',function(e) {
         e.preventDefault();
-        dailysa();    
-    });
-    $('#btn-weekly-drug').on('click',function(e) {
-        e.preventDefault();
-        weeklydrug();    
+        dailysa(); 
+    //alert ('daily');
     });
     
-    $('#btn-monthly-drug').on('click',function(e) {
+    $('#btn-monthly-sl').on('click',function(e) {
         e.preventDefault();
-        monthlydrug();    
+        monthlysl();    
     });
-    $('#btn-yearly-drug').on('click',function(e) {
+    $('#btn-yearly-sl').on('click',function(e) {
         e.preventDefault();
-        yearlydrug();    
+        yearlysl();    
     });
-    $('#btn-between-drug').on('click',function(e) {
+    $('#btn-between-sl').on('click',function(e) {
         e.preventDefault();
-        betweendrug();    
+        betweensl();    
     });
     function dailysa(){
-        if($('#d-empid').prop('checked') && $('#daily-empid').val()==""){
-            Lobibox.alert("error",
-            {
-                msg: 'Please enter Employee ID!'
-            }); 
-        }else if($('#daily-date').val()==""){
+        if($('#daily-date').val()==""){
             Lobibox.alert("error",
             {
                 msg: 'Please enter Date!'
@@ -74,7 +70,7 @@ $(document).ready(function(){
         }else{
             var dat=$('input#daily-date').val();
             $.ajax({
-                url: "service/check-drug-report.php",
+                url: "service/check-sl-report.php",
                 type: "POST",
                 data: {
                     action: 'check_daily',
@@ -82,44 +78,13 @@ $(document).ready(function(){
                 },
                 //dataType: "json",
                 success: function(result){
-                    if(result=='done'){
-                        $('#frame').prop('src', 'lib/tcpdf/reports/daily-drug-report.php?dat='+dat+'');
-                               
-                    }else{
-                        $('#frame').prop('src', 'lib/tcpdf/reports/no-data.php');
-                    }
+                    //alert (result);
+                    $('#frame').prop('src', result);
                 }
             });
         }
     }
-    function weeklydrug(){
-        if($('#weekly-date').val()==""){
-            Lobibox.alert("error",
-            {
-                msg: 'Please enter Date!'
-            });
-        }else{
-            var dat=$('#weekly-date').val();
-            $.ajax({
-                url: "service/check-drug-report.php",
-                type: "POST",
-                data: {
-                    action: 'check_weekly',
-                    dt: dat
-                },
-                //dataType: "json",
-                success: function(result){
-                    if(result=='done'){
-                        $('#frame').prop('src', 'lib/tcpdf/reports/weekly-drug-report.php?dat='+dat+'');
-                               
-                    }else{
-                        $('#frame').prop('src', 'lib/tcpdf/reports/no-data.php');
-                    }
-                }
-            });
-        }
-    }
-    function monthlydrug(){
+    function monthlysl(){
         if($('#monthly-month').val()=="select"){
             Lobibox.alert("error",
             {
@@ -134,53 +99,59 @@ $(document).ready(function(){
             var month=$('#monthly-month').val();
             var year=$('#monthly-year').val();
             $.ajax({
-                url: "service/check-drug-report.php",
+                url: "service/check-sl-report.php",
                 type: "POST",
                 data: {
-                    action: 'check_monthly',
+                    action: 'check_monthly_sl',
                     month: month,
                     year: year
                 },
                 //dataType: "json",
                 success: function(result){
-                    if(result=='done'){
-                        $('#frame').prop('src', 'lib/tcpdf/reports/monthly-drug-report.php?month='+month+'&year='+year+'');
-                               
-                    }else{
-                        $('#frame').prop('src', 'lib/tcpdf/reports/no-data.php');
-                    }
+                    $('#frame').prop('src', result);
                 }
             });
         }
     }
-    function yearlydrug(){
-        if($('#yearly-year').val()=="select"){
+    function yearlysl(){
+        if($('#d-empid').prop('checked') && $('#daily-empid').val()==""){
+            Lobibox.alert("error",
+            {
+                msg: 'Please enter Employee ID!'
+            }); 
+        }else if($('#yearly-year').val()=="select"){
             Lobibox.alert("error",
             {
                 msg: 'Please Select a Year!'
             });
         }else{
             var year=$('#yearly-year').val();
-            $.ajax({
-                url: "service/check-drug-report.php",
-                type: "POST",
-                data: {
-                    action: 'check_yearly',
+            var data;
+            if(flag_daily==1){
+                var empid=$('#daily-empid').val();
+                data={
+                    action: 'check_yearly_emp',
+                    year: year,
+                    empid: empid
+                };
+            }else{
+                data={
+                    action: 'check_yearly_sl',
                     year: year
-                },
+                };
+            }
+            $.ajax({
+                url: "service/check-sl-report.php",
+                type: "POST",
+                data: data,
                 //dataType: "json",
                 success: function(result){
-                    if(result=='done'){
-                        $('#frame').prop('src', 'lib/tcpdf/reports/yearly-drug-report.php?year='+year+'');
-                               
-                    }else{
-                        $('#frame').prop('src', 'lib/tcpdf/reports/no-data.php');
-                    }
+                     $('#frame').prop('src', result);
                 }
             });
         }
     }
-    function betweendrug(){
+    function betweensl(){
         if($('#start-date').val()==""){
             Lobibox.alert("error",
             {
@@ -200,21 +171,16 @@ $(document).ready(function(){
             var start=$('#start-date').val();
             var end=$('#end-date').val();
             $.ajax({
-                url: "service/check-drug-report.php",
+                url: "service/check-sl-report.php",
                 type: "POST",
                 data: {
-                    action: 'check_between',
+                    action: 'check_between_sl',
                     start: start,
                     end: end
                 },
                 //dataType: "json",
                 success: function(result){
-                    if(result=='done'){
-                        $('#frame').prop('src', 'lib/tcpdf/reports/between-drug-report.php?start='+start+'&end='+end+'');
-                               
-                    }else{
-                        $('#frame').prop('src', 'lib/tcpdf/reports/no-data.php');
-                    }
+                    $('#frame').prop('src', result);
                 }
             });
         }
