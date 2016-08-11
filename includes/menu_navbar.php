@@ -25,19 +25,30 @@
 
         <div class="user">
             <div>
+                <!--admin popover-->
                 <i class="fa fa-user"></i>
                 welcome, 
-                <a href="#" data-toggle="popover" title="Administrator"  data-trigger="focus" data-placement="bottom" >
+                <a href="#" data-toggle="popover" id="admin" title="Administrator"  data-trigger="focus" data-placement="bottom" >
                     <b><?php echo $_SESSION[SESS_LOGIN_NAME]; ?></b>&nbsp;
                     <i class="fa fa-angle-down"></i>
                 </a>
-                <div id="popover_content_wrapper" style="display: none">
+                <div id="popover_content_wrapper_admin" style="display: none;">
                     <div><a style="color: darkslateblue;" href="setting.php"><i class="fa fa-gears"></i> Setting</a></div>
                 </div>
+                <!--end of admin popover-->
                 &nbsp;&nbsp;
-                <a href="#" data-toggle="popover" title="Notifications"  data-trigger="focus" data-placement="bottom" >
-                    Notifications <span class="badge" style="background: darkred; color: white;">30</span>
+                <!--notification popover-->
+                <a href="#" data-toggle="popover" id="notification"  data-trigger="focus" data-placement="bottom" >
+                    Notifications <span class="badge" style="background: darkred; color: white;"><?php require_once 'notification.php';
+echo $total_drugs_notify; ?></span>
                 </a>
+                <div id="popover_content_wrapper_notification" style="display: none;">
+                    <div style="padding-top: 5px;"><a style="color:black;" href="manage-drugs.php">Low Stock </a><span class="badge" style="background: darkred; color: white;"><?php
+echo $ls; ?></span></div>
+                    <div style="padding-top: 5px;"><a style="color:black;" href="manage-drugs.php">Drug Expired </a><span class="badge" style="background: darkred; color: white;"><?php
+echo $x; ?></span></div>
+                </div>
+                <!--end of notification popover-->
             </div>
         </div>
     </div><!-- bs-example-navbar-collapse-1 -->

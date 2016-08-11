@@ -6,7 +6,8 @@ include 'includes/checkInvalidUser.php';
 <html>
     <head>
         <title >HMS : Home</title>
-        <?php require_once 'includes/html_main.php'; ?>
+        <?php require_once 'includes/html_main.php'; 
+        require_once 'includes/notification.php';?>
         <link href="css/profile.css" rel="stylesheet"/>
         <link href="css/dashboard.css" rel="stylesheet"/>
     </head>

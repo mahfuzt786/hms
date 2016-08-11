@@ -34,10 +34,16 @@ function initMenu() {
 }
 $(document).ready(function() {
     initMenu();
-    $('[data-toggle="popover"]').popover({ 
+    $('[id="admin"]').popover({ 
         html : true,
         content: function() {
-            return $('#popover_content_wrapper').html();
+            return $('#popover_content_wrapper_admin').html();
+        }
+    });
+    $('[id="notification"]').popover({ 
+        html : true,
+        content: function() {
+            return $('#popover_content_wrapper_notification').html();
         }
     });
     //menu item active

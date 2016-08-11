@@ -27,7 +27,7 @@
             <a href="#"> <span class="fa-stack fa-lg pull-left"><i class="fa fa-users fa-stack-1x "></i></span>Inpatients</a>
         </li>
         <li>
-            <a href="#"> <span class="fa-stack fa-lg pull-left"><i class="fa fa-users fa-stack-1x "></i></span>Outpatients</a>
+            <a href="#"> <span class="fa-stack fa-lg pull-left"><i class="fa fa-user-times fa-stack-1x "></i></span>Outpatients</a>
         </li>
         <li>
             <a href="#"> <span class="fa-stack fa-lg pull-left"><i class="fa fa-child fa-stack-1x "></i></span>Maternity</a>
