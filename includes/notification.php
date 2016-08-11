@@ -45,6 +45,10 @@ if ($flag == 0) {
                 }
                 if ($lowcount >= 3 && $exp >= 3) {
                     break;
+                }else if ($lowcount <= 3 && $exp >= 3) {
+                    break;
+                }else if ($lowcount >= 3 && $exp <= 3) {
+                    break;
                 }
             }
             $expire.="<tr><td colspan='3'><a href='manage-drugs.php#expired-drugs'>more >></a></td></tr>";
