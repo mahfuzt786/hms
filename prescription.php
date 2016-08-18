@@ -187,13 +187,13 @@ include 'includes/checkInvalidUser.php';
                                                         <div class="col-md-6 textArea">
                                                             <div class="col-md-12">
                                                                 <div>Remark</div>
-                                                                <textarea class="form-control" type="text" id="p_remark" name='p_remark' autocomplete="off" style="resize: none;"></textarea>
+                                                                <textarea class="form-control" type="text" id="p_remark" name='p_remark' autocomplete="off" style="resize: none;">NIL</textarea>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6 textArea">
                                                             <div class="col-md-12">
                                                                 <div>Note</div>
-                                                                <textarea class="form-control" type="text" id="p_note" name='p_note' autocomplete="off" style="resize: none;"></textarea>
+                                                                <textarea class="form-control" type="text" id="p_note" name='p_note' autocomplete="off" style="resize: none;">NIL</textarea>
                                                             </div>
                                                         </div>
                                                     </div>
