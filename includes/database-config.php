@@ -5,6 +5,8 @@
         $database='wtfindin_hms';
         $user='root';
         $pass='';
+		//$user='wtfindin_admin';
+        //$pass='%5*admin87@';
         // connect (create a new MySQLi object)
         @   $mysqli = new mysqli($host, $user, $pass, $database);
      
