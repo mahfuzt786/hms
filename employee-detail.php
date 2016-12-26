@@ -205,7 +205,7 @@ include 'includes/checkInvalidUser.php';
                                                             echo"<td class='pid text-center' data-toggle=\"modal\" data-target=\"#medicineList\" onclick=\"show_drug('" . $row_p['p_id'] . "')\"> <div class='emp-detail'>" . $row_p['p_id'] . "</div> </td>";
                                                             echo"<td class='doctor'>" . $row_p['d_name'] . "</td>";
 
-                                                            $dt = new DateTime($row_p['date']);
+                                                            $dt = new DateTime($row_p['p_date']);
                                                             $date = $dt->format('j-M-Y, g:i A');
 
                                                             echo"<td class='date text-center'>" . $date . "</td>";

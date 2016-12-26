@@ -10,7 +10,7 @@ $error = 'false';
 $year = $_GET['year'];
 
 $sql = "SELECT DISTINCT pd.p_id, pd.drug_id, SUM( pd.addedQuantity ) AS quantity, count(d.drugs_id) AS cnt, d.drugs_name, d.drugs_quantity, d.total_stock, p.p_id, 
-			date( p.p_date ) prescDate
+			date( p.p_date ) prescDate, MONTH(p.p_date) as month
 			FROM prescription_drugs pd
 					JOIN drugs d ON pd.drug_id = d.drugs_id
 					JOIN prescription p ON pd.p_id = p.p_id
@@ -30,13 +30,13 @@ if (!$arRes) {
     class MYPDF extends TCPDF {
 
         public function Header() {
-            
+
             $html = '<table cellspacing="0" cellpadding="6">
                 <tr>
                 <td colspan="6" align="center"><h2>Borsillah Tea Estate</h2></td>
                 </tr>
                 <tr>
-                <td colspan="6" align="center"><b>Yearly Drug Report - Year :: '. $_GET['year'] . '</b></td>
+                <td colspan="6" align="center"><b>Yearly Drug Report - Year :: ' . $_GET['year'] . '</b></td>
                 </tr>
                 </table>';
             $this->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $html, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = 'top', $autopadding = true);
@@ -77,6 +77,7 @@ if (!$arRes) {
                  <body>
                  <table cellspacing="0" cellpadding="5" border="1">
                  <tr>
+                 <th align="center" style="background-color:lightgrey; font-weight:bold; width:10%;">Month</th>
                  <th align="center" style="background-color:lightgrey; font-weight:bold; width:10%;">sl. No.</th>
                  <th align="center" style="background-color:lightgrey; font-weight:bold; width:22%;">Drug Name</th>
                  <th align="center" style="background-color:lightgrey; font-weight:bold;">Date of Issue</th>
@@ -85,20 +86,51 @@ if (!$arRes) {
                  <th align="center" style="background-color:lightgrey; font-weight:bold;">Stock in Hand</th>
                  </tr>';
     $count = 0;
+    $mon = array();
+    $slno = array();
+    $name = array();
+    $dat = array();
+    $quantity = array();
+    $stock = array();
+    $inhand = array();
+    $arr = array();
     while ($row = $arRes->fetch_assoc()) {
+        $count = $count + 1;
         $pDate = new DateTime($row['prescDate']);
         $date = $pDate->format('j-m-Y');
-        if ($year) {//check $date month == $month ie $date's month parameter is 6 and user select June ie 6 then display
-            $count = $count + 1;
-            $html .= '<tr>
-                 <td align="center" >' . $count . '</td> 
-                 <td>' . $row['drugs_name'] . '</td>
-                 <td align="center">' . $date . '</td>
-                 <td align="center">' . $row['quantity'] . '</td>  
-                 <td align="center">' . $row['total_stock'] . '</td>
-                 <td align="center">' . $row['drugs_quantity'] . '</td>       
-                 </tr>';
+        $date_month = $pDate->format('M');
+        if ($year) {
+            array_push($mon, $date_month);
+            array_push($slno, $count);
+            array_push($name, $row['drugs_name']);
+            array_push($dat, $date);
+            array_push($quantity, $row['quantity']);
+            array_push($stock, $row['total_stock']);
+            array_push($inhand, $row['drugs_quantity']);
+            
+            if (!isset($arr[$date_month])) {
+                $arr[$date_month] = array();
+                $arr[$date_month]['rowspan'] = 0;
+            }
+            $arr[$date_month]['printed'] = "no";
+            $arr[$date_month]['rowspan'] += 1;
         }
+    }
+    for ($i = 0; $i < sizeof($slno); $i++) {
+        $month = $mon[$i];
+        $html .= '<tr>';
+        if ($arr[$month]['printed'] == 'no') {
+            $html .='<td align="center" rowspan="' . $arr[$month]['rowspan'] . '" >' . $month . '</td>';
+            $arr[$month]['printed'] = 'yes';
+        }
+        $html .='
+      <td align="center" >' . $slno[$i] . '</td>
+      <td>' . $name[$i] . '</td>
+      <td align="center">' . $dat[$i] . '</td>
+      <td align="center">' . $quantity[$i] . '</td>
+      <td align="center">' . $stock[$i] . '</td>
+      <td align="center">' . $inhand[$i] . '</td>
+      </tr>';
     }
     $html .= '</table>
                  </body>
